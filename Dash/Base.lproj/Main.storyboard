@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="hnM-MN-ZxI">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <scenes>
+        <!--Motion View Controller - Rotation-->
+        <scene sceneID="szE-dW-aqQ">
+            <objects>
+                <viewController storyboardIdentifier="DRMotionViewController" id="wLv-0a-tyA" customClass="DRMotionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QMa-Xe-PlN"/>
+                        <viewControllerLayoutGuide type="bottom" id="3ro-BR-hF1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wjE-E1-psU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-gf-7tw">
+                                <rect key="frame" x="20" y="40" width="280" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="1cS-2c-HYA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="B8y-da-YNE">
+                                <rect key="frame" x="18" y="426" width="284" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="sliderValueChanged:" destination="wLv-0a-tyA" eventType="valueChanged" id="mQf-43-zd9"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="B8y-da-YNE" firstAttribute="leading" secondItem="wjE-E1-psU" secondAttribute="leading" constant="20" id="Dco-qt-z8n"/>
+                            <constraint firstItem="3ro-BR-hF1" firstAttribute="top" secondItem="B8y-da-YNE" secondAttribute="bottom" constant="60" id="Ua1-as-xq2"/>
+                            <constraint firstItem="uwa-gf-7tw" firstAttribute="top" secondItem="QMa-Xe-PlN" secondAttribute="bottom" constant="20" id="eS2-Qa-OFZ"/>
+                            <constraint firstAttribute="trailing" secondItem="B8y-da-YNE" secondAttribute="trailing" constant="20" id="nM8-c7-KVl"/>
+                            <constraint firstItem="uwa-gf-7tw" firstAttribute="leading" secondItem="wjE-E1-psU" secondAttribute="leading" constant="20" id="pJu-el-kRm"/>
+                            <constraint firstAttribute="trailing" secondItem="uwa-gf-7tw" secondAttribute="trailing" constant="20" id="sDh-hz-A39"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Rotation" id="PW7-7i-Wi0"/>
+                    <connections>
+                        <outlet property="debugLabel" destination="uwa-gf-7tw" id="FMU-7P-ftL"/>
+                        <outlet property="throttleSlider" destination="B8y-da-YNE" id="yXt-XA-Ljv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BzL-M7-Xbu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="69" y="41"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="sAb-6c-Csw">
+            <objects>
+                <tabBarController definesPresentationContext="YES" id="hnM-MN-ZxI" sceneMemberID="viewController">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Qm4-1B-FSj">
+                        <rect key="frame" x="129" y="330" width="163" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="wLv-0a-tyA" kind="relationship" relationship="viewControllers" id="6je-n4-efg"/>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="c5u-TU-jBD"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zPr-qO-Vp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-465" y="368"/>
+        </scene>
+        <!--View Controller - Joystick-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="DRViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nDO-so-cMq"/>
+                        <viewControllerLayoutGuide type="bottom" id="SY0-ZB-jgF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-FG-hc0" userLabel="joystick area">
+                                <rect key="frame" x="20" y="180" width="280" height="368"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="30r-KQ-mJA" userLabel="joystick base">
+                                <rect key="frame" x="130" y="341" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="in4-JD-eoi" userLabel="joystick nub">
+                                <rect key="frame" x="95" y="321" width="120" height="120"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ify-zw-7Po">
+                                <rect key="frame" x="20" y="40" width="280" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="2MR-99-xeB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SY0-ZB-jgF" firstAttribute="top" secondItem="8Tp-FG-hc0" secondAttribute="bottom" constant="20" id="95N-IK-8OR"/>
+                            <constraint firstItem="8Tp-FG-hc0" firstAttribute="top" secondItem="Ify-zw-7Po" secondAttribute="bottom" constant="20" id="MlI-US-zLb"/>
+                            <constraint firstAttribute="trailing" secondItem="8Tp-FG-hc0" secondAttribute="trailing" constant="20" id="Rme-th-BlU"/>
+                            <constraint firstItem="8Tp-FG-hc0" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="c1c-6r-2DV"/>
+                            <constraint firstAttribute="trailing" secondItem="Ify-zw-7Po" secondAttribute="trailing" constant="20" id="edf-lw-UCp"/>
+                            <constraint firstItem="Ify-zw-7Po" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="mjg-Vu-WuX"/>
+                            <constraint firstItem="Ify-zw-7Po" firstAttribute="top" secondItem="nDO-so-cMq" secondAttribute="bottom" constant="20" id="tag-oT-tnU"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Joystick" id="fpF-xy-CYr"/>
+                    <connections>
+                        <outlet property="debugLabel" destination="Ify-zw-7Po" id="kEO-Ij-bwm"/>
+                        <outlet property="joystickBase" destination="30r-KQ-mJA" id="0kw-eP-50T"/>
+                        <outlet property="joystickNub" destination="in4-JD-eoi" id="0Nq-pJ-OSn"/>
+                        <outlet property="joystickTouchArea" destination="8Tp-FG-hc0" id="8qq-4r-mqZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="69" y="728"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
