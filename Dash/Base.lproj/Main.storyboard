@@ -13,42 +13,63 @@
                         <viewControllerLayoutGuide type="bottom" id="3ro-BR-hF1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wjE-E1-psU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-gf-7tw">
-                                <rect key="frame" x="20" y="40" width="280" height="120"/>
+                                <rect key="frame" x="35" y="40" width="250" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="1cS-2c-HYA"/>
+                                    <constraint firstAttribute="width" constant="250" id="Zlc-lP-xAM"/>
+                                    <constraint firstAttribute="height" constant="250" id="gUa-6h-Muc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="B8y-da-YNE">
-                                <rect key="frame" x="18" y="426" width="284" height="34"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zYU-YU-nnq" userLabel="joystick area">
+                                <rect key="frame" x="20" y="369" width="280" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="sliderValueChanged:" destination="wLv-0a-tyA" eventType="valueChanged" id="mQf-43-zd9"/>
-                                </connections>
-                            </slider>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZY-kT-xi3">
+                                        <rect key="frame" x="40" y="75" width="200" height="1"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="Q7u-Qj-wxv"/>
+                                            <constraint firstAttribute="height" constant="1" id="hkm-Vm-wE6"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="kZY-kT-xi3" secondAttribute="centerY" id="6QS-hI-ONj"/>
+                                    <constraint firstAttribute="centerX" secondItem="kZY-kT-xi3" secondAttribute="centerX" id="XKx-nx-QRM"/>
+                                    <constraint firstAttribute="height" constant="150" id="l0J-Wx-LsU"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WMT-S5-tas" userLabel="joystick nub">
+                                <rect key="frame" x="30" y="394" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="B8y-da-YNE" firstAttribute="leading" secondItem="wjE-E1-psU" secondAttribute="leading" constant="20" id="Dco-qt-z8n"/>
-                            <constraint firstItem="3ro-BR-hF1" firstAttribute="top" secondItem="B8y-da-YNE" secondAttribute="bottom" constant="60" id="Ua1-as-xq2"/>
+                            <constraint firstAttribute="trailing" secondItem="zYU-YU-nnq" secondAttribute="trailing" constant="20" id="Kqr-U7-htq"/>
+                            <constraint firstItem="zYU-YU-nnq" firstAttribute="leading" secondItem="wjE-E1-psU" secondAttribute="leading" constant="20" id="aC8-l7-uJG"/>
                             <constraint firstItem="uwa-gf-7tw" firstAttribute="top" secondItem="QMa-Xe-PlN" secondAttribute="bottom" constant="20" id="eS2-Qa-OFZ"/>
-                            <constraint firstAttribute="trailing" secondItem="B8y-da-YNE" secondAttribute="trailing" constant="20" id="nM8-c7-KVl"/>
-                            <constraint firstItem="uwa-gf-7tw" firstAttribute="leading" secondItem="wjE-E1-psU" secondAttribute="leading" constant="20" id="pJu-el-kRm"/>
-                            <constraint firstAttribute="trailing" secondItem="uwa-gf-7tw" secondAttribute="trailing" constant="20" id="sDh-hz-A39"/>
+                            <constraint firstItem="3ro-BR-hF1" firstAttribute="top" secondItem="zYU-YU-nnq" secondAttribute="bottom" id="q10-lG-YSb"/>
+                            <constraint firstAttribute="centerX" secondItem="uwa-gf-7tw" secondAttribute="centerX" id="unR-Fb-Abe"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Rotation" id="PW7-7i-Wi0"/>
                     <connections>
                         <outlet property="debugLabel" destination="uwa-gf-7tw" id="FMU-7P-ftL"/>
-                        <outlet property="throttleSlider" destination="B8y-da-YNE" id="yXt-XA-Ljv"/>
+                        <outlet property="sliderHead" destination="WMT-S5-tas" id="2mC-mV-cWy"/>
+                        <outlet property="sliderTouchArea" destination="zYU-YU-nnq" id="jAa-ne-i2Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BzL-M7-Xbu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -59,8 +80,8 @@
         <scene sceneID="sAb-6c-Csw">
             <objects>
                 <tabBarController definesPresentationContext="YES" id="hnM-MN-ZxI" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="Qm4-1B-FSj">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Qm4-1B-FSj">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -83,11 +104,11 @@
                         <viewControllerLayoutGuide type="bottom" id="SY0-ZB-jgF"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-FG-hc0" userLabel="joystick area">
-                                <rect key="frame" x="20" y="180" width="280" height="368"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-FG-hc0" userLabel="joystick area">
+                                <rect key="frame" x="20" y="180" width="280" height="319"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>

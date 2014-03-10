@@ -9,11 +9,17 @@
 #import "DRMotionViewController.h"
 #import <CoreMotion/CoreMotion.h>
 
-@interface DRMotionViewController ()
-@property (weak, nonatomic) IBOutlet UISlider *throttleSlider;
+static CGFloat MAX_JOYSTICK_TRAVEL = 100;
+
+@interface DRMotionViewController () {
+    BOOL _touchDown;
+    CGPoint _touchOffset;
+    CGFloat _sliderPosition;
+}
+@property (weak, nonatomic) IBOutlet UIView *sliderTouchArea;
+@property (weak, nonatomic) IBOutlet UIImageView *sliderHead;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (strong, nonatomic) CMMotionManager *motionManager;
-- (IBAction)sliderValueChanged:(id)sender;
 @end
 
 @implementation DRMotionViewController
@@ -23,7 +29,16 @@
     [super viewDidLoad];
     self.motionManager = [[CMMotionManager alloc] init];
     self.motionManager.deviceMotionUpdateInterval = 0.05;
+    
+    _sliderPosition = 0;
     [self updateThrottle:0 direction:0];
+    self.sliderHead.layer.cornerRadius = CGRectGetHeight(self.sliderHead.bounds) / 2;
+    
+    self.debugLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
+}
+
+- (void)viewDidLayoutSubviews {
+    self.sliderHead.center = self.sliderTouchArea.center;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -31,12 +46,13 @@
     [super viewDidAppear:animated];
     if (self.motionManager.isDeviceMotionAvailable) {
         __weak typeof(self) weakSelf = self;
-        [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue]
-                                                withHandler:^(CMDeviceMotion *motion, NSError *error) {
-                                                    if (!error && weakSelf)
-                                                        [weakSelf updateThrottle:weakSelf.throttleSlider.value
-                                                                       direction:[weakSelf getDirection:motion]];
-                                                }];
+        [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical
+                                                                toQueue:[NSOperationQueue mainQueue]
+                                                            withHandler:^(CMDeviceMotion *motion, NSError *error) {
+                                                                if (!error && weakSelf)
+                                                                    [weakSelf updateThrottle:_sliderPosition
+                                                                                   direction:[weakSelf getDirection:motion]];
+                                                            }];
     }
 }
 
@@ -58,15 +74,102 @@
 
 - (CGFloat)getDirection:(CMDeviceMotion *)motion
 {
-    CGFloat val = -CLAMP(motion.attitude.yaw/M_PI, -1.0, 1.0);
-    
-//    NSLog(@"attitude %f", val);
-    return val;
+    return -CLAMP(motion.attitude.yaw/M_PI, -1.0, 1.0);
 }
 
-- (IBAction)sliderValueChanged:(id)sender
+//- (IBAction)sliderValueChanged:(id)sender
+//{
+//    [self updateThrottle:self.throttleSlider.value direction:[self getDirection:self.motionManager.deviceMotion]];
+//}
+
+- (void)resetJoystick
 {
-    [self updateThrottle:self.throttleSlider.value direction:[self getDirection:self.motionManager.deviceMotion]];
+    _touchDown = NO;
+    _sliderPosition = 0;
+    [self updateThrottle:_sliderPosition
+               direction:[self getDirection:self.motionManager.deviceMotion]];
+    
+    [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.sliderHead.center = self.sliderTouchArea.center;
+    } completion:^(BOOL finished) {
+        
+    }];
 }
+
+#pragma mark - Touch Events
+
+#define CGPointMakeX(x) CGPointMake(x, self.sliderHead.center.y)
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    CGPoint touch = [[touches anyObject] locationInView:self.view];
+    if (CGRectContainsPoint(self.sliderTouchArea.frame, touch)) {
+        _touchDown = YES;
+        if (!CGRectContainsPoint(self.sliderHead.frame, touch)) {
+//            self.joystickNub.center = CGPointMakeX(touch.x);
+            _touchOffset = CGPointZero;
+            [self touchesMoved:touches withEvent:event];
+        } else {
+            _touchOffset = CGPointMakeX(touch.x - self.sliderHead.center.x);
+        }
+    }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (_touchDown) {
+        CGPoint touch = [[touches anyObject] locationInView:self.view];
+//        CGPoint point = CGPointMake(touch.x - _touchOffset.x, touch.y - _touchOffset.y);
+        
+        CGPoint kCenter = self.sliderTouchArea.center;
+        CGFloat dx = touch.x - kCenter.x;
+        
+        dx = CLAMP(dx, -MAX_JOYSTICK_TRAVEL, MAX_JOYSTICK_TRAVEL);
+        _sliderPosition = dx / MAX_JOYSTICK_TRAVEL;
+        
+        [self updateThrottle:_sliderPosition
+                   direction:[self getDirection:self.motionManager.deviceMotion]];
+        
+        self.sliderHead.center = CGPointMakeX(kCenter.x + dx);
+        
+//        CGFloat distance = dx;
+//        CGFloat distance = sqrt(dx * dx + dy * dy);
+//        CGFloat angle = atan2(dy, dx); // in radians
+        
+        // NOTE: Velocity goes from -1.0 to 1.0.
+        // BE CAREFUL: don't just cap each direction at 1.0 since that
+        // doesn't preserve the proportions.
+//        if (distance > MAX_JOYSTICK_TRAVEL) {
+//            dx = cos(angle) * MAX_JOYSTICK_TRAVEL;
+//            dy = sin(angle) *  MAX_JOYSTICK_TRAVEL;
+//        }
+        
+//        CGPoint velocity = CGPointMake(dx/MAX_JOYSTICK_TRAVEL, dy/MAX_JOYSTICK_TRAVEL);
+        //        NSLog(@"Velocity %.3f, %.3f", velocity.x, -velocity.y);
+//        [self updateThrottle:-velocity.y direction:velocity.x];
+        
+        // Constrain the thumb so that it stays within the joystick
+        // boundaries.  This is smaller than the joystick radius in
+        // order to account for the size of the thumb.
+//        if (distance > MAX_JOYSTICK_TRAVEL) {
+//            point.x = kCenter.x + cos(angle) * MAX_JOYSTICK_TRAVEL;
+//            point.y = kCenter.y + sin(angle) * MAX_JOYSTICK_TRAVEL;
+//        }
+//        
+//        // Update the thumb's position
+//        self.joystickNub.center = point;
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self resetJoystick];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self resetJoystick];
+}
+
 
 @end
