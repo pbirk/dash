@@ -59,7 +59,7 @@
         <scene sceneID="sAb-6c-Csw">
             <objects>
                 <tabBarController definesPresentationContext="YES" id="hnM-MN-ZxI" sceneMemberID="viewController">
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Qm4-1B-FSj">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -74,10 +74,10 @@
             </objects>
             <point key="canvasLocation" x="-465" y="368"/>
         </scene>
-        <!--View Controller - Joystick-->
+        <!--Joystick View Controller - Joystick-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="DRViewController" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="DRJoystickViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nDO-so-cMq"/>
                         <viewControllerLayoutGuide type="bottom" id="SY0-ZB-jgF"/>

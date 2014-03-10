@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Dash Robotics. All rights reserved.
 //
 
-#import "DRViewController.h"
+#import "DRJoystickViewController.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 50;
 
-@interface DRViewController () {
+@interface DRJoystickViewController () {
     BOOL _touchDown;
     CGPoint _touchOffset;
 }
@@ -20,7 +20,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
 @property (weak, nonatomic) IBOutlet UIImageView *joystickNub;
 @end
 
-@implementation DRViewController
+@implementation DRJoystickViewController
 
 - (void)viewDidLoad
 {
@@ -40,7 +40,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
     [super didReceiveMemoryWarning];
 }
 
-- (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction {
+- (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
+{
     
 //    if (throttle < 0) direction = -direction;
     
@@ -51,7 +52,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
     if (!rightMotor) self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
 }
 
-- (void)resetJoystick {
+- (void)resetJoystick
+{
     _touchDown = NO;
     [self updateThrottle:0 direction:0];
     
@@ -64,7 +66,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
 
 #pragma mark - Touch Events
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
     CGPoint touch = [[touches anyObject] locationInView:self.view];
     if (CGRectContainsPoint(self.joystickTouchArea.frame, touch)) {
         if (!CGRectContainsPoint(self.joystickNub.frame, touch)) {
@@ -77,7 +80,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
     }
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
     if (_touchDown) {
         CGPoint touch = [[touches anyObject] locationInView:self.view];
         CGPoint point = CGPointMake(touch.x - _touchOffset.x, touch.y - _touchOffset.y);
@@ -116,11 +120,13 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
     }
 }
     
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
     [self resetJoystick];
 }
 
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
     [self resetJoystick];
 }
 

@@ -23,9 +23,11 @@
     [super viewDidLoad];
     self.motionManager = [[CMMotionManager alloc] init];
     self.motionManager.deviceMotionUpdateInterval = 0.05;
+    [self updateThrottle:0 direction:0];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     if (self.motionManager.isDeviceMotionAvailable) {
         __weak typeof(self) weakSelf = self;
@@ -38,12 +40,14 @@
     }
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
     [self.motionManager stopDeviceMotionUpdates];
 }
 
-- (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction {
+- (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
+{
     
     CGFloat leftMotor = CLAMP(throttle * (1.0 + direction), -1.0, 1.0) * 255.0;
     CGFloat rightMotor = CLAMP(throttle * (1.0 - direction), -1.0, 1.0) * 255.0;
@@ -52,14 +56,16 @@
     if (!rightMotor) self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
 }
 
-- (CGFloat)getDirection:(CMDeviceMotion *)motion {
+- (CGFloat)getDirection:(CMDeviceMotion *)motion
+{
     CGFloat val = -CLAMP(motion.attitude.yaw/M_PI, -1.0, 1.0);
     
 //    NSLog(@"attitude %f", val);
     return val;
 }
 
-- (IBAction)sliderValueChanged:(id)sender {
+- (IBAction)sliderValueChanged:(id)sender
+{
     [self updateThrottle:self.throttleSlider.value direction:[self getDirection:self.motionManager.deviceMotion]];
 }
 

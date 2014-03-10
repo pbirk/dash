@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DRViewController : UIViewController
+@interface DRJoystickViewController : UIViewController
 
 @end
