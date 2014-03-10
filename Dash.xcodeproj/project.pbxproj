@@ -12,6 +12,7 @@
 		66AA0F3B18CD6E460093D5E3 /* LeDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3818CD6E460093D5E3 /* LeDiscovery.m */; };
 		66AA0F3C18CD6E460093D5E3 /* LeTemperatureAlarmService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* LeTemperatureAlarmService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */; };
+		66C7EC1C18CD8022007547C0 /* DRDevicesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
 		66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */; };
 		66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD3118C2DD3B00783AC8 /* UIKit.framework */; };
@@ -32,6 +33,8 @@
 		66AA0F3918CD6E460093D5E3 /* LeTemperatureAlarmService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeTemperatureAlarmService.h; sourceTree = "<group>"; };
 		66AA0F3A18CD6E460093D5E3 /* LeTemperatureAlarmService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeTemperatureAlarmService.m; sourceTree = "<group>"; };
 		66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		66C7EC1A18CD8022007547C0 /* DRDevicesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRDevicesTableViewController.h; sourceTree = "<group>"; };
+		66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRDevicesTableViewController.m; sourceTree = "<group>"; };
 		66D6FD2A18C2DD3B00783AC8 /* Dash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -112,6 +115,8 @@
 				66D6FD3D18C2DD3B00783AC8 /* DRAppDelegate.m */,
 				66AA0F3618CD6E460093D5E3 /* BLE */,
 				66D6FD3F18C2DD3B00783AC8 /* Main.storyboard */,
+				66C7EC1A18CD8022007547C0 /* DRDevicesTableViewController.h */,
+				66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */,
 				66D6FD4218C2DD3B00783AC8 /* DRJoystickViewController.h */,
 				66D6FD4318C2DD3B00783AC8 /* DRJoystickViewController.m */,
 				667EA4D018C308A700E1C249 /* DRMotionViewController.h */,
@@ -205,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66D6FD3E18C2DD3B00783AC8 /* DRAppDelegate.m in Sources */,
+				66C7EC1C18CD8022007547C0 /* DRDevicesTableViewController.m in Sources */,
 				66AA0F3B18CD6E460093D5E3 /* LeDiscovery.m in Sources */,
 				66D6FD4418C2DD3B00783AC8 /* DRJoystickViewController.m in Sources */,
 				66AA0F3C18CD6E460093D5E3 /* LeTemperatureAlarmService.m in Sources */,
