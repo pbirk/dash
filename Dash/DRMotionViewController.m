@@ -8,6 +8,7 @@
 
 #import "DRMotionViewController.h"
 #import <CoreMotion/CoreMotion.h>
+#import "LeDiscovery.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 
@@ -15,6 +16,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     BOOL _touchDown;
     CGPoint _touchOffset;
     CGFloat _sliderPosition;
+    __weak DRRobotLeService *_bleService;
 }
 @property (weak, nonatomic) IBOutlet UIView *sliderTouchArea;
 @property (weak, nonatomic) IBOutlet UIImageView *sliderHead;
@@ -35,6 +37,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     self.sliderHead.layer.cornerRadius = CGRectGetHeight(self.sliderHead.bounds) / 2;
     
     self.debugLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
+    
+    _bleService = [[[LeDiscovery sharedInstance] connectedServices] firstObject];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -44,6 +48,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    _bleService.delegate = self;
     if (self.motionManager.isDeviceMotionAvailable) {
         __weak typeof(self) weakSelf = self;
         [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical
@@ -58,8 +63,9 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
     [self.motionManager stopDeviceMotionUpdates];
+    self.motionManager = nil;
+    [super viewDidDisappear:animated];
 }
 
 - (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
@@ -94,6 +100,12 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     } completion:^(BOOL finished) {
         
     }];
+}
+
+#pragma mark - DRRobotLeServiceDelegate
+
+- (void)serviceDidChangeStatus:(DRRobotLeService *)service {
+    
 }
 
 #pragma mark - Touch Events

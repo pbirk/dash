@@ -71,40 +71,33 @@ extern NSString *kAlarmServiceEnteredForegroundNotification;
 /****************************************************************************/
 /*								Protocol									*/
 /****************************************************************************/
-@class LeTemperatureAlarmService;
+@class DRRobotLeService;
 
-typedef enum {
-    kAlarmHigh  = 0,
-    kAlarmLow   = 1,
-} AlarmType;
+//typedef enum {
+//    kAlarmHigh  = 0,
+//    kAlarmLow   = 1,
+//} AlarmType;
 
-@protocol LeTemperatureAlarmDelegate<NSObject>
-- (void) alarmService:(LeTemperatureAlarmService*)service didSoundAlarmOfType:(AlarmType)alarm;
-- (void) alarmServiceDidStopAlarm:(LeTemperatureAlarmService*)service;
-- (void) alarmServiceDidChangeTemperature:(LeTemperatureAlarmService*)service;
-- (void) alarmServiceDidChangeTemperatureBounds:(LeTemperatureAlarmService*)service;
-- (void) alarmServiceDidChangeStatus:(LeTemperatureAlarmService*)service;
-- (void) alarmServiceDidReset;
+@protocol DRRobotLeServiceDelegate<NSObject>
+//- (void) alarmService:(DRRobotLeService*)service didSoundAlarmOfType:(AlarmType)alarm;
+//- (void) alarmServiceDidStopAlarm:(DRRobotLeService*)service;
+//- (void) alarmServiceDidChangeTemperature:(DRRobotLeService*)service;
+//- (void) alarmServiceDidChangeTemperatureBounds:(DRRobotLeService*)service;
+//- (void) serviceDidChangeStatus:(DRRobotLeService*)service;
+//- (void) alarmServiceDidReset;
 @end
 
 
 /****************************************************************************/
 /*						Temperature Alarm service.                          */
 /****************************************************************************/
-@interface LeTemperatureAlarmService : NSObject
+@interface DRRobotLeService : NSObject
 
-- (id) initWithPeripheral:(CBPeripheral *)peripheral controller:(id<LeTemperatureAlarmDelegate>)controller;
+- (id) initWithPeripheral:(CBPeripheral *)peripheral;
 - (void) reset;
 - (void) start;
 
-/* Querying Sensor */
-@property (readonly) CGFloat temperature;
-@property (readonly) CGFloat minimumTemperature;
-@property (readonly) CGFloat maximumTemperature;
-
-/* Set the alarm cutoffs */
-- (void) writeLowAlarmTemperature:(int)low;
-- (void) writeHighAlarmTemperature:(int)high;
+@property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;
 
 /* Behave properly when heading into and out of the background */
 - (void)enteredBackground;

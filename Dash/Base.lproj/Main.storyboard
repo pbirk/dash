@@ -66,6 +66,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Motion Steering" image="motion-icon" id="PW7-7i-Wi0"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="debugLabel" destination="uwa-gf-7tw" id="FMU-7P-ftL"/>
                         <outlet property="sliderHead" destination="WMT-S5-tas" id="2mC-mV-cWy"/>
@@ -112,9 +113,6 @@
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="hnM-MN-ZxI" kind="push" id="w1B-Kl-8S6"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
@@ -145,7 +143,7 @@
         <!--Tab Bar Controller - Drive-->
         <scene sceneID="sAb-6c-Csw">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="hnM-MN-ZxI" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="DriveController" definesPresentationContext="YES" id="hnM-MN-ZxI" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Drive" id="hQY-ei-4Jb"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Qm4-1B-FSj">
@@ -166,7 +164,7 @@
         <!--Joystick View Controller - Joystick-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="Joystick" id="vXZ-lx-hvc" customClass="DRJoystickViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DRJoystickViewController" title="Joystick" id="vXZ-lx-hvc" customClass="DRJoystickViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nDO-so-cMq"/>
                         <viewControllerLayoutGuide type="bottom" id="SY0-ZB-jgF"/>
@@ -214,6 +212,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Virtual Joystick" image="joystick-icon" id="fpF-xy-CYr"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="debugLabel" destination="Ify-zw-7Po" id="kEO-Ij-bwm"/>
                         <outlet property="joystickBase" destination="30r-KQ-mJA" id="0kw-eP-50T"/>

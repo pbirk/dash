@@ -54,9 +54,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-#import "LeTemperatureAlarmService.h"
-
-
+@class DRRobotLeService;
 
 /****************************************************************************/
 /*							UI protocols									*/
@@ -64,6 +62,7 @@
 @protocol LeDiscoveryDelegate <NSObject>
 - (void) discoveryDidRefresh;
 - (void) discoveryStatePoweredOff;
+- (void) serviceDidChangeStatus:(DRRobotLeService*)service;
 @end
 
 
@@ -79,9 +78,7 @@
 /****************************************************************************/
 /*								UI controls									*/
 /****************************************************************************/
-@property (nonatomic, assign) id<LeDiscoveryDelegate>           discoveryDelegate;
-@property (nonatomic, assign) id<LeTemperatureAlarmDelegate>	peripheralDelegate;
-
+@property (nonatomic, assign) id<LeDiscoveryDelegate> discoveryDelegate;
 
 /****************************************************************************/
 /*								Actions										*/
@@ -91,11 +88,12 @@
 
 - (void) connectPeripheral:(CBPeripheral*)peripheral;
 - (void) disconnectPeripheral:(CBPeripheral*)peripheral;
-
+- (void) disconnectAllPeripherals;
 
 /****************************************************************************/
 /*							Access to the devices							*/
 /****************************************************************************/
 @property (retain, nonatomic) NSMutableArray    *foundPeripherals;
-@property (retain, nonatomic) NSMutableArray	*connectedServices;	// Array of LeTemperatureAlarmService
+@property (retain, nonatomic) NSMutableArray	*connectedServices;	// Array of DRRobotLeService
+- (DRRobotLeService *) serviceForPeripheral:(CBPeripheral *)peripheral;
 @end

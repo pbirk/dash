@@ -52,49 +52,53 @@
 
 
 #import "LeDiscovery.h"
-
+#import "DRRobotLeService.h"
 
 @interface LeDiscovery () <CBCentralManagerDelegate, CBPeripheralDelegate> {
-	CBCentralManager    *centralManager;
-	BOOL				pendingInit;
+	CBCentralManager    *_centralManager;
+	BOOL				_pendingInit;
 }
 @end
 
 
 @implementation LeDiscovery
 
-@synthesize foundPeripherals;
-@synthesize connectedServices;
-@synthesize discoveryDelegate;
-@synthesize peripheralDelegate;
-
-
-
 #pragma mark -
 #pragma mark Init
 /****************************************************************************/
 /*									Init									*/
 /****************************************************************************/
-+ (id) sharedInstance
+//+ (id) sharedInstance
+//{
+//	static LeDiscovery *this = nil;
+//
+//	if (!this)
+//		this = [[LeDiscovery alloc] init];
+//
+//	return this;
+//}
++ (instancetype)sharedInstance
 {
-	static LeDiscovery	*this	= nil;
-
-	if (!this)
-		this = [[LeDiscovery alloc] init];
-
-	return this;
+    static dispatch_once_t once;
+    static id sharedInstance;
+    
+    dispatch_once(&once, ^
+                  {
+                      sharedInstance = [self new];
+                  });
+    
+    return sharedInstance;
 }
-
 
 - (id) init
 {
     self = [super init];
     if (self) {
-		pendingInit = YES;
-		centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
+		_pendingInit = YES;
+		_centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
 
-		foundPeripherals = [[NSMutableArray alloc] init];
-		connectedServices = [[NSMutableArray alloc] init];
+		self.foundPeripherals = [[NSMutableArray alloc] init];
+		self.connectedServices = [[NSMutableArray alloc] init];
 	}
     return self;
 }
@@ -106,6 +110,16 @@
     assert(NO);
 }
 
+- (id) serviceForPeripheral:(CBPeripheral *)peripheral
+{
+    for (DRRobotLeService *service in self.connectedServices) {
+        if ( [[service peripheral] isEqual:peripheral] ) {
+            return service;
+        }
+    }
+    
+    return nil;
+}
 
 
 #pragma mark -
@@ -132,7 +146,7 @@
         if (!uuid)
             continue;
         
-        [centralManager retrievePeripheralsWithIdentifiers:@[(__bridge id)uuid]];
+        [_centralManager retrievePeripheralsWithIdentifiers:@[(__bridge id)uuid]];
         CFRelease(uuid);
     }
 
@@ -189,7 +203,7 @@
 	for (CBPeripheral *peripheral in peripherals) {
 		[central connectPeripheral:peripheral options:nil];
 	}
-	[discoveryDelegate discoveryDidRefresh];
+	[self.discoveryDelegate discoveryDidRefresh];
 }
 
 - (void) centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals {
@@ -197,7 +211,7 @@
 	for (CBPeripheral *peripheral in peripherals) {
         [central connectPeripheral:peripheral options:nil];
 	}
-	[discoveryDelegate discoveryDidRefresh];
+	[self.discoveryDelegate discoveryDidRefresh];
 }
 
 - (void) centralManager:(CBCentralManager *)central didFailToRetrievePeripheralForUUID:(CFUUIDRef)UUID error:(NSError *)error
@@ -215,24 +229,24 @@
 /****************************************************************************/
 - (void) startScanningForUUIDString:(NSString *)uuidString
 {
-	NSArray			*uuidArray	= [NSArray arrayWithObjects:[CBUUID UUIDWithString:uuidString], nil];
-	NSDictionary	*options	= [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
+	NSArray			*uuidArray	= @[[CBUUID UUIDWithString:uuidString]];
+	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
 
-	[centralManager scanForPeripheralsWithServices:uuidArray options:options];
+	[_centralManager scanForPeripheralsWithServices:uuidArray options:options];
 }
 
 
 - (void) stopScanning
 {
-	[centralManager stopScan];
+	[_centralManager stopScan];
 }
 
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-	if (![foundPeripherals containsObject:peripheral]) {
-		[foundPeripherals addObject:peripheral];
-		[discoveryDelegate discoveryDidRefresh];
+	if (![self.foundPeripherals containsObject:peripheral]) {
+		[self.foundPeripherals addObject:peripheral];
+		[self.discoveryDelegate discoveryDidRefresh];
 	}
 }
 
@@ -246,33 +260,33 @@
 - (void) connectPeripheral:(CBPeripheral*)peripheral
 {
 	if (peripheral.state == CBPeripheralStateDisconnected) {
-		[centralManager connectPeripheral:peripheral options:nil];
+		[_centralManager connectPeripheral:peripheral options:nil];
 	}
 }
 
 
 - (void) disconnectPeripheral:(CBPeripheral*)peripheral
 {
-	[centralManager cancelPeripheralConnection:peripheral];
+	[_centralManager cancelPeripheralConnection:peripheral];
 }
 
 
 - (void) centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-	LeTemperatureAlarmService	*service	= nil;
+	DRRobotLeService *service = nil;
 	
 	/* Create a service instance. */
-	service = [[LeTemperatureAlarmService alloc] initWithPeripheral:peripheral controller:peripheralDelegate];
+	service = [[DRRobotLeService alloc] initWithPeripheral:peripheral];
 	[service start];
 
-	if (![connectedServices containsObject:service])
-		[connectedServices addObject:service];
+	if (![self.connectedServices containsObject:service])
+		[self.connectedServices addObject:service];
 
-	if ([foundPeripherals containsObject:peripheral])
-		[foundPeripherals removeObject:peripheral];
-
-    [peripheralDelegate alarmServiceDidChangeStatus:service];
-	[discoveryDelegate discoveryDidRefresh];
+	if ([self.foundPeripherals containsObject:peripheral])
+		[self.foundPeripherals removeObject:peripheral];
+    
+	[self.discoveryDelegate discoveryDidRefresh];
+    [self.discoveryDelegate serviceDidChangeStatus:service];
 }
 
 
@@ -284,29 +298,31 @@
 
 - (void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-	LeTemperatureAlarmService	*service	= nil;
+	DRRobotLeService *service = nil;
 
-	for (service in connectedServices) {
+	for (service in self.connectedServices) {
 		if ([service peripheral] == peripheral) {
-			[connectedServices removeObject:service];
-            [peripheralDelegate alarmServiceDidChangeStatus:service];
+			[self.connectedServices removeObject:service];
+            [self.discoveryDelegate serviceDidChangeStatus:service];
 			break;
 		}
 	}
 
-	[discoveryDelegate discoveryDidRefresh];
+	[self.discoveryDelegate discoveryDidRefresh];
 }
 
+- (void)disconnectAllPeripherals
+{
+    for (DRRobotLeService *service in self.connectedServices) {
+        [service reset];
+    }
+    [self.connectedServices removeAllObjects];
+}
 
 - (void) clearDevices
 {
-    LeTemperatureAlarmService	*service;
-    [foundPeripherals removeAllObjects];
-    
-    for (service in connectedServices) {
-        [service reset];
-    }
-    [connectedServices removeAllObjects];
+    [self.foundPeripherals removeAllObjects];
+    [self disconnectAllPeripherals];
 }
 
 
@@ -314,15 +330,15 @@
 {
     static CBCentralManagerState previousState = CBCentralManagerStateUnknown;
     
-	switch ([centralManager state]) {
+	switch ([_centralManager state]) {
 		case CBCentralManagerStatePoweredOff:
 		{
             [self clearDevices];
-            [discoveryDelegate discoveryDidRefresh];
+            [self.discoveryDelegate discoveryDidRefresh];
             
 			/* Tell user to power ON BT for functionality, but not on first run - the Framework will alert in that instance. */
             if (previousState != CBCentralManagerStateUnknown) {
-                [discoveryDelegate discoveryStatePoweredOff];
+                [self.discoveryDelegate discoveryStatePoweredOff];
             }
 			break;
 		}
@@ -342,24 +358,24 @@
             
 		case CBCentralManagerStatePoweredOn:
 		{
-			pendingInit = NO;
+			_pendingInit = NO;
 			[self loadSavedDevices];
-			[centralManager retrieveConnectedPeripherals];
-			[discoveryDelegate discoveryDidRefresh];
+			[_centralManager retrieveConnectedPeripherals];
+			[self.discoveryDelegate discoveryDidRefresh];
 			break;
 		}
             
 		case CBCentralManagerStateResetting:
 		{
 			[self clearDevices];
-            [discoveryDelegate discoveryDidRefresh];
-            [peripheralDelegate alarmServiceDidReset];
+            [self.discoveryDelegate discoveryDidRefresh];
+//            [peripheralDelegate alarmServiceDidReset];
             
-			pendingInit = YES;
+			_pendingInit = YES;
 			break;
 		}
 	}
     
-    previousState = [centralManager state];
+    previousState = [_centralManager state];
 }
 @end

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DRRobotLeService.h"
 
-@interface DRJoystickViewController : UIViewController
+@interface DRJoystickViewController : UIViewController <DRRobotLeServiceDelegate>
 
 @end

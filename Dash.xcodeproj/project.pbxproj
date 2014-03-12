@@ -10,7 +10,7 @@
 		667EA4CF18C3060C00E1C249 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667EA4CE18C3060C00E1C249 /* CoreMotion.framework */; };
 		667EA4D218C308A700E1C249 /* DRMotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667EA4D118C308A700E1C249 /* DRMotionViewController.m */; };
 		66AA0F3B18CD6E460093D5E3 /* LeDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3818CD6E460093D5E3 /* LeDiscovery.m */; };
-		66AA0F3C18CD6E460093D5E3 /* LeTemperatureAlarmService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* LeTemperatureAlarmService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */; };
 		66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */; };
 		66C7EC1C18CD8022007547C0 /* DRDevicesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
@@ -30,8 +30,8 @@
 		667EA4D118C308A700E1C249 /* DRMotionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMotionViewController.m; sourceTree = "<group>"; };
 		66AA0F3718CD6E460093D5E3 /* LeDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeDiscovery.h; sourceTree = "<group>"; };
 		66AA0F3818CD6E460093D5E3 /* LeDiscovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeDiscovery.m; sourceTree = "<group>"; };
-		66AA0F3918CD6E460093D5E3 /* LeTemperatureAlarmService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeTemperatureAlarmService.h; sourceTree = "<group>"; };
-		66AA0F3A18CD6E460093D5E3 /* LeTemperatureAlarmService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeTemperatureAlarmService.m; sourceTree = "<group>"; };
+		66AA0F3918CD6E460093D5E3 /* DRRobotLeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRobotLeService.h; sourceTree = "<group>"; };
+		66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRobotLeService.m; sourceTree = "<group>"; };
 		66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		66C7EC1A18CD8022007547C0 /* DRDevicesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRDevicesTableViewController.h; sourceTree = "<group>"; };
 		66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRDevicesTableViewController.m; sourceTree = "<group>"; };
@@ -72,8 +72,8 @@
 			children = (
 				66AA0F3718CD6E460093D5E3 /* LeDiscovery.h */,
 				66AA0F3818CD6E460093D5E3 /* LeDiscovery.m */,
-				66AA0F3918CD6E460093D5E3 /* LeTemperatureAlarmService.h */,
-				66AA0F3A18CD6E460093D5E3 /* LeTemperatureAlarmService.m */,
+				66AA0F3918CD6E460093D5E3 /* DRRobotLeService.h */,
+				66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */,
 			);
 			name = BLE;
 			path = ../../dash/Dash/BLE;
@@ -230,7 +230,7 @@
 				66C7EC1C18CD8022007547C0 /* DRDevicesTableViewController.m in Sources */,
 				66AA0F3B18CD6E460093D5E3 /* LeDiscovery.m in Sources */,
 				66D6FD4418C2DD3B00783AC8 /* DRJoystickViewController.m in Sources */,
-				66AA0F3C18CD6E460093D5E3 /* LeTemperatureAlarmService.m in Sources */,
+				66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */,
 				667EA4D218C308A700E1C249 /* DRMotionViewController.m in Sources */,
 				66D6FD3A18C2DD3B00783AC8 /* main.m in Sources */,
 			);
