@@ -56,11 +56,11 @@
 #import "LeDiscovery.h"
 
 
-NSString *kTemperatureServiceUUIDString = @"DEADF154-0000-0000-0000-0000DEADF154";
-NSString *kCurrentTemperatureCharacteristicUUIDString = @"CCCCFFFF-DEAD-F154-1319-740381000000";
-NSString *kMinimumTemperatureCharacteristicUUIDString = @"C0C0C0C0-DEAD-F154-1319-740381000000";
-NSString *kMaximumTemperatureCharacteristicUUIDString = @"EDEDEDED-DEAD-F154-1319-740381000000";
-NSString *kAlarmCharacteristicUUIDString = @"AAAAAAAA-DEAD-F154-1319-740381000000";
+NSString *kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
+NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
+//NSString *kMinimumTemperatureCharacteristicUUIDString = @"C0C0C0C0-DEAD-F154-1319-740381000000";
+//NSString *kMaximumTemperatureCharacteristicUUIDString = @"EDEDEDED-DEAD-F154-1319-740381000000";
+//NSString *kAlarmCharacteristicUUIDString = @"AAAAAAAA-DEAD-F154-1319-740381000000";
 
 NSString *kAlarmServiceEnteredBackgroundNotification = @"kAlarmServiceEnteredBackgroundNotification";
 NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredForegroundNotification";
@@ -72,12 +72,12 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
     CBService			*_robotService;
 //
 //    CBCharacteristic    *tempCharacteristic;
-//    CBCharacteristic	*minTemperatureCharacteristic;
+    CBCharacteristic	*_writeWoResponseCharacteristic;
 //    CBCharacteristic    *maxTemperatureCharacteristic;
 //    CBCharacteristic    *alarmCharacteristic;
 //    
 //    CBUUID              *temperatureAlarmUUID;
-//    CBUUID              *minimumTemperatureUUID;
+    CBUUID              *_writeWoResponseUUID;
 //    CBUUID              *maximumTemperatureUUID;
 //    CBUUID              *currentTemperatureUUID;
 }
@@ -104,7 +104,8 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
         self.peripheral = peripheral;
         [self.peripheral setDelegate:self];
         
-//        minimumTemperatureUUID	= [[CBUUID UUIDWithString:kMinimumTemperatureCharacteristicUUIDString] retain];
+        _writeWoResponseUUID	= [CBUUID UUIDWithString:kWriteWithoutResponseCharacteristicUUIDString];
+        self.eyeColor = [UIColor blackColor];
 //        maximumTemperatureUUID	= [[CBUUID UUIDWithString:kMaximumTemperatureCharacteristicUUIDString] retain];
 //        currentTemperatureUUID	= [[CBUUID UUIDWithString:kCurrentTemperatureCharacteristicUUIDString] retain];
 //        temperatureAlarmUUID	= [[CBUUID UUIDWithString:kAlarmCharacteristicUUIDString] retain];
@@ -114,17 +115,18 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
 
 
 - (void) dealloc {
-	if (self.peripheral) {
-		[self.peripheral setDelegate:[LeDiscovery sharedInstance]];
-		self.peripheral = nil;
-    }
+	[self reset];
+    self.peripheral.delegate = nil;
+    self.peripheral = nil;
 }
 
 
 - (void) reset
 {
 	if (self.peripheral) {
-		self.peripheral = nil;
+        self.eyeColor = [UIColor blackColor];
+        self.motor = CGPointZero;
+        [self writeData];
 	}
 }
 
@@ -137,7 +139,7 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
 /****************************************************************************/
 - (void) start
 {
-	CBUUID	*serviceUUID	= [CBUUID UUIDWithString:kTemperatureServiceUUIDString];
+	CBUUID	*serviceUUID	= [CBUUID UUIDWithString:kBiscuitServiceUUIDString];
 	NSArray	*serviceArray	= @[serviceUUID];
 
     [self.peripheral discoverServices:serviceArray];
@@ -166,7 +168,7 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
 	_robotService = nil;
     
 	for (CBService *service in services) {
-		if ([[service UUID] isEqual:[CBUUID UUIDWithString:kTemperatureServiceUUIDString]]) {
+		if ([[service UUID] isEqual:[CBUUID UUIDWithString:kBiscuitServiceUUIDString]]) {
 			_robotService = service;
 			break;
 		}
@@ -201,11 +203,11 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
 	for (characteristic in characteristics) {
         NSLog(@"discovered characteristic %@", [characteristic UUID]);
         
-//		if ([[characteristic UUID] isEqual:minimumTemperatureUUID]) { // Min Temperature.
-//            NSLog(@"Discovered Minimum Alarm Characteristic");
-//			minTemperatureCharacteristic = [characteristic retain];
+		if ([[characteristic UUID] isEqual:_writeWoResponseUUID]) { // Min Temperature.
+            NSLog(@"Discovered Minimum Alarm Characteristic");
+			_writeWoResponseCharacteristic = characteristic;
 //			[peripheral readValueForCharacteristic:characteristic];
-//		}
+		}
 //        else if ([[characteristic UUID] isEqual:maximumTemperatureUUID]) { // Max Temperature.
 //            NSLog(@"Discovered Maximum Alarm Characteristic");
 //			maxTemperatureCharacteristic = [characteristic retain];
@@ -225,31 +227,85 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
 	}
 }
 
+//- (void)setLeftMotor:(NSInteger)leftMotor {
+//    _leftMotor = leftMotor;
+//    [self writeData];
+//}
+//
+//- (void)setRightMotor:(NSInteger)rightMotor {
+//    _rightMotor = rightMotor;
+//    [self writeData];
+//}
 
+- (void)setMotor:(CGPoint)motor {
+    _motor = motor;
+    [self writeData];
+}
 
 #pragma mark -
 #pragma mark Characteristics interaction
-/****************************************************************************/
-/*						Characteristics Interactions						*/
-/****************************************************************************/
-//- (void) writeLowAlarmTemperature:(int)low 
-//{
-//    NSData  *data	= nil;
-//    int16_t value	= (int16_t)low;
+
+- (void) writeData
+{
+    // mtrA1, mtrA2, mtrB1, mtrB2, eyesRed, eyesGreen, eyesBlue
+    
+    NSMutableData *data = [NSMutableData dataWithCapacity:7];
+    
+    uint8_t mtrA1, mtrA2, mtrB1, mtrB2;
+    
+    if (self.motor.x >= 0) {
+        mtrA1 = (uint8_t)round(self.motor.x);
+        mtrA2 = 0;
+    } else {
+        mtrA1 = 0;
+        mtrA2 = (uint8_t)round(-self.motor.x);
+    }
+    
+    if (self.motor.y >= 0) {
+        mtrB1 = (uint8_t)round(self.motor.y);
+        mtrB2 = 0;
+    } else {
+        mtrB1 = 0;
+        mtrB2 = (uint8_t)round(-self.motor.y);
+    }
+    
+//    uint8_t mtrA1 = (uint8_t)MAX(0, self.motor.x);
+//    uint8_t mtrA2 = (uint8_t)ABS(MIN(0, self.motor.x));
 //    
-//    if (!self.peripheral) {
-//        NSLog(@"Not connected to a peripheral");
-//		return ;
-//    }
-//
-//    if (!minTemperatureCharacteristic) {
-//        NSLog(@"No valid minTemp characteristic");
-//        return;
-//    }
-//    
-//    data = [NSData dataWithBytes:&value length:sizeof (value)];
-//    [self.peripheral writeValue:data forCharacteristic:minTemperatureCharacteristic type:CBCharacteristicWriteWithResponse];
-//}
+//    uint8_t mtrB1 = (uint8_t)MAX(0, self.motor.y);
+//    uint8_t mtrB2 = (uint8_t)ABS(MIN(0, self.motor.y));
+    
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+    [self.eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    uint8_t eyesRed = (uint8_t)(red * 255);
+    uint8_t eyesGreen = (uint8_t)(green * 255);
+    uint8_t eyesBlue = (uint8_t)(blue * 255);
+    
+    //(self.leftMotor >= 0) ? (uint8_t)self.leftMotor : 0;
+    
+    if (!self.peripheral) {
+        NSLog(@"Not connected to a peripheral!");
+		return ;
+    }
+
+    if (!_writeWoResponseCharacteristic) {
+        NSLog(@"No valid characteristic!");
+        return;
+    }
+    
+    [data appendBytes:&mtrA1 length:sizeof(mtrA1)];
+    [data appendBytes:&mtrA2 length:sizeof(mtrA2)];
+    [data appendBytes:&mtrB1 length:sizeof(mtrB1)];
+    [data appendBytes:&mtrB2 length:sizeof(mtrB2)];
+    
+    [data appendBytes:&eyesRed length:sizeof(eyesRed)];
+    [data appendBytes:&eyesGreen length:sizeof(eyesGreen)];
+    [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
+    
+    [self.peripheral writeValue:data forCharacteristic:_writeWoResponseCharacteristic type:CBCharacteristicWriteWithoutResponse];
+    NSLog(@"data %@", data);
+}
 
 
 //- (void) writeHighAlarmTemperature:(int)high
@@ -278,11 +334,11 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
 {
     // Find the fishtank service
     for (CBService *service in [self.peripheral services]) {
-        if ([[service UUID] isEqual:[CBUUID UUIDWithString:kTemperatureServiceUUIDString]]) {
+        if ([[service UUID] isEqual:[CBUUID UUIDWithString:kBiscuitServiceUUIDString]]) {
             
             // Find the temperature characteristic
             for (CBCharacteristic *characteristic in [service characteristics]) {
-                if ( [[characteristic UUID] isEqual:[CBUUID UUIDWithString:kCurrentTemperatureCharacteristicUUIDString]] ) {
+                if ( [[characteristic UUID] isEqual:[CBUUID UUIDWithString:kWriteWithoutResponseCharacteristicUUIDString]] ) {
                     
                     // And STOP getting notifications from it
                     [self.peripheral setNotifyValue:NO forCharacteristic:characteristic];
@@ -297,11 +353,11 @@ NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredFor
 {
     // Find the fishtank service
     for (CBService *service in [self.peripheral services]) {
-        if ([[service UUID] isEqual:[CBUUID UUIDWithString:kTemperatureServiceUUIDString]]) {
+        if ([[service UUID] isEqual:[CBUUID UUIDWithString:kBiscuitServiceUUIDString]]) {
             
             // Find the temperature characteristic
             for (CBCharacteristic *characteristic in [service characteristics]) {
-                if ( [[characteristic UUID] isEqual:[CBUUID UUIDWithString:kCurrentTemperatureCharacteristicUUIDString]] ) {
+                if ( [[characteristic UUID] isEqual:[CBUUID UUIDWithString:kWriteWithoutResponseCharacteristicUUIDString]] ) {
                     
                     // And START getting notifications from it
                     [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];

@@ -314,15 +314,17 @@
 - (void)disconnectAllPeripherals
 {
     for (DRRobotLeService *service in self.connectedServices) {
-        [service reset];
+        [self disconnectPeripheral:service.peripheral];
     }
-    [self.connectedServices removeAllObjects];
 }
 
 - (void) clearDevices
 {
     [self.foundPeripherals removeAllObjects];
-    [self disconnectAllPeripherals];
+    for (DRRobotLeService *service in self.connectedServices) {
+        [service reset];
+    }
+    [self.connectedServices removeAllObjects];
 }
 
 

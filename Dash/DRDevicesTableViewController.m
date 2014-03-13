@@ -36,7 +36,7 @@
 {
     [super viewDidAppear:animated];
     [[LeDiscovery sharedInstance] disconnectAllPeripherals];
-    [[LeDiscovery sharedInstance] startScanningForUUIDString:kTemperatureServiceUUIDString];
+    [[LeDiscovery sharedInstance] startScanningForUUIDString:kBiscuitServiceUUIDString];
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackgroundNotification:) name:kAlarmServiceEnteredBackgroundNotification object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterForegroundNotification:) name:kAlarmServiceEnteredForegroundNotification object:nil];
@@ -72,20 +72,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"DeviceCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
     if (indexPath.section == 0) {
-        cell.textLabel.text = @"UI Test";
-        cell.detailTextLabel.text = @"No robot—just play with the controls";
+        return [tableView dequeueReusableCellWithIdentifier:@"DemoCell" forIndexPath:indexPath];
     } else {
-        DRRobotLeService *service = self.bleManager.foundPeripherals[indexPath.row];
-        cell.textLabel.text = service.peripheral.name;
-        cell.detailTextLabel.text = service.peripheral.identifier.UUIDString;
+        static NSString *CellIdentifier = @"DeviceCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        CBPeripheral *device = self.bleManager.foundPeripherals[indexPath.row];
+        cell.textLabel.text = device.identifier.UUIDString;
+        return cell;
     }
     
-    return cell;
 }
 
 #pragma mark - Navigation
@@ -120,18 +119,19 @@
         UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@YES afterDelay:1];
+        //[self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 
 - (void) discoveryDidRefresh
 {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
 }
 
 - (void) discoveryStatePoweredOff
 {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
     
     NSString *title     = @"Bluetooth Power";
     NSString *message   = @"You must turn on Bluetooth in Settings in order to connect to Dash.";

@@ -59,6 +59,10 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
     
     self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
     if (!rightMotor) self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
+    
+    if (_bleService) {
+        _bleService.motor = CGPointMake(leftMotor, rightMotor);
+    }
 }
 
 - (void)resetJoystick
@@ -120,7 +124,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
         
         CGPoint velocity = CGPointMake(dx/MAX_JOYSTICK_TRAVEL, dy/MAX_JOYSTICK_TRAVEL);
 //        NSLog(@"Velocity %.3f, %.3f", velocity.x, -velocity.y);
-        [self updateThrottle:-velocity.y direction:velocity.x];
+        [self updateThrottle:velocity.y direction:velocity.x];
         
         // Constrain the thumb so that it stays within the joystick
         // boundaries.  This is smaller than the joystick radius in

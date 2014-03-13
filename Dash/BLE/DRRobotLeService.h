@@ -59,11 +59,11 @@
 /****************************************************************************/
 /*						Service Characteristics								*/
 /****************************************************************************/
-extern NSString *kTemperatureServiceUUIDString;                 // DEADF154-0000-0000-0000-0000DEADF154     Service UUID
-extern NSString *kCurrentTemperatureCharacteristicUUIDString;   // CCCCFFFF-DEAD-F154-1319-740381000000     Current Temperature Characteristic
-extern NSString *kMinimumTemperatureCharacteristicUUIDString;   // C0C0C0C0-DEAD-F154-1319-740381000000     Minimum Temperature Characteristic
-extern NSString *kMaximumTemperatureCharacteristicUUIDString;   // EDEDEDED-DEAD-F154-1319-740381000000     Maximum Temperature Characteristic
-extern NSString *kAlarmCharacteristicUUIDString;                // AAAAAAAA-DEAD-F154-1319-740381000000     Alarm Characteristic
+extern NSString *kBiscuitServiceUUIDString;                 // 713D0003-503E-4C75-BA94-3148F18D941E     Service UUID
+extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-503E-4C75-BA94-3148F18D941E     Write W/O Response Characteristic
+//extern NSString *kMinimumTemperatureCharacteristicUUIDString;   // C0C0C0C0-DEAD-F154-1319-740381000000     Minimum Temperature Characteristic
+//extern NSString *kMaximumTemperatureCharacteristicUUIDString;   // EDEDEDED-DEAD-F154-1319-740381000000     Maximum Temperature Characteristic
+//extern NSString *kAlarmCharacteristicUUIDString;                // AAAAAAAA-DEAD-F154-1319-740381000000     Alarm Characteristic
 
 extern NSString *kAlarmServiceEnteredBackgroundNotification;
 extern NSString *kAlarmServiceEnteredForegroundNotification;
@@ -92,6 +92,9 @@ extern NSString *kAlarmServiceEnteredForegroundNotification;
 /*						Temperature Alarm service.                          */
 /****************************************************************************/
 @interface DRRobotLeService : NSObject
+
+@property (nonatomic) CGPoint motor;
+@property (strong, nonatomic) UIColor *eyeColor;
 
 - (id) initWithPeripheral:(CBPeripheral *)peripheral;
 - (void) reset;
