@@ -43,11 +43,11 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oLZ-wS-BFR">
-                                <rect key="frame" x="35" y="20" width="250" height="250"/>
+                                <rect key="frame" x="60" y="15" width="200" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-gf-7tw">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="250"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.85882352939999995" green="0.86666666670000003" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -69,7 +69,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="uwa-gf-7tw" secondAttribute="bottom" id="0NW-uc-f2v"/>
                                     <constraint firstItem="UlX-mT-ube" firstAttribute="leading" secondItem="oLZ-wS-BFR" secondAttribute="leading" constant="10" id="1RF-c4-j16"/>
-                                    <constraint firstAttribute="width" constant="250" id="Iv4-ol-hN5"/>
+                                    <constraint firstAttribute="width" constant="200" id="Iv4-ol-hN5"/>
                                     <constraint firstItem="uwa-gf-7tw" firstAttribute="top" secondItem="oLZ-wS-BFR" secondAttribute="top" id="N1B-d6-MPq"/>
                                     <constraint firstAttribute="trailing" secondItem="uwa-gf-7tw" secondAttribute="trailing" id="TA0-5E-wvK"/>
                                     <constraint firstItem="uwa-gf-7tw" firstAttribute="leading" secondItem="oLZ-wS-BFR" secondAttribute="leading" id="bG8-ZN-nDu"/>
@@ -84,7 +84,7 @@
                             <constraint firstAttribute="trailing" secondItem="zYU-YU-nnq" secondAttribute="trailing" constant="20" id="Kqr-U7-htq"/>
                             <constraint firstItem="zYU-YU-nnq" firstAttribute="leading" secondItem="wjE-E1-psU" secondAttribute="leading" constant="20" id="aC8-l7-uJG"/>
                             <constraint firstItem="3ro-BR-hF1" firstAttribute="top" secondItem="zYU-YU-nnq" secondAttribute="bottom" id="q10-lG-YSb"/>
-                            <constraint firstItem="oLZ-wS-BFR" firstAttribute="top" secondItem="QMa-Xe-PlN" secondAttribute="bottom" constant="20" id="tpw-FG-O13"/>
+                            <constraint firstItem="oLZ-wS-BFR" firstAttribute="top" secondItem="QMa-Xe-PlN" secondAttribute="bottom" constant="15" id="tpw-FG-O13"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -221,11 +221,11 @@
                             <size key="itemSize" width="106" height="106"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OffCell" id="K04-om-8ar">
-                                <rect key="frame" x="0.0" y="1" width="106" height="106"/>
+                                <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
@@ -248,7 +248,7 @@
                                 </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ColorCell" id="ru8-0G-NI9">
-                                <rect key="frame" x="107" y="1" width="106" height="106"/>
+                                <rect key="frame" x="107" y="0.0" width="106" height="106"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
@@ -283,44 +283,47 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-FG-hc0" userLabel="joystick area">
-                                <rect key="frame" x="20" y="160" width="280" height="275"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="30r-KQ-mJA" userLabel="joystick base">
-                                <rect key="frame" x="130" y="341" width="100" height="100"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="in4-JD-eoi" userLabel="joystick nub">
-                                <rect key="frame" x="95" y="321" width="120" height="120"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ify-zw-7Po">
-                                <rect key="frame" x="35" y="20" width="250" height="120"/>
+                                <rect key="frame" x="35" y="15" width="250" height="145"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.85882352939999995" green="0.86666666670000003" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="2MR-99-xeB"/>
                                     <constraint firstAttribute="width" constant="250" id="tCp-Hq-kfP"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-FG-hc0" userLabel="joystick area">
+                                <rect key="frame" x="20" y="160" width="280" height="275"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="275" id="wrG-CK-ysp"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="30r-KQ-mJA" userLabel="joystick base">
+                                <rect key="frame" x="130" y="341" width="90" height="90"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="in4-JD-eoi" userLabel="joystick nub">
+                                <rect key="frame" x="95" y="321" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="SY0-ZB-jgF" firstAttribute="top" secondItem="8Tp-FG-hc0" secondAttribute="bottom" constant="20" id="95N-IK-8OR"/>
-                            <constraint firstItem="8Tp-FG-hc0" firstAttribute="top" secondItem="Ify-zw-7Po" secondAttribute="bottom" constant="20" id="MlI-US-zLb"/>
+                            <constraint firstItem="8Tp-FG-hc0" firstAttribute="top" secondItem="Ify-zw-7Po" secondAttribute="bottom" id="MlI-US-zLb"/>
                             <constraint firstAttribute="trailing" secondItem="8Tp-FG-hc0" secondAttribute="trailing" constant="20" id="Rme-th-BlU"/>
                             <constraint firstItem="8Tp-FG-hc0" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="c1c-6r-2DV"/>
                             <constraint firstAttribute="centerX" secondItem="Ify-zw-7Po" secondAttribute="centerX" id="s4V-Vj-pxu"/>
-                            <constraint firstItem="Ify-zw-7Po" firstAttribute="top" secondItem="nDO-so-cMq" secondAttribute="bottom" constant="20" id="tag-oT-tnU"/>
+                            <constraint firstItem="Ify-zw-7Po" firstAttribute="top" secondItem="nDO-so-cMq" secondAttribute="bottom" constant="15" id="tag-oT-tnU"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Virtual Joystick" image="joystick-icon" id="fpF-xy-CYr"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>

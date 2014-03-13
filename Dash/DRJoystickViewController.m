@@ -9,7 +9,7 @@
 #import "DRJoystickViewController.h"
 #import "LeDiscovery.h"
 
-static CGFloat MAX_JOYSTICK_TRAVEL = 50;
+static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 
 @interface DRJoystickViewController () {
     BOOL _touchDown;
@@ -58,7 +58,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
     CGFloat rightMotor = CLAMP(throttle - direction, -1.0, 1.0) * 255.0;
     
     self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
-    if (!rightMotor) self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
+    self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
     if (_bleService) {
         _bleService.motor = DRMotorsMake(leftMotor, rightMotor);
