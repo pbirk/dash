@@ -55,6 +55,22 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+struct DRMotors {
+    CGFloat left;
+    CGFloat right;
+};
+typedef struct DRMotors DRMotors;
+
+static inline DRMotors
+DRMotorsMake(CGFloat left, CGFloat right)
+{
+    DRMotors p; p.left = left; p.right = right; return p;
+}
+static inline DRMotors
+DRMotorsMakeZero()
+{
+    return DRMotorsMake(0, 0);
+}
 
 /****************************************************************************/
 /*						Service Characteristics								*/
@@ -65,8 +81,8 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 //extern NSString *kMaximumTemperatureCharacteristicUUIDString;   // EDEDEDED-DEAD-F154-1319-740381000000     Maximum Temperature Characteristic
 //extern NSString *kAlarmCharacteristicUUIDString;                // AAAAAAAA-DEAD-F154-1319-740381000000     Alarm Characteristic
 
-extern NSString *kAlarmServiceEnteredBackgroundNotification;
-extern NSString *kAlarmServiceEnteredForegroundNotification;
+//extern NSString *kAlarmServiceEnteredBackgroundNotification;
+//extern NSString *kAlarmServiceEnteredForegroundNotification;
 
 /****************************************************************************/
 /*								Protocol									*/
@@ -93,7 +109,7 @@ extern NSString *kAlarmServiceEnteredForegroundNotification;
 /****************************************************************************/
 @interface DRRobotLeService : NSObject
 
-@property (nonatomic) CGPoint motor;
+@property (nonatomic) DRMotors motor;
 @property (strong, nonatomic) UIColor *eyeColor;
 
 - (id) initWithPeripheral:(CBPeripheral *)peripheral;
@@ -102,9 +118,9 @@ extern NSString *kAlarmServiceEnteredForegroundNotification;
 
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;
 
-/* Behave properly when heading into and out of the background */
-- (void)enteredBackground;
-- (void)enteredForeground;
+///* Behave properly when heading into and out of the background */
+//- (void)enteredBackground;
+//- (void)enteredForeground;
 
 @property (readonly) CBPeripheral *peripheral;
 @end

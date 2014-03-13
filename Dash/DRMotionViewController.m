@@ -21,7 +21,10 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 @property (weak, nonatomic) IBOutlet UIView *sliderTouchArea;
 @property (weak, nonatomic) IBOutlet UIImageView *sliderHead;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
+@property (weak, nonatomic) IBOutlet UIView *rotatedView;
+- (IBAction)resetAttitude;
 @property (strong, nonatomic) CMMotionManager *motionManager;
+@property (strong, nonatomic) CMAttitude *referenceAttitude;
 @end
 
 @implementation DRMotionViewController
@@ -36,7 +39,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     [self updateThrottle:0 direction:0];
     self.sliderHead.layer.cornerRadius = CGRectGetHeight(self.sliderHead.bounds) / 2;
     
-    self.debugLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
+    self.rotatedView.transform = CGAffineTransformMakeRotation(M_PI_2);
     
     _bleService = [[[LeDiscovery sharedInstance] connectedServices] firstObject];
 }
@@ -49,14 +52,16 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 {
     [super viewDidAppear:animated];
     _bleService.delegate = self;
+    
     if (self.motionManager.isDeviceMotionAvailable) {
+        [self resetAttitude];
         __weak typeof(self) weakSelf = self;
         [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical
                                                                 toQueue:[NSOperationQueue mainQueue]
                                                             withHandler:^(CMDeviceMotion *motion, NSError *error) {
                                                                 if (!error && weakSelf)
                                                                     [weakSelf updateThrottle:_sliderPosition
-                                                                                   direction:[weakSelf getDirection:motion]];
+                                                                                   direction:[weakSelf getDirection:motion.attitude]];
                                                             }];
     }
 }
@@ -64,8 +69,17 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 - (void)viewDidDisappear:(BOOL)animated
 {
     [self.motionManager stopDeviceMotionUpdates];
-    self.motionManager = nil;
     [super viewDidDisappear:animated];
+}
+
+- (void)dealloc
+{
+    self.motionManager = nil;
+    self.referenceAttitude = nil;
+}
+
+- (IBAction)resetAttitude {
+    self.referenceAttitude = self.motionManager.deviceMotion.attitude;
 }
 
 - (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
@@ -78,27 +92,27 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
     if (!rightMotor) self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
-    if (_bleService) {
-        _bleService.motor = CGPointMake(leftMotor, rightMotor);
+    if (_bleService && (_bleService.motor.left != leftMotor || _bleService.motor.right != rightMotor)) {
+        _bleService.motor = DRMotorsMake(leftMotor, rightMotor);
     }
 }
 
-- (CGFloat)getDirection:(CMDeviceMotion *)motion
+- (CGFloat)getDirection:(CMAttitude *)attitude
 {
-    return -CLAMP(motion.attitude.yaw/M_PI, -1.0, 1.0);
+    if (self.referenceAttitude) {
+        [attitude multiplyByInverseOfAttitude:self.referenceAttitude];
+        return CLAMP(attitude.yaw/M_PI_2, -1.0, 1.0);
+    } else {
+        return 0;
+    }
 }
 
-//- (IBAction)sliderValueChanged:(id)sender
-//{
-//    [self updateThrottle:self.throttleSlider.value direction:[self getDirection:self.motionManager.deviceMotion]];
-//}
-
-- (void)resetJoystick
+- (void)resetSliderToZero
 {
     _touchDown = NO;
     _sliderPosition = 0;
     [self updateThrottle:_sliderPosition
-               direction:[self getDirection:self.motionManager.deviceMotion]];
+               direction:[self getDirection:self.motionManager.deviceMotion.attitude]];
     
     [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.sliderHead.center = self.sliderTouchArea.center;
@@ -123,7 +137,6 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     if (CGRectContainsPoint(self.sliderTouchArea.frame, touch)) {
         _touchDown = YES;
         if (!CGRectContainsPoint(self.sliderHead.frame, touch)) {
-//            self.joystickNub.center = CGPointMakeX(touch.x);
             _touchOffset = CGPointZero;
             [self touchesMoved:touches withEvent:event];
         } else {
@@ -136,8 +149,6 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 {
     if (_touchDown) {
         CGPoint touch = [[touches anyObject] locationInView:self.view];
-//        CGPoint point = CGPointMake(touch.x - _touchOffset.x, touch.y - _touchOffset.y);
-        
         CGPoint kCenter = self.sliderTouchArea.center;
         CGFloat dx = touch.x - kCenter.x;
         
@@ -145,48 +156,20 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
         _sliderPosition = dx / MAX_JOYSTICK_TRAVEL;
         
         [self updateThrottle:_sliderPosition
-                   direction:[self getDirection:self.motionManager.deviceMotion]];
+                   direction:[self getDirection:self.motionManager.deviceMotion.attitude]];
         
         self.sliderHead.center = CGPointMakeX(kCenter.x + dx);
-        
-//        CGFloat distance = dx;
-//        CGFloat distance = sqrt(dx * dx + dy * dy);
-//        CGFloat angle = atan2(dy, dx); // in radians
-        
-        // NOTE: Velocity goes from -1.0 to 1.0.
-        // BE CAREFUL: don't just cap each direction at 1.0 since that
-        // doesn't preserve the proportions.
-//        if (distance > MAX_JOYSTICK_TRAVEL) {
-//            dx = cos(angle) * MAX_JOYSTICK_TRAVEL;
-//            dy = sin(angle) *  MAX_JOYSTICK_TRAVEL;
-//        }
-        
-//        CGPoint velocity = CGPointMake(dx/MAX_JOYSTICK_TRAVEL, dy/MAX_JOYSTICK_TRAVEL);
-        //        NSLog(@"Velocity %.3f, %.3f", velocity.x, -velocity.y);
-//        [self updateThrottle:-velocity.y direction:velocity.x];
-        
-        // Constrain the thumb so that it stays within the joystick
-        // boundaries.  This is smaller than the joystick radius in
-        // order to account for the size of the thumb.
-//        if (distance > MAX_JOYSTICK_TRAVEL) {
-//            point.x = kCenter.x + cos(angle) * MAX_JOYSTICK_TRAVEL;
-//            point.y = kCenter.y + sin(angle) * MAX_JOYSTICK_TRAVEL;
-//        }
-//        
-//        // Update the thumb's position
-//        self.joystickNub.center = point;
     }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self resetJoystick];
+    [self resetSliderToZero];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self resetJoystick];
+    [self resetSliderToZero];
 }
-
 
 @end

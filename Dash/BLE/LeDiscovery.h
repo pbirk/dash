@@ -87,7 +87,7 @@
 - (void) stopScanning;
 
 - (void) connectPeripheral:(CBPeripheral*)peripheral;
-- (void) disconnectPeripheral:(CBPeripheral*)peripheral;
+//- (void) disconnectPeripheral:(CBPeripheral*)peripheral;
 - (void) disconnectAllPeripherals;
 
 /****************************************************************************/

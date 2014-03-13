@@ -61,7 +61,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 50;
     if (!rightMotor) self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
     if (_bleService) {
-        _bleService.motor = CGPointMake(leftMotor, rightMotor);
+        _bleService.motor = DRMotorsMake(leftMotor, rightMotor);
     }
 }
 

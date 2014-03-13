@@ -10,20 +10,11 @@
 #import "DRRobotLeService.h"
 
 
-@interface DRDevicesTableViewController ()
+@interface DRDevicesTableViewController () <UIAlertViewDelegate>
 @property (weak, nonatomic) LeDiscovery *bleManager;
 @end
 
 @implementation DRDevicesTableViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -70,6 +61,14 @@
     }
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if (section > 0) {
+        return @"Scanning…";
+    } else {
+        return nil;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -84,7 +83,6 @@
         cell.textLabel.text = device.identifier.UUIDString;
         return cell;
     }
-    
 }
 
 #pragma mark - Navigation
@@ -103,24 +101,21 @@
     }
 }
 
-//// In a story board-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue isKindOfClass:[UITableViewCell class]]) {
-//        UITableViewCell *cell = (UITableViewCell *)segue;
-//        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//    }
-//}
-
 #pragma mark - LeDiscoveryDelegate
 
-- (void)serviceDidChangeStatus:(DRRobotLeService *)service {
+- (void)serviceDidChangeStatus:(DRRobotLeService *)service
+{
     if (service.peripheral.state == CBPeripheralStateConnected) {
         UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
-        [self.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@YES afterDelay:1];
-        //[self.navigationController popToRootViewControllerAnimated:YES];
+        if (self.navigationController.viewControllers.count > 1) {
+            NSString *msg = @"Lost connection with device.";
+            if (service.peripheral.identifier.UUIDString) {
+                msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:service.peripheral.identifier.UUIDString];
+            }
+            [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
+        }
     }
 }
 
@@ -139,5 +134,11 @@
     [alertView show];
 }
 
+#pragma mark - UIAlertView delegate
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 @end

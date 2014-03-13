@@ -314,7 +314,8 @@
 - (void)disconnectAllPeripherals
 {
     for (DRRobotLeService *service in self.connectedServices) {
-        [self disconnectPeripheral:service.peripheral];
+        [service reset];
+        [self performSelector:@selector(disconnectPeripheral:) withObject:service.peripheral afterDelay:0];
     }
 }
 
@@ -362,7 +363,8 @@
 		{
 			_pendingInit = NO;
 			[self loadSavedDevices];
-			[_centralManager retrieveConnectedPeripherals];
+//			[_centralManager retrieveConnectedPeripherals];
+            [_centralManager retrieveConnectedPeripheralsWithServices:@[kBiscuitServiceUUIDString]];
 			[self.discoveryDelegate discoveryDidRefresh];
 			break;
 		}
