@@ -110,6 +110,7 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 @interface DRRobotLeService : NSObject
 
 @property (nonatomic) DRMotors motor;
+@property BOOL disconnecting;
 @property (strong, nonatomic) UIColor *eyeColor;
 
 - (id) initWithPeripheral:(CBPeripheral *)peripheral;

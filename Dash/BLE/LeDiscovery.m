@@ -315,6 +315,7 @@
 {
     for (DRRobotLeService *service in self.connectedServices) {
         [service reset];
+        service.disconnecting = YES;
         [self performSelector:@selector(disconnectPeripheral:) withObject:service.peripheral afterDelay:0];
     }
 }
@@ -324,6 +325,7 @@
     [self.foundPeripherals removeAllObjects];
     for (DRRobotLeService *service in self.connectedServices) {
         [service reset];
+        service.disconnecting = YES;
     }
     [self.connectedServices removeAllObjects];
 }

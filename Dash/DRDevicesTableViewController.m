@@ -109,9 +109,9 @@
         UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
-        if (self.navigationController.viewControllers.count > 1) {
+        if (!service.disconnecting) {// && self.navigationController.viewControllers.count > 1) {
             NSString *msg = @"Lost connection with device.";
-            if (service.peripheral.identifier.UUIDString) {
+            if (service.peripheral) {
                 msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:service.peripheral.identifier.UUIDString];
             }
             [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
