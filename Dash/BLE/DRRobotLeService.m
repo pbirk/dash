@@ -104,9 +104,8 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 - (void) reset
 {
 	if (self.peripheral) {
-        self.eyeColor = [UIColor blackColor];
         self.motor = DRMotorsMakeZero();
-        [self writeData];
+        self.eyeColor = [UIColor blackColor];
 	}
 }
 
