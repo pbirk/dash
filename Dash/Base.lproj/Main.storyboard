@@ -163,7 +163,9 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Devices" id="qvh-HK-qpC"/>
+                    <navigationItem key="navigationItem" title="Devices" id="qvh-HK-qpC">
+                        <barButtonItem key="backBarButtonItem" title="Disconnect" id="dSy-Zg-x9h"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="41O-An-J2l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -192,12 +194,12 @@
             <objects>
                 <tabBarController storyboardIdentifier="DriveController" definesPresentationContext="YES" id="hnM-MN-ZxI" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Drive" id="hQY-ei-4Jb"/>
-                    <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Qm4-1B-FSj">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="c5u-TU-jBD"/>

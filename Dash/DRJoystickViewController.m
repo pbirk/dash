@@ -52,10 +52,14 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 
 - (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
-//    if (throttle < 0) direction = -direction;
-    
     CGFloat leftMotor = CLAMP(throttle + direction, -1.0, 1.0) * 255.0;
     CGFloat rightMotor = CLAMP(throttle - direction, -1.0, 1.0) * 255.0;
+    
+    if (leftMotor > 220 && rightMotor > 220) {
+        leftMotor = rightMotor = 255;
+    } else if (leftMotor < -220 && rightMotor < -220) {
+        leftMotor = rightMotor = -255;
+    }
     
     self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
     self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
