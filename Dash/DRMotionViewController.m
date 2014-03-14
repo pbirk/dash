@@ -84,7 +84,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 
 - (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
-    if (direction > -0.1 || direction < 0.1) direction = 0;
+    if (direction > -0.1 && direction < 0.1) direction = 0;
     throttle = -throttle;
     
     CGFloat leftMotor = CLAMP(throttle * (1.0 + direction), -1.0, 1.0) * 255.0;
