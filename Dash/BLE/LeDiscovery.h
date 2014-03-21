@@ -96,4 +96,5 @@
 @property (retain, nonatomic) NSMutableArray    *foundPeripherals;
 @property (retain, nonatomic) NSMutableArray	*connectedServices;	// Array of DRRobotLeService
 - (DRRobotLeService *) serviceForPeripheral:(CBPeripheral *)peripheral;
+- (void) resetConnectedServices;
 @end

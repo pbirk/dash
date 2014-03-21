@@ -233,12 +233,15 @@
 	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
 
 	[_centralManager scanForPeripheralsWithServices:uuidArray options:options];
+    
+    NSLog(@"Started scanning.");
 }
 
 
 - (void) stopScanning
 {
 	[_centralManager stopScan];
+    NSLog(@"Stopped scanning.");
 }
 
 
@@ -316,7 +319,13 @@
     for (DRRobotLeService *service in self.connectedServices) {
         [service reset];
         service.disconnecting = YES;
-        [self performSelector:@selector(disconnectPeripheral:) withObject:service.peripheral afterDelay:0];
+        [self performSelector:@selector(disconnectPeripheral:) withObject:service.peripheral afterDelay:0.1];
+    }
+}
+
+- (void)resetConnectedServices {
+    for (DRRobotLeService *service in self.connectedServices) {
+        [service reset];
     }
 }
 

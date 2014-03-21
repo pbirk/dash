@@ -12,6 +12,8 @@
 
 @interface DRDevicesTableViewController () <UIAlertViewDelegate>
 @property (weak, nonatomic) LeDiscovery *bleManager;
+//- (void)appWillResignActive;
+//- (void)appDidBecomeActive;
 @end
 
 @implementation DRDevicesTableViewController
@@ -29,9 +31,24 @@
     [[LeDiscovery sharedInstance] disconnectAllPeripherals];
     [[LeDiscovery sharedInstance] startScanningForUUIDString:kBiscuitServiceUUIDString];
     
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackgroundNotification:) name:kAlarmServiceEnteredBackgroundNotification object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterForegroundNotification:) name:kAlarmServiceEnteredForegroundNotification object:nil];
 }
+
+//- (void)appWillResignActive
+//{
+//    [[LeDiscovery sharedInstance] stopScanning];
+//}
+//
+//- (void)appDidBecomeActive
+//{
+//    if (self.isViewLoaded && self.view.superview) {
+//        [[LeDiscovery sharedInstance] startScanningForUUIDString:kBiscuitServiceUUIDString];
+//    }
+//}
 
 - (void)viewDidDisappear:(BOOL)animated
 {
