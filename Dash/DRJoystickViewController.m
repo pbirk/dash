@@ -7,14 +7,13 @@
 //
 
 #import "DRJoystickViewController.h"
-#import "LeDiscovery.h"
+#import "DRCentralManager.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 
 @interface DRJoystickViewController () {
     BOOL _touchDown;
     CGPoint _touchOffset;
-    __weak DRRobotLeService *_bleService;
 }
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *joystickTouchArea;
@@ -31,14 +30,11 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
     [self updateThrottle:0 direction:0];
     self.joystickBase.layer.cornerRadius = CGRectGetWidth(self.joystickBase.bounds) / 2;
     self.joystickNub.layer.cornerRadius = CGRectGetWidth(self.joystickNub.bounds) / 2;
-    
-    _bleService = [[[LeDiscovery sharedInstance] connectedServices] firstObject];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    _bleService.delegate = self;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -64,8 +60,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
     self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
     self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
-    if (_bleService) {
-        _bleService.motor = DRMotorsMake(leftMotor, rightMotor);
+    if (self.bleService) {
+        self.bleService.motor = DRMotorsMake(leftMotor, rightMotor);
     }
 }
 
@@ -81,11 +77,6 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
     }];
 }
 
-#pragma mark - DRRobotLeServiceDelegate
-
-- (void)serviceDidChangeStatus:(DRRobotLeService *)service {
-    
-}
 
 #pragma mark - Touch Events
 

@@ -7,11 +7,8 @@
 //
 
 #import "DRColorPickerViewController.h"
-#import "LeDiscovery.h"
-#import "DRRobotLeService.h"
 
 @interface DRColorPickerViewController () {
-    __weak DRRobotLeService *_bleService;
 }
 @property (strong, nonatomic) NSArray *colors;
 
@@ -23,19 +20,18 @@
 {
     [super viewDidLoad];
     
-    _bleService = [[[LeDiscovery sharedInstance] connectedServices] firstObject];
-    
     self.colors = @[[UIColor blackColor],
                     [UIColor whiteColor],
                     [UIColor redColor],
-                    [UIColor yellowColor],
-                    [UIColor orangeColor],
+//                    [UIColor yellowColor],
+//                    [UIColor orangeColor],
                     [UIColor greenColor],
-                    [UIColor colorWithRed:0.000 green:0.300 blue:0.000 alpha:1.000],
+//                    [UIColor colorWithRed:0.000 green:0.300 blue:0.000 alpha:1.000],
                     [UIColor blueColor],
                     [UIColor cyanColor],
                     [UIColor magentaColor],
-                    [UIColor purpleColor]];
+//                    [UIColor purpleColor]
+                    ];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,8 +62,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    if (_bleService) {
-        [_bleService setEyeColor:self.colors[indexPath.row]];
+    if (self.bleService) {
+        [self.bleService setEyeColor:self.colors[indexPath.row]];
     }
 }
 

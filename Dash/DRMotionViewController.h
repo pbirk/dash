@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DRRobotLeService.h"
+#import "DRControlsViewController.h"
 
-@interface DRMotionViewController : UIViewController <DRRobotLeServiceDelegate>
+@interface DRMotionViewController : DRControlsViewController
 
 @end

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DRControlsViewController.h"
 
-@interface DRColorPickerViewController : UICollectionViewController
+@interface DRColorPickerViewController : DRControlsViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end
