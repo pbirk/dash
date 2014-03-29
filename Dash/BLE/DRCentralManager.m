@@ -20,6 +20,7 @@ static DRCentralManager *_sharedInstance = nil;
 		if (!_sharedInstance) {
 			_sharedInstance = [DRCentralManager new];
             _sharedInstance.peripheralNames = [NSMutableDictionary new];
+            _sharedInstance.manager.delegate = _sharedInstance;
 		}
 	}
 	return _sharedInstance;
@@ -32,12 +33,9 @@ static DRCentralManager *_sharedInstance = nil;
     return self.manager.peripherals;
 }
 
-- (void)startScanning {
-	NSArray			*uuidArray	= @[[CBUUID UUIDWithString:kBiscuitServiceUUIDString]];
-	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
-    
-    [self.manager scanForPeripheralsByInterval:4 services:uuidArray options:options completion:^(NSArray *peripherals) {
-        for (LGPeripheral *peripheral in peripherals) {
+- (void)updatedScannedPeripherals {
+    for (LGPeripheral *peripheral in self.peripherals) {
+        if (![self.peripheralNames objectForKey:peripheral.UUIDString]) {
             [LGUtils readDataFromCharactUUID:kRead1CharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
                 if (data) {
                     NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
@@ -47,6 +45,25 @@ static DRCentralManager *_sharedInstance = nil;
                 [peripheral disconnectWithCompletion:nil];
             }];
         }
+    }
+    [self.discoveryDelegate discoveryDidRefresh];
+}
+
+- (void)startScanning {
+	NSArray			*uuidArray	= @[[CBUUID UUIDWithString:kBiscuitServiceUUIDString]];
+	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
+    
+    [self.manager scanForPeripheralsByInterval:10 services:uuidArray options:options completion:^(NSArray *peripherals) {
+//        for (LGPeripheral *peripheral in peripherals) {
+//            [LGUtils readDataFromCharactUUID:kRead1CharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
+//                if (data) {
+//                    NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
+//                    [self.peripheralNames setObject:newStr forKey:peripheral.UUIDString];
+//                    [self.discoveryDelegate discoveryDidRefresh];
+//                }
+//                [peripheral disconnectWithCompletion:nil];
+//            }];
+//        }
         [self.discoveryDelegate discoveryDidRefresh];
     }];
     [self.discoveryDelegate discoveryDidRefresh];
@@ -54,6 +71,7 @@ static DRCentralManager *_sharedInstance = nil;
 
 - (void)stopScanning {
     [self.manager stopScanForPeripherals];
+    [self.discoveryDelegate discoveryDidRefresh];
 }
 
 - (void)connectPeripheral:(LGPeripheral *)peripheral completion:(LGPeripheralConnectionCallback)aCallback{

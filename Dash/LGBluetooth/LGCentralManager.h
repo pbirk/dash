@@ -27,11 +27,18 @@
 
 typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripherals);
 
+@protocol LGCentralManagerDelegate<NSObject>
+- (void)updatedScannedPeripherals;
+@end
+
+
 /**
  * Wrapper class which implments common central role
  * over Core Bluetooth's CBCentralManager instance
  */
 @interface LGCentralManager : NSObject
+
+@property (weak, nonatomic) id<LGCentralManagerDelegate> delegate;
 
 /**
  * Indicates if CBCentralManager is scanning for peripherals

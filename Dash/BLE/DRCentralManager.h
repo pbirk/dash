@@ -19,7 +19,7 @@
 - (void) connectionStatusChanged;
 @end
 
-@interface DRCentralManager : NSObject
+@interface DRCentralManager : NSObject <LGCentralManagerDelegate>
 
 + (DRCentralManager *)sharedInstance;
 

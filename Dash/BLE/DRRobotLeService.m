@@ -63,15 +63,11 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 //NSString *kAlarmServiceEnteredBackgroundNotification = @"kAlarmServiceEnteredBackgroundNotification";
 //NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredForegroundNotification";
 
-@interface DRRobotLeService() {
-@private
-    LGService			*_robotService;
-    LGCharacteristic	*_writeWoResponseCharacteristic;
-//    CBUUID              *_writeWoResponseUUID;
-}
+@interface DRRobotLeService()
 @property (readwrite, strong, nonatomic) LGPeripheral *peripheral;
+@property (strong, nonatomic) LGService *robotService;
+@property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic;
 @end
-
 
 
 @implementation DRRobotLeService
@@ -86,41 +82,41 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     self = [super init];
     if (self) {
         self.peripheral = peripheral;
-//        [self.peripheral setDelegate:self];
-        
-//        _writeWoResponseUUID	= [CBUUID UUIDWithString:kWriteWithoutResponseCharacteristicUUIDString];
-        self.eyeColor = [UIColor blackColor];
-        
-        CBUUID *serviceUuid = [CBUUID UUIDWithString:kBiscuitServiceUUIDString];
-        
-        [self.peripheral discoverServices:@[serviceUuid] completion:^(NSArray *services, NSError *error) {
-            for (LGService *service in services) {
-                if ([service.UUIDString isEqualToString:kBiscuitServiceUUIDString]) {
-                    _robotService = service;
-                    [_robotService discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
-                        for (LGCharacteristic *characteristic in characteristics) {
-                            NSLog(@"discovered characteristic %@", characteristic.UUIDString);
-                            
-                            if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
-                                NSLog(@"Discovered write without response");
-                                _writeWoResponseCharacteristic = characteristic;
-                            }
-                        }
-
-                    }];
-                    break;
-                }
-            }
-        }];
+        _eyeColor = [UIColor blackColor];
+        [self discover]; // lol
     }
     return self;
 }
 
+- (void) discover
+{
+    CBUUID *serviceUuid = [CBUUID UUIDWithString:kBiscuitServiceUUIDString];
+    
+    __weak typeof(self) weakSelf = self;
+
+    [self.peripheral discoverServices:@[serviceUuid] completion:^(NSArray *services, NSError *error) {
+        for (LGService *service in services) {
+            if ([service.UUIDString isEqualToString:kBiscuitServiceUUIDString]) {
+                weakSelf.robotService = service;
+                [weakSelf.robotService discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
+                    for (LGCharacteristic *characteristic in characteristics) {
+                        if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
+                            NSLog(@"Discovered write without response");
+                            weakSelf.writeWoResponseCharacteristic = characteristic;
+                        }
+                    }
+                }];
+                break;
+            }
+        }
+    }];
+}
 
 - (void) dealloc {
-	[self reset];
-//    self.peripheral.delegate = nil;
+//	[self reset];
     self.peripheral = nil;
+    self.robotService = nil;
+    self.writeWoResponseCharacteristic = nil;
 }
 
 - (void) reset
@@ -130,89 +126,6 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
         self.eyeColor = [UIColor blackColor];
 	}
 }
-
-
-
-#pragma mark -
-#pragma mark Service interaction
-/****************************************************************************/
-/*							Service Interactions							*/
-/****************************************************************************/
-//- (void) start
-//{
-//	CBUUID	*serviceUUID	= [CBUUID UUIDWithString:kBiscuitServiceUUIDString];
-//    [self.peripheral discoverServices:@[serviceUUID]];
-//}
-
-//- (void) peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
-//{
-//	NSArray		*services	= nil;
-//	NSArray		*uuids	= @[];
-//
-//	if (peripheral != self.peripheral) {
-//		NSLog(@"Wrong Peripheral.\n");
-//		return ;
-//	}
-//    
-//    if (error != nil) {
-//        NSLog(@"Error %@\n", error);
-//		return ;
-//	}
-//
-//	services = [peripheral services];
-//	if (!services || ![services count]) {
-//		return ;
-//	}
-//
-//	_robotService = nil;
-//    
-//	for (CBService *service in services) {
-//		if ([[service UUID] isEqual:[CBUUID UUIDWithString:kBiscuitServiceUUIDString]]) {
-//			_robotService = service;
-//			break;
-//		}
-//	}
-//
-//	if (_robotService) {
-//		[peripheral discoverCharacteristics:uuids forService:_robotService];
-//	}
-//}
-
-
-//- (void) peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error;
-//{
-//	NSArray		*characteristics	= [service characteristics];
-//	CBCharacteristic *characteristic;
-//    
-//	if (peripheral != self.peripheral) {
-//		NSLog(@"Wrong Peripheral.\n");
-//		return ;
-//	}
-//	
-//	if (service != _robotService) {
-//		NSLog(@"Wrong Service.\n");
-//		return ;
-//	}
-//    
-//    if (error != nil) {
-//		NSLog(@"Error %@\n", error);
-//		return ;
-//	}
-//    
-//	for (characteristic in characteristics) {
-//        NSLog(@"discovered characteristic %@", [characteristic UUID]);
-//        
-//		if ([[characteristic UUID] isEqual:_writeWoResponseUUID]) {
-//            NSLog(@"Discovered write without response");
-//			_writeWoResponseCharacteristic = characteristic;
-//		}
-////        else if ([[characteristic UUID] isEqual:temperatureAlarmUUID]) { // Alarm
-////            NSLog(@"Discovered Alarm Characteristic");
-////			alarmCharacteristic = [characteristic retain];
-////            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-////		}
-//	}
-//}
 
 - (void)setMotor:(DRMotors)motor {
     _motor = motor;
@@ -263,8 +176,9 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 		return ;
     }
 
-    if (!_writeWoResponseCharacteristic) {
+    if (!self.writeWoResponseCharacteristic) {
         NSLog(@"No valid characteristic!");
+//        [self discover];
         return;
     }
     
@@ -277,8 +191,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     [data appendBytes:&eyesGreen length:sizeof(eyesGreen)];
     [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
     
-    [_writeWoResponseCharacteristic writeValue:data completion:nil];
-//    [self.peripheral writeValue:data forCharacteristic:_writeWoResponseCharacteristic type:CBCharacteristicWriteWithoutResponse];
+    [self.writeWoResponseCharacteristic writeValue:data completion:nil];
     NSLog(@"data %@", data);
 }
 

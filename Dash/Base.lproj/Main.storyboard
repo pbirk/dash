@@ -186,7 +186,7 @@
         <!--Navigation Controller-->
         <scene sceneID="lNO-aY-cBs">
             <objects>
-                <navigationController definesPresentationContext="YES" id="YNK-Y3-cmV" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="main" definesPresentationContext="YES" id="YNK-Y3-cmV" sceneMemberID="viewController">
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Qyl-7R-9IZ">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>

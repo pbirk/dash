@@ -108,6 +108,7 @@
                                options:(NSDictionary *)options
 {
     [self.scannedPeripherals removeAllObjects];
+    [self.delegate updatedScannedPeripherals];
     self.scanning = YES;
 	[self.manager scanForPeripheralsWithServices:serviceUUIDs
                                          options:options];
@@ -191,6 +192,7 @@
     if (!wrapper) {
         wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral];
         [self.scannedPeripherals addObject:wrapper];
+        [self.delegate updatedScannedPeripherals];
     }
     return wrapper;
 }

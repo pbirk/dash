@@ -55,6 +55,7 @@
 {
     [super viewWillAppear:animated];
     [[DRCentralManager sharedInstance] disconnectPeripheral];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -64,6 +65,7 @@
 }
 
 - (IBAction)didTapRefreshButton:(id)sender {
+    [self.bleManager.peripheralNames removeAllObjects];
     [self.scanTimer fire];
 }
 
@@ -135,14 +137,12 @@
     
     if (indexPath.section > 0) {
         LGPeripheral *peripheral = self.bleManager.peripherals[indexPath.row];
-//        if (peripheral.cbPeripheral.state == CBPeripheralStateDisconnected) {
         [[DRCentralManager sharedInstance] connectPeripheral:peripheral completion:^(NSError *error) {
             if (!error && self.bleManager.connectedService) {
                 UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }];
-//        }
     } else {
         UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -170,6 +170,7 @@
 - (void) discoveryDidRefresh
 {
     [self.tableView reloadData];
+//    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void) discoveryStatePoweredOff
