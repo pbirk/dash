@@ -23,14 +23,11 @@
     self.colors = @[[UIColor blackColor],
                     [UIColor whiteColor],
                     [UIColor redColor],
-//                    [UIColor yellowColor],
-//                    [UIColor orangeColor],
                     [UIColor greenColor],
-//                    [UIColor colorWithRed:0.000 green:0.300 blue:0.000 alpha:1.000],
                     [UIColor blueColor],
                     [UIColor cyanColor],
-                    [UIColor magentaColor],
-//                    [UIColor purpleColor]
+//                    [UIColor magentaColor],
+                    [UIColor colorWithRed:0.700 green:0.000 blue:0.400 alpha:1.000],
                     ];
 }
 
