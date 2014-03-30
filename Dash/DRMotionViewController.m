@@ -126,15 +126,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     }
 }
 
-//#pragma mark - DRRobotLeServiceDelegate
-//
-//- (void)serviceDidChangeStatus:(DRRobotLeService *)service {
-//    
-//}
-
 #pragma mark - Touch Events
-
-#define CGPointMakeX(x) CGPointMake(x, self.sliderHead.center.y)
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -145,7 +137,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
             _touchOffset = CGPointZero;
             [self touchesMoved:touches withEvent:event];
         } else {
-            _touchOffset = CGPointMakeX(touch.x - self.sliderHead.center.x);
+            _touchOffset = CGPointMake(touch.x - self.sliderHead.center.x, self.sliderHead.center.y);
         }
     }
 }
@@ -163,7 +155,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
         [self updateThrottle:_sliderPosition
                    direction:[self getDirection:self.motionManager.deviceMotion.attitude]];
         
-        self.sliderHead.center = CGPointMakeX(kCenter.x + dx);
+        self.sliderHead.center = CGPointMake(kCenter.x + dx, self.sliderHead.center.y);
     }
 }
 

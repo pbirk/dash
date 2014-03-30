@@ -154,8 +154,6 @@
 				66D6FD3F18C2DD3B00783AC8 /* Main.storyboard */,
 				66F055CB18E8A80C00ED241D /* DRRootViewController.h */,
 				66F055CC18E8A80C00ED241D /* DRRootViewController.m */,
-				66F055D418E8B71E00ED241D /* DRTabBarController.h */,
-				66F055D518E8B71E00ED241D /* DRTabBarController.m */,
 				66F055CE18E8A93100ED241D /* DRDeviceCell.h */,
 				66F055CF18E8A93100ED241D /* DRDeviceCell.m */,
 				66F055D718E8BFEF00ED241D /* Drive Controls */,
@@ -200,6 +198,8 @@
 		66F055D718E8BFEF00ED241D /* Drive Controls */ = {
 			isa = PBXGroup;
 			children = (
+				66F055D418E8B71E00ED241D /* DRTabBarController.h */,
+				66F055D518E8B71E00ED241D /* DRTabBarController.m */,
 				66F0558318E514EC00ED241D /* DRControlsViewController.h */,
 				66F0558418E514EC00ED241D /* DRControlsViewController.m */,
 				66D6FD4218C2DD3B00783AC8 /* DRJoystickViewController.h */,

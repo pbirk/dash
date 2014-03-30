@@ -201,11 +201,28 @@
             </objects>
             <point key="canvasLocation" x="-1345" y="368"/>
         </scene>
-        <!--Tab Bar Controller - Drive-->
+        <!--Tab Bar Controller-->
         <scene sceneID="sAb-6c-Csw">
             <objects>
                 <tabBarController storyboardIdentifier="DriveController" definesPresentationContext="YES" id="hnM-MN-ZxI" customClass="DRTabBarController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Drive" id="hQY-ei-4Jb"/>
+                    <navigationItem key="navigationItem" id="hQY-ei-4Jb">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="CC0-xS-zjU">
+                            <connections>
+                                <action selector="didTapDisconnect" destination="hnM-MN-ZxI" id="KjO-kJ-fo6"/>
+                            </connections>
+                        </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="5Ke-Kn-SpW">
+                            <rect key="frame" x="51" y="5" width="261" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="" image="joystick-icon"/>
+                                <segment title="" image="motion-icon"/>
+                                <segment title="" image="eye-icon"/>
+                                <segment title="" image="dash-30"/>
+                            </segments>
+                        </segmentedControl>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Qm4-1B-FSj">
