@@ -54,16 +54,6 @@ static DRCentralManager *_sharedInstance = nil;
 	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
     
     [self.manager scanForPeripheralsByInterval:10 services:uuidArray options:options completion:^(NSArray *peripherals) {
-//        for (LGPeripheral *peripheral in peripherals) {
-//            [LGUtils readDataFromCharactUUID:kRead1CharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
-//                if (data) {
-//                    NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
-//                    [self.peripheralNames setObject:newStr forKey:peripheral.UUIDString];
-//                    [self.discoveryDelegate discoveryDidRefresh];
-//                }
-//                [peripheral disconnectWithCompletion:nil];
-//            }];
-//        }
         [self.discoveryDelegate discoveryDidRefresh];
     }];
     [self.discoveryDelegate discoveryDidRefresh];
@@ -89,7 +79,6 @@ static DRCentralManager *_sharedInstance = nil;
     if (self.connectedService) {
         [self.connectedService reset];
         self.connectedService.isManuallyDisconnecting = YES;
-//        [self.manager performSelector:@selector(cancelPeripheralConnection:) withObject:self.connectedService.peripheral.cbPeripheral afterDelay:0.1];
         [self.connectedService.peripheral performSelector:@selector(disconnectWithCompletion:) withObject:^(NSError *error) {
             self.connectedService = nil;
             [self.discoveryDelegate discoveryDidRefresh];

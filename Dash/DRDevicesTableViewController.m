@@ -27,10 +27,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatusChanged)
-                                                 name:kLGPeripheralDidConnect
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(connectionStatusChanged)
+//                                                 name:kLGPeripheralDidConnect
+//                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionStatusChanged)
                                                  name:kLGPeripheralDidDisconnect
@@ -47,7 +47,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidConnect object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidConnect object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidDisconnect object:nil];
 }
 
@@ -141,6 +141,8 @@
             if (!error && self.bleManager.connectedService) {
                 UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
                 [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to connect to device." delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
             }
         }];
     } else {
@@ -155,14 +157,12 @@
 {
     DRRobotLeService *service = self.bleManager.connectedService;
     if (service) {
-        if (service.peripheral.cbPeripheral.state == CBPeripheralStateDisconnected) {
-            if (!service.isManuallyDisconnecting) {// && self.navigationController.viewControllers.count > 1) {
-                NSString *msg = @"Lost connection with device.";
-                if (service.peripheral && [[DRCentralManager sharedInstance] nameForPeripheral:service.peripheral]) {
-                    msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:[[DRCentralManager sharedInstance] nameForPeripheral:service.peripheral]];
-                }
-                [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
+        if (!service.isManuallyDisconnecting) {
+            NSString *msg = @"Lost connection with device.";
+            if (service.peripheral && [[DRCentralManager sharedInstance] nameForPeripheral:service.peripheral]) {
+                msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:[[DRCentralManager sharedInstance] nameForPeripheral:service.peripheral]];
             }
+            [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
         }
     }
 }
