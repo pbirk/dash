@@ -185,6 +185,12 @@
         NSString *name = [self.bleManager nameForPeripheral:peripheral];
         cell.textLabel.text = name ? name : @"Robot";
         cell.detailTextLabel.text = peripheral.UUIDString;
+        if (name) {
+            NSString *hex = [peripheral.UUIDString substringToIndex:6];
+            cell.backgroundColor = UIColorFromRGB([hex integerValue]); // hilarious HACK to show custom colors
+        } else {
+            cell.backgroundColor = [UIColor grayColor];
+        }
         return cell;
     }
 }
