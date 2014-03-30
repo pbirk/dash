@@ -53,15 +53,15 @@ static DRCentralManager *_sharedInstance = nil;
 	NSArray			*uuidArray	= @[[CBUUID UUIDWithString:kBiscuitServiceUUIDString]];
 	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
     
-    [self.manager scanForPeripheralsByInterval:10 services:uuidArray options:options completion:^(NSArray *peripherals) {
-        [self.discoveryDelegate discoveryDidRefresh];
+    [self.manager scanForPeripheralsByInterval:6 services:uuidArray options:options completion:^(NSArray *peripherals) {
+        [self.discoveryDelegate stoppedScanning];
     }];
     [self.discoveryDelegate discoveryDidRefresh];
 }
 
 - (void)stopScanning {
     [self.manager stopScanForPeripherals];
-    [self.discoveryDelegate discoveryDidRefresh];
+    [self.discoveryDelegate stoppedScanning];
 }
 
 - (void)connectPeripheral:(LGPeripheral *)peripheral completion:(LGPeripheralConnectionCallback)aCallback{

@@ -10,8 +10,7 @@
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 
-@interface DRControlsViewController () {
-}
+@interface DRControlsViewController ()
 
 @end
 
@@ -21,12 +20,36 @@
 {
     [super viewDidLoad];
     
+//    UIButton *disconnect = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+//    [disconnect setTitle:@"Disconnect" forState:UIControlStateNormal];
+//    [disconnect sizeToFit];
+//    disconnect.tintColor = self.view.tintColor;
+//    disconnect.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+//    disconnect.bounds = CGRectMake(0, 0, CGRectGetWidth(disconnect.bounds)+20, 44);
+//    [disconnect addTarget:self action:@selector(didTapDisconnect) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:disconnect];
+//    self.disconnectButton = disconnect;
+    
     self.bleService = [[DRCentralManager sharedInstance] connectedService];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void) didTapDisconnect
+{
+    [[DRCentralManager sharedInstance] disconnectPeripheral];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.bleService.delegate = self;
+//    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+//    if (animated)[self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)dealloc {
@@ -40,15 +63,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-//- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-//    [super tabBar:tabBar didSelectItem:item];
-//    NSUInteger index = [self.tabBar.items indexOfObject:item];
-//    UIViewController *vc = (UIViewController *)[self.viewControllers objectAtIndex:index];
-//    if (vc respondsToSelector:@selector()) {
-//        
-//    }
-//}
 
 #pragma mark - DRRobotLeServiceDelegate
 

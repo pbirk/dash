@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Motion View Controller - Motion-->
+        <!--Motion View Controller - Drive-->
         <scene sceneID="szE-dW-aqQ">
             <objects>
-                <viewController storyboardIdentifier="DRMotionViewController" title="Motion" id="wLv-0a-tyA" customClass="DRMotionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DRMotionViewController" title="Drive" id="wLv-0a-tyA" customClass="DRMotionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QMa-Xe-PlN"/>
                         <viewControllerLayoutGuide type="bottom" id="3ro-BR-hF1"/>
@@ -204,7 +204,7 @@
         <!--Tab Bar Controller - Drive-->
         <scene sceneID="sAb-6c-Csw">
             <objects>
-                <tabBarController storyboardIdentifier="DriveController" definesPresentationContext="YES" id="hnM-MN-ZxI" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="DriveController" definesPresentationContext="YES" id="hnM-MN-ZxI" customClass="DRTabBarController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Drive" id="hQY-ei-4Jb"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -226,7 +226,7 @@
         <!--Color Picker View Controller - Eye Color-->
         <scene sceneID="LcT-hK-BM2">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="iwu-tM-Zeg" customClass="DRColorPickerViewController" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" title="Eye Color" id="iwu-tM-Zeg" customClass="DRColorPickerViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="7ug-nj-FPN">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -283,12 +283,12 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3nK-5L-7C0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-465" y="1138"/>
+            <point key="canvasLocation" x="-326" y="1129"/>
         </scene>
-        <!--Joystick View Controller - Joystick-->
+        <!--Joystick View Controller - Drive-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="DRJoystickViewController" title="Joystick" id="vXZ-lx-hvc" customClass="DRJoystickViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DRJoystickViewController" title="Drive" id="vXZ-lx-hvc" customClass="DRJoystickViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nDO-so-cMq"/>
                         <viewControllerLayoutGuide type="bottom" id="SY0-ZB-jgF"/>
@@ -298,23 +298,20 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ify-zw-7Po">
-                                <rect key="frame" x="35" y="15" width="250" height="145"/>
+                                <rect key="frame" x="35" y="15" width="250" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.85882352939999995" green="0.86666666670000003" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="tCp-Hq-kfP"/>
+                                    <constraint firstAttribute="height" constant="120" id="8dv-SB-Crs"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-FG-hc0" userLabel="joystick area">
-                                <rect key="frame" x="20" y="160" width="280" height="275"/>
+                                <rect key="frame" x="20" y="135" width="280" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="275" id="wrG-CK-ysp"/>
-                                </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="30r-KQ-mJA" userLabel="joystick base">
                                 <rect key="frame" x="130" y="341" width="90" height="90"/>
@@ -329,10 +326,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Ify-zw-7Po" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="35" id="8yk-K7-xAt"/>
                             <constraint firstItem="SY0-ZB-jgF" firstAttribute="top" secondItem="8Tp-FG-hc0" secondAttribute="bottom" constant="20" id="95N-IK-8OR"/>
                             <constraint firstItem="8Tp-FG-hc0" firstAttribute="top" secondItem="Ify-zw-7Po" secondAttribute="bottom" id="MlI-US-zLb"/>
                             <constraint firstAttribute="trailing" secondItem="8Tp-FG-hc0" secondAttribute="trailing" constant="20" id="Rme-th-BlU"/>
                             <constraint firstItem="8Tp-FG-hc0" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="c1c-6r-2DV"/>
+                            <constraint firstAttribute="trailing" secondItem="Ify-zw-7Po" secondAttribute="trailing" constant="35" id="qv6-bQ-pSA"/>
                             <constraint firstAttribute="centerX" secondItem="Ify-zw-7Po" secondAttribute="centerX" id="s4V-Vj-pxu"/>
                             <constraint firstItem="Ify-zw-7Po" firstAttribute="top" secondItem="nDO-so-cMq" secondAttribute="bottom" constant="15" id="tag-oT-tnU"/>
                         </constraints>
@@ -367,11 +366,14 @@
                                 <rect key="frame" x="0.0" y="15" width="320" height="302"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="DQq-JN-f5C"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="15" id="bTf-Ek-cs5">
                                     <size key="itemSize" width="290" height="68"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DRDeviceCell" id="b3H-ih-iHm" customClass="DRDeviceCell">
@@ -410,16 +412,41 @@
                                             <outlet property="textLabel" destination="y5K-AV-BAT" id="KRO-sv-s4D"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="blank" id="vLZ-X8-sBw">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="demo" id="1Ih-jI-Zl3" customClass="DRDeviceCell">
                                         <rect key="frame" x="15" y="83" width="290" height="68"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="290" height="68"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="12" contentMode="scaleToFill" fixedFrame="YES" image="joystick-icon" translatesAutoresizingMaskIntoConstraints="NO" id="3RT-Ch-pSo">
+                                                    <rect key="frame" x="15" y="19" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="left" fixedFrame="YES" text="Demo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mls-ul-a2d">
+                                                    <rect key="frame" x="53" y="14" width="220" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="11" contentMode="left" fixedFrame="YES" text="No robot, just play with the controls" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h9f-hf-8Gv">
+                                                    <rect key="frame" x="53" y="39" width="220" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="detailTextLabel" destination="h9f-hf-8Gv" id="dTR-sL-myA"/>
+                                            <outlet property="imageView" destination="3RT-Ch-pSo" id="AEM-oL-grE"/>
+                                            <outlet property="textLabel" destination="Mls-ul-a2d" id="Jd3-qu-HeK"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -458,11 +485,10 @@
                             <constraint firstItem="79T-Zr-TTG" firstAttribute="width" secondItem="cEM-rc-Zho" secondAttribute="width" id="69v-1F-sqv"/>
                             <constraint firstAttribute="centerX" secondItem="79T-Zr-TTG" secondAttribute="centerX" id="7FG-gK-Dde"/>
                             <constraint firstItem="XRt-j4-jpE" firstAttribute="top" secondItem="975-Ua-vfc" secondAttribute="bottom" constant="15" id="90k-oR-a2N"/>
-                            <constraint firstAttribute="trailing" secondItem="XRt-j4-jpE" secondAttribute="trailing" id="K1v-Zl-dbK"/>
                             <constraint firstItem="79T-Zr-TTG" firstAttribute="top" secondItem="cEM-rc-Zho" secondAttribute="bottom" constant="15" id="La5-gQ-evl"/>
                             <constraint firstItem="cEM-rc-Zho" firstAttribute="top" secondItem="XRt-j4-jpE" secondAttribute="bottom" constant="20" id="Wxn-vt-sbH"/>
                             <constraint firstItem="kIe-gM-b5c" firstAttribute="top" secondItem="79T-Zr-TTG" secondAttribute="bottom" constant="15" id="ivS-IB-cJ2"/>
-                            <constraint firstItem="XRt-j4-jpE" firstAttribute="leading" secondItem="M5Z-9V-nNx" secondAttribute="leading" id="ps4-bZ-3jS"/>
+                            <constraint firstAttribute="centerX" secondItem="XRt-j4-jpE" secondAttribute="centerX" id="q3h-Iv-KzT"/>
                             <constraint firstItem="79T-Zr-TTG" firstAttribute="centerX" secondItem="cEM-rc-Zho" secondAttribute="centerX" id="s9g-hs-GyD"/>
                         </constraints>
                     </view>

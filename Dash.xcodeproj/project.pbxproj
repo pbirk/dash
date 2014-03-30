@@ -12,7 +12,6 @@
 		6684409118D1475100D8FE2D /* DRColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684409018D1475100D8FE2D /* DRColorPickerViewController.m */; };
 		66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */; };
 		66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */; };
-		66C7EC1C18CD8022007547C0 /* DRDevicesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
 		66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */; };
 		66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD3118C2DD3B00783AC8 /* UIKit.framework */; };
@@ -32,6 +31,7 @@
 		66F0559C18E526FF00ED241D /* DRCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0559B18E526FF00ED241D /* DRCentralManager.m */; };
 		66F055CD18E8A80C00ED241D /* DRRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F055CC18E8A80C00ED241D /* DRRootViewController.m */; };
 		66F055D018E8A93100ED241D /* DRDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F055CF18E8A93100ED241D /* DRDeviceCell.m */; };
+		66F055D618E8B71E00ED241D /* DRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F055D518E8B71E00ED241D /* DRTabBarController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +43,6 @@
 		66AA0F3918CD6E460093D5E3 /* DRRobotLeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRobotLeService.h; sourceTree = "<group>"; };
 		66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRobotLeService.m; sourceTree = "<group>"; };
 		66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		66C7EC1A18CD8022007547C0 /* DRDevicesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRDevicesTableViewController.h; sourceTree = "<group>"; };
-		66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRDevicesTableViewController.m; sourceTree = "<group>"; };
 		66D6FD2A18C2DD3B00783AC8 /* Dash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -80,6 +78,8 @@
 		66F055CC18E8A80C00ED241D /* DRRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRootViewController.m; sourceTree = "<group>"; };
 		66F055CE18E8A93100ED241D /* DRDeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRDeviceCell.h; sourceTree = "<group>"; };
 		66F055CF18E8A93100ED241D /* DRDeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRDeviceCell.m; sourceTree = "<group>"; };
+		66F055D418E8B71E00ED241D /* DRTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTabBarController.h; sourceTree = "<group>"; };
+		66F055D518E8B71E00ED241D /* DRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTabBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,8 +151,6 @@
 				66F055CC18E8A80C00ED241D /* DRRootViewController.m */,
 				66F055CE18E8A93100ED241D /* DRDeviceCell.h */,
 				66F055CF18E8A93100ED241D /* DRDeviceCell.m */,
-				66C7EC1A18CD8022007547C0 /* DRDevicesTableViewController.h */,
-				66C7EC1B18CD8022007547C0 /* DRDevicesTableViewController.m */,
 				66F0558318E514EC00ED241D /* DRControlsViewController.h */,
 				66F0558418E514EC00ED241D /* DRControlsViewController.m */,
 				66D6FD4218C2DD3B00783AC8 /* DRJoystickViewController.h */,
@@ -161,6 +159,8 @@
 				667EA4D118C308A700E1C249 /* DRMotionViewController.m */,
 				6684408F18D1475100D8FE2D /* DRColorPickerViewController.h */,
 				6684409018D1475100D8FE2D /* DRColorPickerViewController.m */,
+				66F055D418E8B71E00ED241D /* DRTabBarController.h */,
+				66F055D518E8B71E00ED241D /* DRTabBarController.m */,
 				66D6FD4518C2DD3B00783AC8 /* Images.xcassets */,
 				66D6FD3418C2DD3B00783AC8 /* Supporting Files */,
 			);
@@ -292,13 +292,13 @@
 				66F0559418E521DC00ED241D /* CBUUID+StringExtraction.m in Sources */,
 				66D6FD3E18C2DD3B00783AC8 /* DRAppDelegate.m in Sources */,
 				66F0558518E514EC00ED241D /* DRControlsViewController.m in Sources */,
-				66C7EC1C18CD8022007547C0 /* DRDevicesTableViewController.m in Sources */,
 				66F0559618E521DC00ED241D /* LGCharacteristic.m in Sources */,
 				66F0559C18E526FF00ED241D /* DRCentralManager.m in Sources */,
 				66F0559818E521DC00ED241D /* LGService.m in Sources */,
 				66D6FD4418C2DD3B00783AC8 /* DRJoystickViewController.m in Sources */,
 				66F055CD18E8A80C00ED241D /* DRRootViewController.m in Sources */,
 				66F0559518E521DC00ED241D /* LGCentralManager.m in Sources */,
+				66F055D618E8B71E00ED241D /* DRTabBarController.m in Sources */,
 				66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */,
 				667EA4D218C308A700E1C249 /* DRMotionViewController.m in Sources */,
 				66F0559918E521DC00ED241D /* LGUtils.m in Sources */,

@@ -119,6 +119,13 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     }];
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (ISIPAD) {
+        [self resetAttitude];
+    }
+}
+
 //#pragma mark - DRRobotLeServiceDelegate
 //
 //- (void)serviceDidChangeStatus:(DRRobotLeService *)service {

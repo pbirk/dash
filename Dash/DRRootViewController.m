@@ -55,7 +55,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.bleManager disconnectPeripheral];
+//    [self.bleManager disconnectPeripheral];
     [self.collectionView reloadData];
 }
 
@@ -108,13 +108,20 @@
 
 - (void) discoveryDidRefresh
 {
-    [self.collectionView reloadData];
-    //    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-    if (self.bleManager.manager.scanning) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.refreshSpinner];
+    if ([self.collectionView numberOfItemsInSection:1] != [self collectionView:self.collectionView numberOfItemsInSection:1]) {
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
     } else {
-        self.navigationItem.rightBarButtonItem = self.refreshButton;
+        [self.collectionView reloadData];
     }
+    
+    if (self.bleManager.manager.scanning && self.navigationItem.rightBarButtonItem == self.refreshButton) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.refreshSpinner];
+    }
+}
+
+- (void)stoppedScanning
+{
+    self.navigationItem.rightBarButtonItem = self.refreshButton;
 }
 
 - (void) discoveryStatePoweredOff
@@ -137,36 +144,53 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.bleManager.peripherals.count;
+    if (section == 0) {
+        return 1;
+    } else {
+        return self.bleManager.peripherals.count;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"DRDeviceCell";
-    DRDeviceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    LGPeripheral *device = self.bleManager.peripherals[indexPath.row];
-    cell.textLabel.text = [self.bleManager nameForPeripheral:device];
-    cell.detailTextLabel.text = device.UUIDString;
-    return cell;
+    if (indexPath.section == 0) {
+        return [collectionView dequeueReusableCellWithReuseIdentifier:@"demo" forIndexPath:indexPath];
+    } else {
+        static NSString *CellIdentifier = @"DRDeviceCell";
+        DRDeviceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        LGPeripheral *peripheral = self.bleManager.peripherals[indexPath.row];
+        NSString *name = [self.bleManager nameForPeripheral:peripheral];
+        cell.textLabel.text = name ? name : @"Robot";
+        cell.detailTextLabel.text = peripheral.UUIDString;
+        return cell;
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    LGPeripheral *peripheral = self.bleManager.peripherals[indexPath.row];
-    [[DRCentralManager sharedInstance] connectPeripheral:peripheral completion:^(NSError *error) {
-        if (!error && self.bleManager.connectedService) {
-            UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
-            [self.navigationController pushViewController:vc animated:YES];
-        } else {
-            [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to connect to device." delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
-        }
-    }];
+    if (indexPath.section == 0) {
+        UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
+        vc.title = @"Demo";
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        LGPeripheral *peripheral = self.bleManager.peripherals[indexPath.row];
+        [[DRCentralManager sharedInstance] connectPeripheral:peripheral completion:^(NSError *error) {
+            if (!error && self.bleManager.connectedService) {
+                UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
+                NSString *name = [self.bleManager nameForPeripheral:peripheral];
+                vc.title = name ? name : @"Robot";
+                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to connect to device." delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
+            }
+        }];
+    }
 }
 
 @end

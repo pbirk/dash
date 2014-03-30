@@ -15,6 +15,7 @@
 /****************************************************************************/
 @protocol DRDiscoveryDelegate <NSObject>
 - (void) discoveryDidRefresh;
+- (void) stoppedScanning;
 - (void) discoveryStatePoweredOff;
 - (void) connectionStatusChanged;
 @end
