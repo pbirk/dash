@@ -9,6 +9,7 @@
 #import "DRAppDelegate.h"
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
+#import "DRWebViewController.h"
 
 @implementation DRAppDelegate
 
@@ -37,8 +38,11 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    if ([self.window.rootViewController respondsToSelector:@selector(popToRootViewControllerAnimated:)]) {
-        [(id)self.window.rootViewController popToRootViewControllerAnimated:NO];
+    if ([self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+        if (![nav.visibleViewController isKindOfClass:[DRWebViewController class]]) {
+            [nav popToRootViewControllerAnimated:NO];
+        }
     }
 }
 

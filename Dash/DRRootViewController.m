@@ -9,6 +9,7 @@
 #import "DRRootViewController.h"
 #import "DRRobotLeService.h"
 #import "DRDeviceCell.h"
+#import "DRWebViewController.h"
 
 @interface DRRootViewController ()
 @property (weak, nonatomic) DRCentralManager *bleManager;
@@ -17,6 +18,8 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *refreshSpinner;
 - (IBAction)didTapRefreshButton:(id)sender;
+- (IBAction)didTapAbout:(UIButton *)sender;
+- (IBAction)didTapBuild:(UIButton *)sender;
 - (void)appWillResignActive;
 - (void)appDidBecomeActive;
 @end
@@ -65,11 +68,6 @@
     [self startScanning];
 }
 
-- (IBAction)didTapRefreshButton:(id)sender {
-    [self.bleManager.peripheralNames removeAllObjects];
-    [self.scanTimer fire];
-}
-
 - (void)appWillResignActive
 {
     [[DRCentralManager sharedInstance] stopScanning];
@@ -88,6 +86,25 @@
     [super viewDidDisappear:animated];
     [[DRCentralManager sharedInstance] stopScanning];
     [self.scanTimer invalidate];
+}
+
+#pragma mark - IBActions
+
+- (IBAction)didTapRefreshButton:(id)sender {
+    [self.bleManager.peripheralNames removeAllObjects];
+    [self.scanTimer fire];
+}
+
+- (IBAction)didTapAbout:(UIButton *)sender {
+    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com"]];
+    dvc.title = sender.currentTitle;
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+- (IBAction)didTapBuild:(UIButton *)sender {
+    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com/pages/dash-at-home"]];
+    dvc.title = sender.currentTitle;
+    [self.navigationController pushViewController:dvc animated:YES];
 }
 
 #pragma mark - DRDiscoveryDelegate
