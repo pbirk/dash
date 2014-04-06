@@ -18,6 +18,20 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                           //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-DemiBold" size:17],
+                                                           }];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{
+                                                          //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+                                                          NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17],
+                                                          } forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{
+                                                        NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10],
+                                                        } forState:UIControlStateNormal];
+    
+    
     return YES;
 }
 							

@@ -131,7 +131,7 @@
         [self.collectionView reloadData];
     }
     
-    if (self.bleManager.manager.scanning && self.navigationItem.rightBarButtonItem == self.refreshButton) {
+    if (self.bleManager.manager.scanning && self.bleManager.manager.centralReady && self.navigationItem.rightBarButtonItem == self.refreshButton) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.refreshSpinner];
     }
 }
@@ -141,7 +141,7 @@
     self.navigationItem.rightBarButtonItem = self.refreshButton;
 }
 
-- (void) discoveryStatePoweredOff
+- (void)discoveryStatePoweredOff
 {
     [self.collectionView reloadData];
     
