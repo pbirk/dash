@@ -7,6 +7,7 @@
 //
 
 #import "DRAppDelegate.h"
+#import <HockeySDK/HockeySDK.h>
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 #import "DRWebViewController.h"
@@ -18,6 +19,10 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"88b8a1903b80455109fe72aa328c6196"];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+//    [[BITHockeyManager sharedHockeyManager] testIdentifier];
     
     [[UINavigationBar appearance] setTitleTextAttributes:@{
                                                            //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],

@@ -12,6 +12,13 @@
 		6684409118D1475100D8FE2D /* DRColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684409018D1475100D8FE2D /* DRColorPickerViewController.m */; };
 		66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */; };
 		66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */; };
+		66B2282718F1CE70008C6445 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282618F1CE70008C6445 /* CoreText.framework */; };
+		66B2282918F1CE75008C6445 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282818F1CE75008C6445 /* QuartzCore.framework */; };
+		66B2282B18F1CE7B008C6445 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282A18F1CE7B008C6445 /* Security.framework */; };
+		66B2282D18F1CE84008C6445 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282C18F1CE84008C6445 /* SystemConfiguration.framework */; };
+		66B2283318F1CEA0008C6445 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282F18F1CEA0008C6445 /* HockeySDK.framework */; };
+		66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */; };
+		66B2283518F1CEA0008C6445 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
 		66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */; };
 		66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD3118C2DD3B00783AC8 /* UIKit.framework */; };
@@ -45,6 +52,13 @@
 		66AA0F3918CD6E460093D5E3 /* DRRobotLeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRobotLeService.h; sourceTree = "<group>"; };
 		66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRobotLeService.m; sourceTree = "<group>"; };
 		66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		66B2282618F1CE70008C6445 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		66B2282818F1CE75008C6445 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		66B2282A18F1CE7B008C6445 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		66B2282C18F1CE84008C6445 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		66B2282F18F1CEA0008C6445 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
+		66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = HockeySDK.xcconfig; sourceTree = "<group>"; };
+		66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
 		66D6FD2A18C2DD3B00783AC8 /* Dash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -92,10 +106,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B2282D18F1CE84008C6445 /* SystemConfiguration.framework in Frameworks */,
+				66B2282B18F1CE7B008C6445 /* Security.framework in Frameworks */,
+				66B2282918F1CE75008C6445 /* QuartzCore.framework in Frameworks */,
+				66B2282718F1CE70008C6445 /* CoreText.framework in Frameworks */,
 				66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */,
 				667EA4CF18C3060C00E1C249 /* CoreMotion.framework in Frameworks */,
 				66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */,
 				66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */,
+				66B2283318F1CEA0008C6445 /* HockeySDK.framework in Frameworks */,
 				66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,6 +132,25 @@
 			);
 			name = BLE;
 			path = ../../dash/Dash/BLE;
+			sourceTree = "<group>";
+		};
+		66B2282E18F1CEA0008C6445 /* HockeySDK.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				66B2282F18F1CEA0008C6445 /* HockeySDK.framework */,
+				66B2283018F1CEA0008C6445 /* Resources */,
+			);
+			name = HockeySDK.embeddedframework;
+			path = "HockeySDK-iOS/HockeySDK.embeddedframework";
+			sourceTree = "<group>";
+		};
+		66B2283018F1CEA0008C6445 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */,
+				66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		66D6FD2118C2DD3B00783AC8 = {
@@ -135,6 +173,11 @@
 		66D6FD2C18C2DD3B00783AC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66B2282E18F1CEA0008C6445 /* HockeySDK.embeddedframework */,
+				66B2282C18F1CE84008C6445 /* SystemConfiguration.framework */,
+				66B2282A18F1CE7B008C6445 /* Security.framework */,
+				66B2282818F1CE75008C6445 /* QuartzCore.framework */,
+				66B2282618F1CE70008C6445 /* CoreText.framework */,
 				66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */,
 				667EA4CE18C3060C00E1C249 /* CoreMotion.framework */,
 				66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */,
@@ -233,6 +276,7 @@
 				66D6FD2718C2DD3B00783AC8 /* Frameworks */,
 				66D6FD2818C2DD3B00783AC8 /* Resources */,
 				66B9B65318CFD3680083EBEF /* ShellScript */,
+				66B2282518F1CE59008C6445 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -282,15 +326,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				66D6FD4618C2DD3B00783AC8 /* Images.xcassets in Resources */,
+				66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */,
 				66D6FD3818C2DD3B00783AC8 /* InfoPlist.strings in Resources */,
 				66D6FD4118C2DD3B00783AC8 /* Main.storyboard in Resources */,
 				66F055DD18E8C02300ED241D /* DRWebViewController.xib in Resources */,
+				66B2283518F1CEA0008C6445 /* HockeySDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		66B2282518F1CE59008C6445 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FILE=\"${SRCROOT}/HockeySDK-iOS/BuildAgent\"\nif [ -f \"$FILE\" ]; then\n\"$FILE\"\nfi";
+		};
 		66B9B65318CFD3680083EBEF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,7 +361,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+			shellScript = "#!/bin/bash\nif [ \"$CONFIGURATION\" == Adhoc || \"$CONFIGURATION\" == Release ]; then\n    buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n    buildNumber=$(($buildNumber + 1))\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -431,6 +490,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dash/Dash-Prefix.pch";
 				INFOPLIST_FILE = "Dash/Dash-Info.plist";
@@ -449,6 +512,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dash/Dash-Prefix.pch";
 				INFOPLIST_FILE = "Dash/Dash-Info.plist";
