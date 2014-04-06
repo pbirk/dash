@@ -25,5 +25,15 @@
     self.selectedBackgroundView.backgroundColor = self.tintColor;
 }
 
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    [super setHighlighted:highlighted];
+    self.alpha = highlighted ? 0.5 : 1;
+}
 
 @end

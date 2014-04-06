@@ -26,7 +26,7 @@
     
     [[UINavigationBar appearance] setTitleTextAttributes:@{
                                                            //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-DemiBold" size:17],
+                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:17],
                                                            }];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{
                                                           //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],

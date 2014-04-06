@@ -19,6 +19,7 @@
 		66B2283318F1CEA0008C6445 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282F18F1CEA0008C6445 /* HockeySDK.framework */; };
 		66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */; };
 		66B2283518F1CEA0008C6445 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */; };
+		66B2283918F21E17008C6445 /* DRButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2283818F21E17008C6445 /* DRButton.m */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
 		66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */; };
 		66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD3118C2DD3B00783AC8 /* UIKit.framework */; };
@@ -59,6 +60,8 @@
 		66B2282F18F1CEA0008C6445 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = HockeySDK.xcconfig; sourceTree = "<group>"; };
 		66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		66B2283718F21E17008C6445 /* DRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRButton.h; path = Controls/DRButton.h; sourceTree = "<group>"; };
+		66B2283818F21E17008C6445 /* DRButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRButton.m; path = Controls/DRButton.m; sourceTree = "<group>"; };
 		66D6FD2A18C2DD3B00783AC8 /* Dash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -153,6 +156,17 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		66B2283618F21DF8008C6445 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				66F055CE18E8A93100ED241D /* DRDeviceCell.h */,
+				66F055CF18E8A93100ED241D /* DRDeviceCell.m */,
+				66B2283718F21E17008C6445 /* DRButton.h */,
+				66B2283818F21E17008C6445 /* DRButton.m */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
 		66D6FD2118C2DD3B00783AC8 = {
 			isa = PBXGroup;
 			children = (
@@ -197,8 +211,7 @@
 				66D6FD3F18C2DD3B00783AC8 /* Main.storyboard */,
 				66F055CB18E8A80C00ED241D /* DRRootViewController.h */,
 				66F055CC18E8A80C00ED241D /* DRRootViewController.m */,
-				66F055CE18E8A93100ED241D /* DRDeviceCell.h */,
-				66F055CF18E8A93100ED241D /* DRDeviceCell.m */,
+				66B2283618F21DF8008C6445 /* Controls */,
 				66F055D718E8BFEF00ED241D /* Drive Controls */,
 				66F055D818E8C00000ED241D /* Other Views */,
 				66D6FD4518C2DD3B00783AC8 /* Images.xcassets */,
@@ -386,6 +399,7 @@
 				66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */,
 				667EA4D218C308A700E1C249 /* DRMotionViewController.m in Sources */,
 				66F055DC18E8C02300ED241D /* DRWebViewController.m in Sources */,
+				66B2283918F21E17008C6445 /* DRButton.m in Sources */,
 				66F0559918E521DC00ED241D /* LGUtils.m in Sources */,
 				66D6FD3A18C2DD3B00783AC8 /* main.m in Sources */,
 			);
