@@ -318,7 +318,7 @@
 {
     for (DRRobotLeService *service in self.connectedServices) {
         [service reset];
-        service.disconnecting = YES;
+        service.isManuallyDisconnecting = YES;
         [self performSelector:@selector(disconnectPeripheral:) withObject:service.peripheral afterDelay:0.1];
     }
 }
@@ -334,7 +334,7 @@
     [self.foundPeripherals removeAllObjects];
     for (DRRobotLeService *service in self.connectedServices) {
         [service reset];
-        service.disconnecting = YES;
+        service.isManuallyDisconnecting = YES;
     }
     [self.connectedServices removeAllObjects];
 }

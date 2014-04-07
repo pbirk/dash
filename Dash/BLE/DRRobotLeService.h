@@ -54,6 +54,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "LGBluetooth.h"
 
 struct DRMotors {
     CGFloat left;
@@ -75,11 +76,9 @@ DRMotorsMakeZero()
 /****************************************************************************/
 /*						Service Characteristics								*/
 /****************************************************************************/
-extern NSString *kBiscuitServiceUUIDString;                 // 713D0003-503E-4C75-BA94-3148F18D941E     Service UUID
+extern NSString *kBiscuitServiceUUIDString;                 // 713D0000-503E-4C75-BA94-3148F18D941E     Service UUID
+extern NSString *kRead1CharacteristicUUIDString;                 // 713D0001-503E-4C75-BA94-3148F18D941E     First read characteristic
 extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-503E-4C75-BA94-3148F18D941E     Write W/O Response Characteristic
-//extern NSString *kMinimumTemperatureCharacteristicUUIDString;   // C0C0C0C0-DEAD-F154-1319-740381000000     Minimum Temperature Characteristic
-//extern NSString *kMaximumTemperatureCharacteristicUUIDString;   // EDEDEDED-DEAD-F154-1319-740381000000     Maximum Temperature Characteristic
-//extern NSString *kAlarmCharacteristicUUIDString;                // AAAAAAAA-DEAD-F154-1319-740381000000     Alarm Characteristic
 
 //extern NSString *kAlarmServiceEnteredBackgroundNotification;
 //extern NSString *kAlarmServiceEnteredForegroundNotification;
@@ -89,16 +88,8 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 /****************************************************************************/
 @class DRRobotLeService;
 
-//typedef enum {
-//    kAlarmHigh  = 0,
-//    kAlarmLow   = 1,
-//} AlarmType;
 
 @protocol DRRobotLeServiceDelegate<NSObject>
-//- (void) alarmService:(DRRobotLeService*)service didSoundAlarmOfType:(AlarmType)alarm;
-//- (void) alarmServiceDidStopAlarm:(DRRobotLeService*)service;
-//- (void) alarmServiceDidChangeTemperature:(DRRobotLeService*)service;
-//- (void) alarmServiceDidChangeTemperatureBounds:(DRRobotLeService*)service;
 //- (void) serviceDidChangeStatus:(DRRobotLeService*)service;
 //- (void) alarmServiceDidReset;
 @end
@@ -110,12 +101,12 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 @interface DRRobotLeService : NSObject
 
 @property (nonatomic) DRMotors motor;
-@property BOOL disconnecting;
+@property BOOL isManuallyDisconnecting;
 @property (strong, nonatomic) UIColor *eyeColor;
 
-- (id) initWithPeripheral:(CBPeripheral *)peripheral;
+- (id) initWithPeripheral:(LGPeripheral *)peripheral;
 - (void) reset;
-- (void) start;
+//- (void) start;
 
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;
 
@@ -123,5 +114,5 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 //- (void)enteredBackground;
 //- (void)enteredForeground;
 
-@property (readonly) CBPeripheral *peripheral;
+@property (readonly) LGPeripheral *peripheral;
 @end

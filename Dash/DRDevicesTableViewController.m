@@ -9,9 +9,10 @@
 #import "DRDevicesTableViewController.h"
 #import "DRRobotLeService.h"
 
-
 @interface DRDevicesTableViewController () <UIAlertViewDelegate>
-@property (weak, nonatomic) LeDiscovery *bleManager;
+@property (weak, nonatomic) DRCentralManager *bleManager;
+@property (strong, nonatomic) NSTimer *scanTimer;
+- (IBAction)didTapRefreshButton:(id)sender;
 - (void)appWillResignActive;
 - (void)appDidBecomeActive;
 @end
@@ -21,44 +22,71 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.bleManager = [LeDiscovery sharedInstance];
+    self.bleManager = [DRCentralManager sharedInstance];
     self.bleManager.discoveryDelegate = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(connectionStatusChanged)
+//                                                 name:kLGPeripheralDidConnect
+//                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionStatusChanged)
+                                                 name:kLGPeripheralDidDisconnect
+                                               object:nil];
+}
+
+- (void)startScanning
+{
+    if (!self.scanTimer || !self.scanTimer.isValid) {
+        self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self.bleManager selector:@selector(startScanning) userInfo:nil repeats:YES];
+        [self.scanTimer fire];
+    }
+}
+
+- (void)dealloc
+{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidConnect object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidDisconnect object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[DRCentralManager sharedInstance] disconnectPeripheral];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[LeDiscovery sharedInstance] disconnectAllPeripherals];
-    [[LeDiscovery sharedInstance] startScanningForUUIDString:kBiscuitServiceUUIDString];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackgroundNotification:) name:kAlarmServiceEnteredBackgroundNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterForegroundNotification:) name:kAlarmServiceEnteredForegroundNotification object:nil];
+    [self startScanning];
+}
+
+- (IBAction)didTapRefreshButton:(id)sender {
+    [self.bleManager.peripheralNames removeAllObjects];
+    [self.scanTimer fire];
 }
 
 - (void)appWillResignActive
 {
-    [[LeDiscovery sharedInstance] stopScanning];
+    [[DRCentralManager sharedInstance] stopScanning];
+    [self.scanTimer invalidate];
 }
 
 - (void)appDidBecomeActive
 {
     if (self.isViewLoaded && self.view.superview) {
-        [[LeDiscovery sharedInstance] startScanningForUUIDString:kBiscuitServiceUUIDString];
+        [self startScanning];
     }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [[LeDiscovery sharedInstance] stopScanning];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [[DRCentralManager sharedInstance] stopScanning];
+    [self.scanTimer invalidate];
 }
 
 #pragma mark - Table view data source
@@ -73,13 +101,13 @@
     if (section == 0) {
         return 1;
     } else {
-        return self.bleManager.foundPeripherals.count;
+        return self.bleManager.peripherals.count;
     }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section > 0) {
-        return @"Scanning…";
+        return (self.bleManager.manager.scanning) ? @"Scanning…" : nil;
     } else {
         return nil;
     }
@@ -95,8 +123,9 @@
         static NSString *CellIdentifier = @"DeviceCell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
-        CBPeripheral *device = self.bleManager.foundPeripherals[indexPath.row];
-        cell.textLabel.text = device.identifier.UUIDString;
+        LGPeripheral *device = self.bleManager.peripherals[indexPath.row];
+        cell.textLabel.text = [self.bleManager nameForPeripheral:device];
+        cell.detailTextLabel.text = device.UUIDString;
         return cell;
     }
 }
@@ -107,10 +136,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section > 0) {
-        CBPeripheral *peripheral = [[LeDiscovery sharedInstance] foundPeripherals][indexPath.row];
-        if (peripheral.state == CBPeripheralStateDisconnected) {
-            [[LeDiscovery sharedInstance] connectPeripheral:peripheral];
-        }
+        LGPeripheral *peripheral = self.bleManager.peripherals[indexPath.row];
+        [[DRCentralManager sharedInstance] connectPeripheral:peripheral completion:^(NSError *error) {
+            if (!error && self.bleManager.connectedService) {
+                UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
+                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to connect to device." delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
+            }
+        }];
     } else {
         UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -119,16 +153,14 @@
 
 #pragma mark - LeDiscoveryDelegate
 
-- (void)serviceDidChangeStatus:(DRRobotLeService *)service
+- (void)connectionStatusChanged
 {
-    if (service.peripheral.state == CBPeripheralStateConnected) {
-        UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
-        [self.navigationController pushViewController:vc animated:YES];
-    } else {
-        if (!service.disconnecting) {// && self.navigationController.viewControllers.count > 1) {
+    DRRobotLeService *service = self.bleManager.connectedService;
+    if (service) {
+        if (!service.isManuallyDisconnecting) {
             NSString *msg = @"Lost connection with device.";
-            if (service.peripheral) {
-                msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:service.peripheral.identifier.UUIDString];
+            if (service.peripheral && [[DRCentralManager sharedInstance] nameForPeripheral:service.peripheral]) {
+                msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:[[DRCentralManager sharedInstance] nameForPeripheral:service.peripheral]];
             }
             [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
         }
@@ -138,6 +170,7 @@
 - (void) discoveryDidRefresh
 {
     [self.tableView reloadData];
+//    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void) discoveryStatePoweredOff

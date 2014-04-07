@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LeDiscovery.h"
+#import "DRCentralManager.h"
 
-@interface DRDevicesTableViewController : UITableViewController <LeDiscoveryDelegate>
+@interface DRDevicesTableViewController : UITableViewController <DRDiscoveryDelegate>
 
 @end

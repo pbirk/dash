@@ -7,8 +7,9 @@
 //
 
 #import "DRAppDelegate.h"
-#import "LeDiscovery.h"
+#import "DRCentralManager.h"
 #import "DRRobotLeService.h"
+#import "DRWebViewController.h"
 
 @implementation DRAppDelegate
 
@@ -17,6 +18,20 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                           //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-DemiBold" size:17],
+                                                           }];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{
+                                                          //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+                                                          NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17],
+                                                          } forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{
+                                                        NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10],
+                                                        } forState:UIControlStateNormal];
+    
+    
     return YES;
 }
 							
@@ -24,21 +39,24 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    [[LeDiscovery sharedInstance] resetConnectedServices];
+    [[[DRCentralManager sharedInstance] connectedService] reset];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [[LeDiscovery sharedInstance] disconnectAllPeripherals];
+    [[DRCentralManager sharedInstance] disconnectPeripheral];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    if ([self.window.rootViewController respondsToSelector:@selector(popToRootViewControllerAnimated:)]) {
-        [(id)self.window.rootViewController popToRootViewControllerAnimated:NO];
+    if ([self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+        if (![nav.visibleViewController isKindOfClass:[DRWebViewController class]]) {
+            [nav popToRootViewControllerAnimated:NO];
+        }
     }
 }
 
@@ -50,8 +68,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    [[LeDiscovery sharedInstance] disconnectAllPeripherals];
-    [[LeDiscovery sharedInstance] stopScanning];
+    [[DRCentralManager sharedInstance] disconnectPeripheral];
+    [[DRCentralManager sharedInstance] stopScanning];
 }
 
 @end

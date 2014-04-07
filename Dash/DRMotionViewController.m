@@ -8,7 +8,7 @@
 
 #import "DRMotionViewController.h"
 #import <CoreMotion/CoreMotion.h>
-#import "LeDiscovery.h"
+#import "DRCentralManager.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 
@@ -16,15 +16,14 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     BOOL _touchDown;
     CGPoint _touchOffset;
     CGFloat _sliderPosition;
-    __weak DRRobotLeService *_bleService;
 }
+@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *sliderTouchArea;
 @property (weak, nonatomic) IBOutlet UIImageView *sliderHead;
-@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *rotatedView;
-- (IBAction)resetAttitude;
 @property (strong, nonatomic) CMMotionManager *motionManager;
 @property (strong, nonatomic) CMAttitude *referenceAttitude;
+- (IBAction)resetAttitude;
 @end
 
 @implementation DRMotionViewController
@@ -40,8 +39,6 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     self.sliderHead.layer.cornerRadius = CGRectGetHeight(self.sliderHead.bounds) / 2;
     
     self.rotatedView.transform = CGAffineTransformMakeRotation(M_PI_2);
-    
-    _bleService = [[[LeDiscovery sharedInstance] connectedServices] firstObject];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -51,7 +48,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    _bleService.delegate = self;
+//    _bleService.delegate = self;
     
     if (self.motionManager.isDeviceMotionAvailable) {
         [self resetAttitude];
@@ -93,8 +90,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
     self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
-    if (_bleService && (_bleService.motor.left != leftMotor || _bleService.motor.right != rightMotor)) {
-        _bleService.motor = DRMotorsMake(leftMotor, rightMotor);
+    if (self.bleService && (self.bleService.motor.left != leftMotor || self.bleService.motor.right != rightMotor)) {
+        self.bleService.motor = DRMotorsMake(leftMotor, rightMotor);
     }
 }
 
@@ -122,15 +119,14 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     }];
 }
 
-#pragma mark - DRRobotLeServiceDelegate
-
-- (void)serviceDidChangeStatus:(DRRobotLeService *)service {
-    
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (RunningOnPad) {
+        [self resetAttitude];
+    }
 }
 
 #pragma mark - Touch Events
-
-#define CGPointMakeX(x) CGPointMake(x, self.sliderHead.center.y)
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -141,7 +137,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
             _touchOffset = CGPointZero;
             [self touchesMoved:touches withEvent:event];
         } else {
-            _touchOffset = CGPointMakeX(touch.x - self.sliderHead.center.x);
+            _touchOffset = CGPointMake(touch.x - self.sliderHead.center.x, self.sliderHead.center.y);
         }
     }
 }
@@ -159,7 +155,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
         [self updateThrottle:_sliderPosition
                    direction:[self getDirection:self.motionManager.deviceMotion.attitude]];
         
-        self.sliderHead.center = CGPointMakeX(kCenter.x + dx);
+        self.sliderHead.center = CGPointMake(kCenter.x + dx, self.sliderHead.center.y);
     }
 }
 
