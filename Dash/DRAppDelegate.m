@@ -19,7 +19,7 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"88b8a1903b80455109fe72aa328c6196"];
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"bbaef82dd4b40fb821a70c63b6855007"];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 //    [[BITHockeyManager sharedHockeyManager] testIdentifier];
