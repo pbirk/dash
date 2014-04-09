@@ -285,10 +285,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66D6FD5C18C2DD3C00783AC8 /* Build configuration list for PBXNativeTarget "Dash" */;
 			buildPhases = (
+				66B9B65318CFD3680083EBEF /* ShellScript */,
 				66D6FD2618C2DD3B00783AC8 /* Sources */,
 				66D6FD2718C2DD3B00783AC8 /* Frameworks */,
 				66D6FD2818C2DD3B00783AC8 /* Resources */,
-				66B9B65318CFD3680083EBEF /* ShellScript */,
 				66B2282518F1CE59008C6445 /* ShellScript */,
 			);
 			buildRules = (
@@ -374,7 +374,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nif [ \"$CONFIGURATION\" == Adhoc || \"$CONFIGURATION\" == Release ]; then\n    buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n    buildNumber=$(($buildNumber + 1))\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nfi";
+			shellScript = "#!/bin/bash\nif [ $CONFIGURATION == Release ]; then\n    buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n    buildNumber=$(($buildNumber + 1))\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -30,8 +30,8 @@
     
     UIBarButtonItem *disconnect = [[UIBarButtonItem alloc] initWithTitle:@"Disconnect" style:UIBarButtonItemStyleBordered target:self action:@selector(didTapDisconnect)];
     self.navigationItem.leftBarButtonItem = disconnect;
-    self.navigationItem.titleView = nil;
     self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.titleView = nil;
     
     if (RunningOnPad) {
         self.viewControllers = @[self.viewControllers[0], self.viewControllers[2]];

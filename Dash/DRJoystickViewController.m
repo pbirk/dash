@@ -117,9 +117,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
             dy = sin(angle) *  MAX_JOYSTICK_TRAVEL;
         }
         
-        CGPoint velocity = CGPointMake(dx/MAX_JOYSTICK_TRAVEL, dy/MAX_JOYSTICK_TRAVEL);
-//        NSLog(@"Velocity %.3f, %.3f", velocity.x, -velocity.y);
-        [self updateThrottle:velocity.y direction:velocity.x];
+        [self updateThrottle:dy/MAX_JOYSTICK_TRAVEL direction:dx/MAX_JOYSTICK_TRAVEL];
         
         // Constrain the thumb so that it stays within the joystick
         // boundaries.  This is smaller than the joystick radius in
