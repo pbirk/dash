@@ -57,8 +57,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 //        leftMotor = rightMotor = -255;
 //    }
     
-    self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
-    self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
+//    self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
+//    self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
     if (self.bleService) {
         self.bleService.motor = DRMotorsMake(leftMotor, rightMotor);
@@ -77,6 +77,10 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
     }];
 }
 
+- (void)receivedNotifyWithData:(NSData *)data
+{
+    self.debugLabel.text = [data description]; 
+}
 
 #pragma mark - Touch Events
 

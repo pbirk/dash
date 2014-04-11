@@ -77,8 +77,7 @@ static DRCentralManager *_sharedInstance = nil;
 
 - (void)disconnectPeripheral {
     if (self.connectedService) {
-        [self.connectedService reset];
-        self.connectedService.isManuallyDisconnecting = YES;
+        [self.connectedService disconnect];
         [self.connectedService.peripheral performSelector:@selector(disconnectWithCompletion:) withObject:^(NSError *error) {
             self.connectedService = nil;
             [self.discoveryDelegate discoveryDidRefresh];

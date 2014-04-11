@@ -66,7 +66,8 @@
 
 #pragma mark - DRRobotLeServiceDelegate
 
-- (void)serviceDidChangeStatus:(DRRobotLeService *)service {
+- (void)receivedNotifyWithData:(NSData *)data
+{
     
 }
 

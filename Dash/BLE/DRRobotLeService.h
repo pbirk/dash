@@ -76,9 +76,10 @@ DRMotorsMakeZero()
 /****************************************************************************/
 /*						Service Characteristics								*/
 /****************************************************************************/
-extern NSString *kBiscuitServiceUUIDString;                 // 713D0000-503E-4C75-BA94-3148F18D941E     Service UUID
-extern NSString *kRead1CharacteristicUUIDString;                 // 713D0001-503E-4C75-BA94-3148F18D941E     First read characteristic
-extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-503E-4C75-BA94-3148F18D941E     Write W/O Response Characteristic
+extern NSString *kBiscuitServiceUUIDString;                     // Service UUID
+extern NSString *kRead1CharacteristicUUIDString;                // First read characteristic
+extern NSString *kNotifyCharacteristicUUIDString;                // Notify characteristic
+extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Response Characteristic
 
 //extern NSString *kAlarmServiceEnteredBackgroundNotification;
 //extern NSString *kAlarmServiceEnteredForegroundNotification;
@@ -92,6 +93,7 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 @protocol DRRobotLeServiceDelegate<NSObject>
 //- (void) serviceDidChangeStatus:(DRRobotLeService*)service;
 //- (void) alarmServiceDidReset;
+- (void) receivedNotifyWithData:(NSData *)data;
 @end
 
 
@@ -106,6 +108,7 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 
 - (id) initWithPeripheral:(LGPeripheral *)peripheral;
 - (void) reset;
+- (void) disconnect;
 //- (void) start;
 
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;

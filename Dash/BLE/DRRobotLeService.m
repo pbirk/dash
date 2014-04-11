@@ -58,6 +58,7 @@
 
 NSString *kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
 NSString *kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941E";
+NSString *kNotifyCharacteristicUUIDString = @"713D0002-503E-4C75-BA94-3148F18D941E";
 NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
 
 //NSString *kAlarmServiceEnteredBackgroundNotification = @"kAlarmServiceEnteredBackgroundNotification";
@@ -66,7 +67,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 @interface DRRobotLeService()
 @property (readwrite, strong, nonatomic) LGPeripheral *peripheral;
 @property (strong, nonatomic) LGService *robotService;
-@property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic;
+@property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic, *notifyCharacteristic;
 @end
 
 
@@ -103,6 +104,9 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
                         if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
                             NSLog(@"Discovered write without response");
                             weakSelf.writeWoResponseCharacteristic = characteristic;
+                        } else if ([characteristic.UUIDString isEqualToString:kNotifyCharacteristicUUIDString]) {
+                            NSLog(@"Discovered notify");
+                            weakSelf.notifyCharacteristic = characteristic;
                         }
                     }
                 }];
@@ -112,11 +116,12 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }];
 }
 
-- (void) dealloc {
-//	[self reset];
+- (void) dealloc
+{
     self.peripheral = nil;
     self.robotService = nil;
     self.writeWoResponseCharacteristic = nil;
+    self.notifyCharacteristic = nil;
 }
 
 - (void) reset
@@ -127,18 +132,42 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 	}
 }
 
-- (void)setMotor:(DRMotors)motor {
+- (void)disconnect
+{
+    if (self.notifyCharacteristic) {
+        [self.notifyCharacteristic setNotifyValue:NO completion:nil];
+    }
+    [self reset];
+    self.isManuallyDisconnecting = YES;
+}
+
+- (void)setMotor:(DRMotors)motor
+{
     _motor = motor;
     [self writeData];
 }
 
-- (void)setEyeColor:(UIColor *)eyeColor {
+- (void)setEyeColor:(UIColor *)eyeColor
+{
     _eyeColor = eyeColor;
     [self writeData];
 }
 
 #pragma mark -
 #pragma mark Characteristics interaction
+
+- (void)setNotifyCharacteristic:(LGCharacteristic *)notifyCharacteristic
+{
+    _notifyCharacteristic = notifyCharacteristic;
+    if (_notifyCharacteristic) {
+        __weak typeof(self) weakSelf = self;
+        [_notifyCharacteristic setNotifyValue:YES completion:^(NSError *error) {
+            
+        } onUpdate:^(NSData *data, NSError *error) {
+            if (!error) [weakSelf.delegate receivedNotifyWithData:data];
+        }];
+    }
+}
 
 - (void) writeData
 {
