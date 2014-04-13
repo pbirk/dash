@@ -10,7 +10,6 @@
 #import "DRRobotLeService.h"
 #import "DRDeviceCell.h"
 #import "DRWebViewController.h"
-#import "ODRefreshButton.h"
 
 @interface DRRootViewController () {
     BOOL _shouldShowResults;

@@ -420,7 +420,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="11" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxB-3q-rl0">
-                                                            <rect key="frame" x="0.0" y="24" width="200" height="17"/>
+                                                            <rect key="frame" x="1" y="24" width="199" height="17"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="12"/>
                                                             <color key="textColor" red="0.58647896040000003" green="0.58647896040000003" blue="0.58647896040000003" alpha="1" colorSpace="deviceRGB"/>
@@ -430,14 +430,13 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="oxB-3q-rl0" firstAttribute="trailing" secondItem="y5K-AV-BAT" secondAttribute="trailing" id="1re-Ll-RnL"/>
-                                                        <constraint firstItem="oxB-3q-rl0" firstAttribute="leading" secondItem="y5K-AV-BAT" secondAttribute="leading" id="2ug-tU-84V"/>
+                                                        <constraint firstItem="oxB-3q-rl0" firstAttribute="leading" secondItem="y5K-AV-BAT" secondAttribute="leading" constant="1" id="2ug-tU-84V"/>
                                                         <constraint firstItem="y5K-AV-BAT" firstAttribute="leading" secondItem="Xcw-u4-El1" secondAttribute="leading" id="BQi-DC-GKt"/>
                                                         <constraint firstAttribute="trailing" secondItem="y5K-AV-BAT" secondAttribute="trailing" id="Bj2-ug-ZtS"/>
                                                         <constraint firstAttribute="height" constant="41" id="EMA-4d-wL9"/>
                                                         <constraint firstAttribute="trailing" secondItem="oxB-3q-rl0" secondAttribute="trailing" id="QJo-67-Ok3"/>
                                                         <constraint firstItem="y5K-AV-BAT" firstAttribute="top" secondItem="Xcw-u4-El1" secondAttribute="top" id="Sy1-9J-yFO"/>
                                                         <constraint firstItem="oxB-3q-rl0" firstAttribute="top" secondItem="y5K-AV-BAT" secondAttribute="bottom" id="h5o-mn-jka"/>
-                                                        <constraint firstItem="oxB-3q-rl0" firstAttribute="leading" secondItem="Xcw-u4-El1" secondAttribute="leading" id="hri-gh-Fyl"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -555,7 +554,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Dash Robotics" id="mQI-4H-S1w">
                         <barButtonItem key="backBarButtonItem" title="Back" id="I2b-M5-Fi2"/>
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="Cd7-6Z-U7o">
+                        <barButtonItem key="leftBarButtonItem" id="Cd7-6Z-U7o">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="nBo-ee-h2M">
                                 <rect key="frame" x="16" y="11" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -582,14 +581,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EDO-Lz-G8a" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MFf-Jt-dpt">
-                    <rect key="frame" x="0.0" y="0.0" width="20" height="10"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="20" id="D2X-94-b3Z"/>
-                    </constraints>
-                </view>
                 <barButtonItem systemItem="stop" id="2f9-ht-9ax">
                     <connections>
                         <action selector="stopScanning" destination="XYC-tf-E7P" id="qn3-Bz-fQd"/>
