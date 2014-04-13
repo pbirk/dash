@@ -25,8 +25,8 @@
 //    [[BITHockeyManager sharedHockeyManager] testIdentifier];
     
     [[UINavigationBar appearance] setTitleTextAttributes:@{
-                                                           //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:17],
+//                                                           NSForegroundColorAttributeName: [UIColor blackColor],
+                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:19],
                                                            }];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{
                                                           //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
@@ -36,6 +36,7 @@
                                                         NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10],
                                                         } forState:UIControlStateNormal];
     
+//    self.window.tintColor = [UIColor colorWithRed:0.905 green:0.150 blue:0.119 alpha:1.000];
     
     return YES;
 }

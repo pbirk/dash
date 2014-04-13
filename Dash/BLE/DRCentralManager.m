@@ -9,6 +9,18 @@
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 
+@implementation DRRobotProperties
+- (id)initWithName:(NSString *)name color:(UIColor *)color
+{
+    self = [super init];
+    if (self) {
+        self.name = name;
+        self.color = color;
+    }
+    return self;
+}
+@end
+
 @implementation DRCentralManager
 
 static DRCentralManager *_sharedInstance = nil;
@@ -19,7 +31,7 @@ static DRCentralManager *_sharedInstance = nil;
 	@synchronized(self) {
 		if (!_sharedInstance) {
 			_sharedInstance = [DRCentralManager new];
-            _sharedInstance.peripheralNames = [NSMutableDictionary new];
+            _sharedInstance.peripheralProperties = [NSMutableDictionary new];
             _sharedInstance.manager.delegate = _sharedInstance;
 		}
 	}
@@ -35,12 +47,16 @@ static DRCentralManager *_sharedInstance = nil;
 
 - (void)updatedScannedPeripherals {
     for (LGPeripheral *peripheral in self.peripherals) {
-        if (![self.peripheralNames objectForKey:peripheral.UUIDString]) {
+        if (![self.peripheralProperties objectForKey:peripheral.UUIDString]) {
             [LGUtils readDataFromCharactUUID:kRead1CharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
                 if (data) {
                     NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
-                    [self.peripheralNames setObject:newStr forKey:peripheral.UUIDString];
+                    DRRobotProperties *robot = [[DRRobotProperties alloc] initWithName:newStr color:ROBOT_COLORS[arc4random_uniform(6)]];
+                    [self.peripheralProperties setObject:robot forKey:peripheral.UUIDString];
                     [self.discoveryDelegate discoveryDidRefresh];
+                }
+                if (!data || error) {
+                    NSLog(@"Error getting name/color: %@", error);
                 }
                 [peripheral disconnectWithCompletion:nil];
             }];
@@ -53,10 +69,10 @@ static DRCentralManager *_sharedInstance = nil;
 	NSArray			*uuidArray	= @[[CBUUID UUIDWithString:kBiscuitServiceUUIDString]];
 	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
     
-    [self.manager scanForPeripheralsByInterval:6 services:uuidArray options:options completion:^(NSArray *peripherals) {
+    [self.manager scanForPeripheralsByInterval:SCAN_INTERVAL services:uuidArray options:options completion:^(NSArray *peripherals) {
         [self.discoveryDelegate stoppedScanning];
     }];
-    [self.discoveryDelegate discoveryDidRefresh];
+//    [self.discoveryDelegate discoveryDidRefresh];
 }
 
 - (void)stopScanning {
@@ -85,8 +101,8 @@ static DRCentralManager *_sharedInstance = nil;
     }
 }
 
-- (NSString *)nameForPeripheral:(LGPeripheral *)peripheral {
-    return [self.peripheralNames objectForKey:peripheral.UUIDString];
+- (DRRobotProperties *)propertiesForPeripheral:(LGPeripheral *)peripheral {
+    return [self.peripheralProperties objectForKey:peripheral.UUIDString];
 }
 
 @end

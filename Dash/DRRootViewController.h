@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "DRCentralManager.h"
 
-@interface DRRootViewController : UIViewController <DRDiscoveryDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface DRRootViewController : UIViewController <DRDiscoveryDelegate, UIActionSheetDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @end

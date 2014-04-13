@@ -219,7 +219,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     [data appendBytes:&eyesRed length:sizeof(eyesRed)];
     [data appendBytes:&eyesGreen length:sizeof(eyesGreen)];
     [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
-    
+        
     [self.writeWoResponseCharacteristic writeValue:data completion:nil];
     NSLog(@"data %@", data);
 }

@@ -20,7 +20,6 @@
 		66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */; };
 		66B2283518F1CEA0008C6445 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */; };
 		66B2283918F21E17008C6445 /* DRButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2283818F21E17008C6445 /* DRButton.m */; };
-		66B2283F18F6669D008C6445 /* ODRefreshButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2283E18F6669D008C6445 /* ODRefreshButton.m */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
 		66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */; };
 		66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD3118C2DD3B00783AC8 /* UIKit.framework */; };
@@ -63,8 +62,6 @@
 		66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
 		66B2283718F21E17008C6445 /* DRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRButton.h; path = Controls/DRButton.h; sourceTree = "<group>"; };
 		66B2283818F21E17008C6445 /* DRButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRButton.m; path = Controls/DRButton.m; sourceTree = "<group>"; };
-		66B2283D18F6669D008C6445 /* ODRefreshButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODRefreshButton.h; path = Controls/ODRefreshButton.h; sourceTree = "<group>"; };
-		66B2283E18F6669D008C6445 /* ODRefreshButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODRefreshButton.m; path = Controls/ODRefreshButton.m; sourceTree = "<group>"; };
 		66D6FD2A18C2DD3B00783AC8 /* Dash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -214,8 +211,6 @@
 				66D6FD3F18C2DD3B00783AC8 /* Main.storyboard */,
 				66F055CB18E8A80C00ED241D /* DRRootViewController.h */,
 				66F055CC18E8A80C00ED241D /* DRRootViewController.m */,
-				66B2283D18F6669D008C6445 /* ODRefreshButton.h */,
-				66B2283E18F6669D008C6445 /* ODRefreshButton.m */,
 				66B2283618F21DF8008C6445 /* Controls */,
 				66F055D718E8BFEF00ED241D /* Drive Controls */,
 				66F055D818E8C00000ED241D /* Other Views */,
@@ -390,7 +385,6 @@
 			files = (
 				66F0559718E521DC00ED241D /* LGPeripheral.m in Sources */,
 				6684409118D1475100D8FE2D /* DRColorPickerViewController.m in Sources */,
-				66B2283F18F6669D008C6445 /* ODRefreshButton.m in Sources */,
 				66F055D018E8A93100ED241D /* DRDeviceCell.m in Sources */,
 				66F0559418E521DC00ED241D /* CBUUID+StringExtraction.m in Sources */,
 				66D6FD3E18C2DD3B00783AC8 /* DRAppDelegate.m in Sources */,

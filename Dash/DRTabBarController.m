@@ -24,7 +24,7 @@
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.titleView = nil;
     
-    if (RunningOnPad) {
+    if (IS_IPAD) {
         self.viewControllers = @[self.viewControllers[0], self.viewControllers[2]];
     }
 }

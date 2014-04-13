@@ -108,8 +108,8 @@
                                options:(NSDictionary *)options
 {
     [self.scannedPeripherals removeAllObjects];
-    [self.delegate updatedScannedPeripherals];
     self.scanning = YES;
+    [self.delegate updatedScannedPeripherals];
 	[self.manager scanForPeripheralsWithServices:serviceUUIDs
                                          options:options];
 }
@@ -158,16 +158,16 @@
 	NSString *message = nil;
 	switch (self.manager.state) {
 		case CBCentralManagerStateUnsupported:
-			message = @"The platform/hardware doesn't support Bluetooth Low Energy.";
+			message = @"Device does not support Bluetooth LE";
 			break;
 		case CBCentralManagerStateUnauthorized:
-			message = @"The app is not authorized to use Bluetooth Low Energy.";
+			message = @"Bluetooth LE not authorized";
 			break;
         case CBCentralManagerStateUnknown:
-            message = @"Central not initialized yet.";
+            message = @"Bluetooth LE still initializing";
             break;
 		case CBCentralManagerStatePoweredOff:
-			message = @"Bluetooth is currently powered off.";
+			message = @"Bluetooth is not enabled";
 			break;
 		case CBCentralManagerStatePoweredOn:
             break;

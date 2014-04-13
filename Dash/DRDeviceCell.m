@@ -10,19 +10,11 @@
 
 @implementation DRDeviceCell
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
 -(void)awakeFromNib
 {
     self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    self.selectedBackgroundView.backgroundColor = self.tintColor;
+    self.imageView.layer.cornerRadius = CGRectGetWidth(self.imageView.bounds)/2;
+    self.imageView.layer.borderWidth = [UIScreen mainScreen].scale == 2.0 ? 0.5 : 1;
 }
 
 - (void)setSelected:(BOOL)selected
@@ -33,7 +25,14 @@
 - (void)setHighlighted:(BOOL)highlighted
 {
     [super setHighlighted:highlighted];
-    self.alpha = highlighted ? 0.5 : 1;
+    
+    if (highlighted) {
+        self.alpha = 0.25;
+    } else {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.alpha = 1;
+        }];
+    }
 }
 
 @end

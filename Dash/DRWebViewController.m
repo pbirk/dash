@@ -17,6 +17,7 @@
 + (instancetype)webViewWithUrl:(NSURL *)url
 {
     DRWebViewController *wvc = [[DRWebViewController alloc] initWithNibName:@"DRWebViewController" bundle:nil];
+//    DRWebViewController *wvc = [[DRWebViewController alloc] init];
     wvc.url = url;
     return wvc;
 }
@@ -24,6 +25,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+//    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+//    webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    webView.dataDetectorTypes = UIDataDetectorTypeNone;
+//    webView.backgroundColor = [UIColor whiteColor];
+//    webView.scrollView.scrollsToTop = YES;
+//    webView.scalesPageToFit = YES;
+//    webView.delegate = self;
+//    [self.view addSubview:webView];
+//    self.webView = webView;
+    
     if (self.url) {
         [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     }

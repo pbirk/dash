@@ -12,7 +12,15 @@
 
 - (void)setHighlighted:(BOOL)highlighted
 {
-    self.alpha = highlighted ? 0.5 : 1;
+    [super setHighlighted:highlighted];
+    
+    if (highlighted) {
+        self.alpha = 0.25;
+    } else {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.alpha = 1;
+        }];
+    }
 }
 
 @end
