@@ -19,8 +19,11 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *stopButton;
-@property (weak, nonatomic) IBOutlet UIProgressView *scanProgressView;
+@property (strong, nonatomic) IBOutlet UIProgressView *scanProgressView;
+@property (weak, nonatomic) IBOutlet UIView *footerView;
 - (IBAction)didTapInfoButton:(UIButton *)sender;
+- (IBAction)didTapAboutButton:(id)sender;
+- (IBAction)didTapBuildButton:(id)sender;
 - (IBAction)startScanning;
 - (IBAction)stopScanning;
 @end
@@ -33,6 +36,13 @@
     
     self.bleManager = [DRCentralManager sharedInstance];
     self.bleManager.discoveryDelegate = self;
+    
+    self.navigationItem.leftBarButtonItem = nil;
+    
+    CGFloat progressBarHeight = 2.5f;
+    CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
+    CGRect barFrame = CGRectMake(0, navigaitonBarBounds.size.height - progressBarHeight, navigaitonBarBounds.size.width, progressBarHeight);
+    self.scanProgressView.frame = barFrame;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionStatusChanged)
@@ -50,11 +60,13 @@
     [super viewWillAppear:animated];
 //    [self.bleManager disconnectPeripheral];
     [self.collectionView reloadData];
+    [self.navigationController.navigationBar addSubview:self.scanProgressView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self.scanProgressView removeFromSuperview];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -137,17 +149,17 @@
     [self.bleManager stopScanning];
 }
 
-//- (IBAction)didTapAbout:(id)sender {
-//    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com"]];
-//    dvc.title = [sender title];
-//    [self.navigationController pushViewController:dvc animated:YES];
-//}
-//
-//- (IBAction)didTapBuild:(id)sender {
-//    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com/pages/dash-at-home"]];
-//    dvc.title = [sender title];
-//    [self.navigationController pushViewController:dvc animated:YES];
-//}
+- (IBAction)didTapAboutButton:(id)sender {
+    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com"]];
+    dvc.title = [sender currentTitle];
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+- (IBAction)didTapBuildButton:(id)sender {
+    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com/pages/dash-at-home"]];
+    dvc.title = [sender currentTitle];
+    [self.navigationController pushViewController:dvc animated:YES];
+}
 
 #pragma mark - DRDiscoveryDelegate
 

@@ -382,7 +382,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XRt-j4-jpE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="424"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -510,8 +510,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="290" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="left" text="EXPLANATION" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="82" translatesAutoresizingMaskIntoConstraints="NO" id="Dbn-CO-XSO">
-                                                    <rect key="frame" x="104" y="47" width="82" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="left" text="EXPLANATION" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbn-CO-XSO">
+                                                    <rect key="frame" x="104" y="46" width="82" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="12"/>
                                                     <color key="textColor" red="0.58647896039603964" green="0.58647896039603964" blue="0.58647896039603964" alpha="1" colorSpace="deviceRGB"/>
@@ -523,7 +523,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="centerX" secondItem="Dbn-CO-XSO" secondAttribute="centerX" id="H7q-27-Iq2"/>
-                                            <constraint firstAttribute="bottom" secondItem="Dbn-CO-XSO" secondAttribute="bottom" constant="-4" id="WGX-rF-Fap"/>
+                                            <constraint firstAttribute="bottom" secondItem="Dbn-CO-XSO" secondAttribute="bottom" constant="-3" id="WGX-rF-Fap"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="textLabel" destination="Dbn-CO-XSO" id="WXk-4c-V1R"/>
@@ -535,20 +535,63 @@
                                     <outlet property="delegate" destination="XYC-tf-E7P" id="m52-5p-phW"/>
                                 </connections>
                             </collectionView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="yfL-nZ-6s0">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="3"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iFd-z6-qnm">
+                                <rect key="frame" x="0.0" y="424" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.72010365099999996" green="0.72010365099999996" blue="0.72010365099999996" alpha="1" colorSpace="deviceRGB"/>
-                            </progressView>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="22Y-Gf-gVP" customClass="DRButton">
+                                        <rect key="frame" x="167" y="15" width="138" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="How to Build">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapBuildButton:" destination="XYC-tf-E7P" eventType="touchUpInside" id="lkp-oo-8d0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cGB-i6-Ku3" customClass="DRButton">
+                                        <rect key="frame" x="15" y="15" width="137" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="What is Dash?">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapAboutButton:" destination="XYC-tf-E7P" eventType="touchUpInside" id="8Vt-Mn-veQ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="22Y-Gf-gVP" firstAttribute="top" secondItem="iFd-z6-qnm" secondAttribute="top" constant="15" id="41o-PC-OBu"/>
+                                    <constraint firstItem="22Y-Gf-gVP" firstAttribute="leading" secondItem="cGB-i6-Ku3" secondAttribute="trailing" constant="15" id="8dx-sl-tvl"/>
+                                    <constraint firstAttribute="trailing" secondItem="22Y-Gf-gVP" secondAttribute="trailing" constant="15" id="JSO-LH-69M"/>
+                                    <constraint firstItem="cGB-i6-Ku3" firstAttribute="top" secondItem="iFd-z6-qnm" secondAttribute="top" constant="15" id="UFo-yJ-vsA"/>
+                                    <constraint firstAttribute="height" constant="80" id="dlF-pC-jDG"/>
+                                    <constraint firstItem="cGB-i6-Ku3" firstAttribute="width" secondItem="22Y-Gf-gVP" secondAttribute="width" id="k0S-Pb-054"/>
+                                    <constraint firstItem="cGB-i6-Ku3" firstAttribute="leading" secondItem="iFd-z6-qnm" secondAttribute="leading" constant="15" id="nBg-I6-qkz"/>
+                                    <constraint firstAttribute="bottom" secondItem="22Y-Gf-gVP" secondAttribute="bottom" constant="15" id="nEX-zU-cKR"/>
+                                    <constraint firstAttribute="bottom" secondItem="cGB-i6-Ku3" secondAttribute="bottom" constant="15" id="qpB-uo-0J0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="yfL-nZ-6s0" firstAttribute="top" secondItem="975-Ua-vfc" secondAttribute="bottom" id="9cS-05-6b6"/>
-                            <constraint firstItem="yfL-nZ-6s0" firstAttribute="leading" secondItem="M5Z-9V-nNx" secondAttribute="leading" id="JpQ-NB-qFO"/>
-                            <constraint firstAttribute="trailing" secondItem="yfL-nZ-6s0" secondAttribute="trailing" id="KHi-js-E4t"/>
+                            <constraint firstItem="iFd-z6-qnm" firstAttribute="top" secondItem="XRt-j4-jpE" secondAttribute="bottom" id="33H-UQ-tV0"/>
+                            <constraint firstAttribute="trailing" secondItem="iFd-z6-qnm" secondAttribute="trailing" id="50i-UX-WEb"/>
+                            <constraint firstItem="iFd-z6-qnm" firstAttribute="leading" secondItem="M5Z-9V-nNx" secondAttribute="leading" id="GY7-aI-vyv"/>
                             <constraint firstItem="XRt-j4-jpE" firstAttribute="top" secondItem="975-Ua-vfc" secondAttribute="bottom" id="Mo5-Ws-q27"/>
+                            <constraint firstItem="kIe-gM-b5c" firstAttribute="top" secondItem="iFd-z6-qnm" secondAttribute="bottom" id="bIY-HM-i27"/>
                             <constraint firstAttribute="centerX" secondItem="XRt-j4-jpE" secondAttribute="centerX" id="q3h-Iv-KzT"/>
-                            <constraint firstItem="kIe-gM-b5c" firstAttribute="top" secondItem="XRt-j4-jpE" secondAttribute="bottom" id="uRL-8q-kWe"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -575,6 +618,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="XRt-j4-jpE" id="KE6-Cw-C8X"/>
+                        <outlet property="footerView" destination="iFd-z6-qnm" id="HCP-xz-qPf"/>
                         <outlet property="refreshButton" destination="Yj9-H5-SUs" id="hEy-0y-g9N"/>
                         <outlet property="scanProgressView" destination="yfL-nZ-6s0" id="jna-bk-flo"/>
                         <outlet property="stopButton" destination="2f9-ht-9ax" id="Jzj-vc-vFU"/>
@@ -586,6 +630,11 @@
                         <action selector="stopScanning" destination="XYC-tf-E7P" id="qn3-Bz-fQd"/>
                     </connections>
                 </barButtonItem>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" id="yfL-nZ-6s0">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="3"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
+                </progressView>
             </objects>
             <point key="canvasLocation" x="-881" y="120"/>
         </scene>

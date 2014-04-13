@@ -25,7 +25,7 @@
                     [UIColor redColor],
                     [UIColor colorWithRed:0.700 green:0.000 blue:0.400 alpha:1.000],
                     [UIColor blueColor],
-                    [UIColor cyanColor],
+//                    [UIColor cyanColor],
                     [UIColor greenColor],
 //                    [UIColor magentaColor],
                     ];
