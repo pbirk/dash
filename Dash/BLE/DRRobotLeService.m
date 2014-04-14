@@ -83,7 +83,6 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     self = [super init];
     if (self) {
         self.peripheral = peripheral;
-        _eyeColor = [UIColor blackColor];
         [self discover]; // lol
     }
     return self;
@@ -127,7 +126,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 - (void) reset
 {
 	if (self.peripheral) {
-        self.motor = DRMotorsMakeZero();
+        [self setLeftMotor:0 rightMotor:0];
         self.eyeColor = [UIColor blackColor];
 	}
 }
@@ -141,16 +140,69 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     self.isManuallyDisconnecting = YES;
 }
 
-- (void)setMotor:(DRMotors)motor
+- (void)setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor
 {
-    _motor = motor;
-    [self writeData];
+    leftMotor = CLAMP(leftMotor, -255, 255);
+    rightMotor = CLAMP(rightMotor, -255, 255);
+    
+    // [type "2" -1]  [mtrA1 - 0-255 - 1] [mtrA2 - 0-255 - 1] [mtrB1 - 0-255 - 1] [mtrB2 - 0-255 - 1]
+    
+    NSMutableData *data = [NSMutableData dataWithCapacity:7];
+    
+    char command = DRCommandTypeDirectDrive;
+    uint8_t mtrA1, mtrA2, mtrB1, mtrB2;
+    
+    if (leftMotor >= 0) {
+        mtrA1 = (uint8_t)round(leftMotor);
+        mtrA2 = 0;
+    } else {
+        mtrA1 = 0;
+        mtrA2 = (uint8_t)round(-leftMotor);
+    }
+    
+    if (rightMotor >= 0) {
+        mtrB1 = (uint8_t)round(rightMotor);
+        mtrB2 = 0;
+    } else {
+        mtrB1 = 0;
+        mtrB2 = (uint8_t)round(-rightMotor);
+    }
+    
+    [data appendBytes:&command length:sizeof(command)];
+    
+    [data appendBytes:&mtrA1 length:sizeof(mtrA1)];
+    [data appendBytes:&mtrA2 length:sizeof(mtrA2)];
+    [data appendBytes:&mtrB1 length:sizeof(mtrB1)];
+    [data appendBytes:&mtrB2 length:sizeof(mtrB2)];
+    
+    [self sendData:data];
 }
 
 - (void)setEyeColor:(UIColor *)eyeColor
 {
-    _eyeColor = eyeColor;
-    [self writeData];
+    if (!eyeColor) {
+        eyeColor = [UIColor blackColor];
+    }
+    
+//    [type "4" -1]  [red - 0-255 - 1] [green - 0-255 - 1] [blue - 0-255 - 1]
+    
+    NSMutableData *data = [NSMutableData dataWithCapacity:7];
+    
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+    [eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    char command = DRCommandTypeSetEyes;
+    uint8_t eyesRed = (uint8_t)(red * 255);
+    uint8_t eyesGreen = (uint8_t)(green * 255);
+    uint8_t eyesBlue = (uint8_t)(blue * 255);
+    
+    [data appendBytes:&command length:sizeof(command)];
+    
+    [data appendBytes:&eyesRed length:sizeof(eyesRed)];
+    [data appendBytes:&eyesGreen length:sizeof(eyesGreen)];
+    [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
+    
+    [self sendData:data];
 }
 
 #pragma mark -
@@ -169,57 +221,20 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }
 }
 
-- (void) writeData
+- (void)sendData:(NSMutableData *)data
 {
-    // mtrA1, mtrA2, mtrB1, mtrB2, eyesRed, eyesGreen, eyesBlue
-    
-    NSMutableData *data = [NSMutableData dataWithCapacity:7];
-    
-    uint8_t mtrA1, mtrA2, mtrB1, mtrB2;
-    
-    if (self.motor.left >= 0) {
-        mtrA1 = (uint8_t)round(self.motor.left);
-        mtrA2 = 0;
-    } else {
-        mtrA1 = 0;
-        mtrA2 = (uint8_t)round(-self.motor.left);
-    }
-    
-    if (self.motor.right >= 0) {
-        mtrB1 = (uint8_t)round(self.motor.right);
-        mtrB2 = 0;
-    } else {
-        mtrB1 = 0;
-        mtrB2 = (uint8_t)round(-self.motor.right);
-    }
-    
-    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-    [self.eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
-    
-    uint8_t eyesRed = (uint8_t)(red * 255);
-    uint8_t eyesGreen = (uint8_t)(green * 255);
-    uint8_t eyesBlue = (uint8_t)(blue * 255);
-    
     if (!self.peripheral) {
         NSLog(@"Not connected to a peripheral!");
 		return ;
     }
-
+    
     if (!self.writeWoResponseCharacteristic) {
         NSLog(@"No valid characteristic!");
 //        [self discover];
         return;
     }
     
-    [data appendBytes:&mtrA1 length:sizeof(mtrA1)];
-    [data appendBytes:&mtrA2 length:sizeof(mtrA2)];
-    [data appendBytes:&mtrB1 length:sizeof(mtrB1)];
-    [data appendBytes:&mtrB2 length:sizeof(mtrB2)];
-    
-    [data appendBytes:&eyesRed length:sizeof(eyesRed)];
-    [data appendBytes:&eyesGreen length:sizeof(eyesGreen)];
-    [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
-        
+    [data setLength:14];
     [self.writeWoResponseCharacteristic writeValue:data completion:nil];
     NSLog(@"data %@", data);
 }

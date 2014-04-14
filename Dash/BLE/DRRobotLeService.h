@@ -56,23 +56,34 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "LGBluetooth.h"
 
-struct DRMotors {
-    CGFloat left;
-    CGFloat right;
+//struct DRMotors {
+//    CGFloat left;
+//    CGFloat right;
+//};
+//typedef struct DRMotors DRMotors;
+//
+//static inline DRMotors
+//DRMotorsMake(CGFloat left, CGFloat right)
+//{
+//    DRMotors p; p.left = left; p.right = right; return p;
+//}
+//static inline DRMotors
+//DRMotorsMakeZero()
+//{
+//    return DRMotorsMake(0, 0);
+//}
+
+typedef NS_ENUM(char, DRMessageTypes) {
+    DRMessageTypeName = '1',
+    DRMessageTypeSignals = '2'
 };
-typedef struct DRMotors DRMotors;
 
-static inline DRMotors
-DRMotorsMake(CGFloat left, CGFloat right)
-{
-    DRMotors p; p.left = left; p.right = right; return p;
-}
-static inline DRMotors
-DRMotorsMakeZero()
-{
-    return DRMotorsMake(0, 0);
-}
-
+typedef NS_ENUM(char, DRCommandTypes) {
+    DRCommandTypeSetName = '1',
+    DRCommandTypeDirectDrive = '2',
+    DRCommandTypeGyroDrive = '3',
+    DRCommandTypeSetEyes = '4',
+};
                         // Dark Blue, Red, Holiday Green, Lemon Yellow, Orange, Black
 #define ROBOT_COLORS @[ [UIColor colorWithRed:0.191 green:0.287 blue:0.611 alpha:1.000], \
                         [UIColor colorWithRed:0.905 green:0.150 blue:0.119 alpha:1.000], \
@@ -111,9 +122,9 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 /****************************************************************************/
 @interface DRRobotLeService : NSObject
 
-@property (nonatomic) DRMotors motor;
 @property BOOL isManuallyDisconnecting;
-@property (strong, nonatomic) UIColor *eyeColor;
+- (void) setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
+- (void) setEyeColor:(UIColor *)color;
 
 - (id) initWithPeripheral:(LGPeripheral *)peripheral;
 - (void) reset;

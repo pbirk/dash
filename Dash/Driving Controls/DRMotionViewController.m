@@ -90,9 +90,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
     self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
-    if (self.bleService && (self.bleService.motor.left != leftMotor || self.bleService.motor.right != rightMotor)) {
-        self.bleService.motor = DRMotorsMake(leftMotor, rightMotor);
-    }
+    [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
 }
 
 - (CGFloat)getDirection:(CMAttitude *)attitude

@@ -48,8 +48,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 
 - (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
-    CGFloat leftMotor = CLAMP(throttle + direction, -1.0, 1.0) * 255.0;
-    CGFloat rightMotor = CLAMP(throttle - direction, -1.0, 1.0) * 255.0;
+    CGFloat leftMotor = (throttle + direction) * 255.0;
+    CGFloat rightMotor = (throttle - direction) * 255.0;
     
 //    if (leftMotor > 220 && rightMotor > 220) {
 //        leftMotor = rightMotor = 255;
@@ -61,7 +61,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 //    self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
     
     if (self.bleService) {
-        self.bleService.motor = DRMotorsMake(leftMotor, rightMotor);
+        [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
     }
 }
 
