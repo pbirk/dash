@@ -56,29 +56,50 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "LGBluetooth.h"
 
-struct DRMotors {
-    CGFloat left;
-    CGFloat right;
-};
-typedef struct DRMotors DRMotors;
+//struct DRMotors {
+//    CGFloat left;
+//    CGFloat right;
+//};
+//typedef struct DRMotors DRMotors;
+//
+//static inline DRMotors
+//DRMotorsMake(CGFloat left, CGFloat right)
+//{
+//    DRMotors p; p.left = left; p.right = right; return p;
+//}
+//static inline DRMotors
+//DRMotorsMakeZero()
+//{
+//    return DRMotorsMake(0, 0);
+//}
 
-static inline DRMotors
-DRMotorsMake(CGFloat left, CGFloat right)
-{
-    DRMotors p; p.left = left; p.right = right; return p;
-}
-static inline DRMotors
-DRMotorsMakeZero()
-{
-    return DRMotorsMake(0, 0);
-}
+typedef NS_ENUM(char, DRMessageTypes) {
+    DRMessageTypeName = '1',
+    DRMessageTypeSignals = '2'
+};
+
+typedef NS_ENUM(char, DRCommandTypes) {
+    DRCommandTypeSetName = '1',
+    DRCommandTypeDirectDrive = '2',
+    DRCommandTypeGyroDrive = '3',
+    DRCommandTypeSetEyes = '4',
+};
+                        // Dark Blue, Red, Holiday Green, Lemon Yellow, Orange, Black
+#define ROBOT_COLORS @[ [UIColor colorWithRed:0.191 green:0.287 blue:0.611 alpha:1.000], \
+                        [UIColor colorWithRed:0.905 green:0.150 blue:0.119 alpha:1.000], \
+                        [UIColor colorWithRed:0.149 green:0.591 blue:0.279 alpha:1.000], \
+                        [UIColor colorWithRed:0.929 green:0.799 blue:0.145 alpha:1.000], \
+                        [UIColor colorWithRed:0.952 green:0.501 blue:0.115 alpha:1.000], \
+                        [UIColor colorWithRed:0.136 green:0.147 blue:0.157 alpha:1.000], \
+                      ]
 
 /****************************************************************************/
 /*						Service Characteristics								*/
 /****************************************************************************/
-extern NSString *kBiscuitServiceUUIDString;                 // 713D0000-503E-4C75-BA94-3148F18D941E     Service UUID
-extern NSString *kRead1CharacteristicUUIDString;                 // 713D0001-503E-4C75-BA94-3148F18D941E     First read characteristic
-extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-503E-4C75-BA94-3148F18D941E     Write W/O Response Characteristic
+extern NSString *kBiscuitServiceUUIDString;                     // Service UUID
+extern NSString *kRead1CharacteristicUUIDString;                // First read characteristic
+extern NSString *kNotifyCharacteristicUUIDString;                // Notify characteristic
+extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Response Characteristic
 
 //extern NSString *kAlarmServiceEnteredBackgroundNotification;
 //extern NSString *kAlarmServiceEnteredForegroundNotification;
@@ -92,6 +113,7 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 @protocol DRRobotLeServiceDelegate<NSObject>
 //- (void) serviceDidChangeStatus:(DRRobotLeService*)service;
 //- (void) alarmServiceDidReset;
+- (void) receivedNotifyWithData:(NSData *)data;
 @end
 
 
@@ -100,12 +122,13 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-50
 /****************************************************************************/
 @interface DRRobotLeService : NSObject
 
-@property (nonatomic) DRMotors motor;
 @property BOOL isManuallyDisconnecting;
-@property (strong, nonatomic) UIColor *eyeColor;
+- (void) setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
+- (void) setEyeColor:(UIColor *)color;
 
 - (id) initWithPeripheral:(LGPeripheral *)peripheral;
 - (void) reset;
+- (void) disconnect;
 //- (void) start;
 
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;

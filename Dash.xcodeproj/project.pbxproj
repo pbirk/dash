@@ -8,10 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		667EA4CF18C3060C00E1C249 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667EA4CE18C3060C00E1C249 /* CoreMotion.framework */; };
-		667EA4D218C308A700E1C249 /* DRMotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667EA4D118C308A700E1C249 /* DRMotionViewController.m */; };
-		6684409118D1475100D8FE2D /* DRColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684409018D1475100D8FE2D /* DRColorPickerViewController.m */; };
 		66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */; };
 		66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */; };
+		66B2282718F1CE70008C6445 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282618F1CE70008C6445 /* CoreText.framework */; };
+		66B2282918F1CE75008C6445 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282818F1CE75008C6445 /* QuartzCore.framework */; };
+		66B2282B18F1CE7B008C6445 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282A18F1CE7B008C6445 /* Security.framework */; };
+		66B2282D18F1CE84008C6445 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282C18F1CE84008C6445 /* SystemConfiguration.framework */; };
+		66B2283318F1CEA0008C6445 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282F18F1CEA0008C6445 /* HockeySDK.framework */; };
+		66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */; };
+		66B2283518F1CEA0008C6445 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */; };
+		66B2284618FA6896008C6445 /* DRDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2284218FA6896008C6445 /* DRDeviceCell.m */; };
+		66B2284718FA6896008C6445 /* DRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2284418FA6896008C6445 /* DRWebViewController.m */; };
+		66B2284818FA6896008C6445 /* DRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66B2284518FA6896008C6445 /* DRWebViewController.xib */; };
+		66B2285218FA68C7008C6445 /* DRColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2284B18FA68C7008C6445 /* DRColorPickerViewController.m */; };
+		66B2285318FA68C7008C6445 /* DRControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2284D18FA68C7008C6445 /* DRControlsViewController.m */; };
+		66B2285418FA68C7008C6445 /* DRJoystickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2284F18FA68C7008C6445 /* DRJoystickViewController.m */; };
+		66B2285518FA68C7008C6445 /* DRMotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2285118FA68C7008C6445 /* DRMotionViewController.m */; };
+		66B2285818FAFDF7008C6445 /* DRButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2285718FAFDF7008C6445 /* DRButton.m */; };
+		66B2285A18FB01EA008C6445 /* Main~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66B2285918FB01EA008C6445 /* Main~iPad.storyboard */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
 		66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */; };
 		66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD3118C2DD3B00783AC8 /* UIKit.framework */; };
@@ -19,9 +33,7 @@
 		66D6FD3A18C2DD3B00783AC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D6FD3918C2DD3B00783AC8 /* main.m */; };
 		66D6FD3E18C2DD3B00783AC8 /* DRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D6FD3D18C2DD3B00783AC8 /* DRAppDelegate.m */; };
 		66D6FD4118C2DD3B00783AC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66D6FD3F18C2DD3B00783AC8 /* Main.storyboard */; };
-		66D6FD4418C2DD3B00783AC8 /* DRJoystickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D6FD4318C2DD3B00783AC8 /* DRJoystickViewController.m */; };
 		66D6FD4618C2DD3B00783AC8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66D6FD4518C2DD3B00783AC8 /* Images.xcassets */; };
-		66F0558518E514EC00ED241D /* DRControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0558418E514EC00ED241D /* DRControlsViewController.m */; };
 		66F0559418E521DC00ED241D /* CBUUID+StringExtraction.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0558818E521DC00ED241D /* CBUUID+StringExtraction.m */; };
 		66F0559518E521DC00ED241D /* LGCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0558B18E521DC00ED241D /* LGCentralManager.m */; };
 		66F0559618E521DC00ED241D /* LGCharacteristic.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0558D18E521DC00ED241D /* LGCharacteristic.m */; };
@@ -30,21 +42,37 @@
 		66F0559918E521DC00ED241D /* LGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0559318E521DC00ED241D /* LGUtils.m */; };
 		66F0559C18E526FF00ED241D /* DRCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0559B18E526FF00ED241D /* DRCentralManager.m */; };
 		66F055CD18E8A80C00ED241D /* DRRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F055CC18E8A80C00ED241D /* DRRootViewController.m */; };
-		66F055D018E8A93100ED241D /* DRDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F055CF18E8A93100ED241D /* DRDeviceCell.m */; };
 		66F055D618E8B71E00ED241D /* DRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F055D518E8B71E00ED241D /* DRTabBarController.m */; };
-		66F055DC18E8C02300ED241D /* DRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F055DA18E8C02300ED241D /* DRWebViewController.m */; };
-		66F055DD18E8C02300ED241D /* DRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F055DB18E8C02300ED241D /* DRWebViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		667EA4CE18C3060C00E1C249 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		667EA4D018C308A700E1C249 /* DRMotionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMotionViewController.h; sourceTree = "<group>"; };
-		667EA4D118C308A700E1C249 /* DRMotionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMotionViewController.m; sourceTree = "<group>"; };
-		6684408F18D1475100D8FE2D /* DRColorPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRColorPickerViewController.h; sourceTree = "<group>"; };
-		6684409018D1475100D8FE2D /* DRColorPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRColorPickerViewController.m; sourceTree = "<group>"; };
 		66AA0F3918CD6E460093D5E3 /* DRRobotLeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRobotLeService.h; sourceTree = "<group>"; };
 		66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRobotLeService.m; sourceTree = "<group>"; };
 		66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		66B2282618F1CE70008C6445 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		66B2282818F1CE75008C6445 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		66B2282A18F1CE7B008C6445 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		66B2282C18F1CE84008C6445 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		66B2282F18F1CEA0008C6445 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
+		66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = HockeySDK.xcconfig; sourceTree = "<group>"; };
+		66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		66B2284118FA6896008C6445 /* DRDeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRDeviceCell.h; sourceTree = "<group>"; };
+		66B2284218FA6896008C6445 /* DRDeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRDeviceCell.m; sourceTree = "<group>"; };
+		66B2284318FA6896008C6445 /* DRWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRWebViewController.h; sourceTree = "<group>"; };
+		66B2284418FA6896008C6445 /* DRWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRWebViewController.m; sourceTree = "<group>"; };
+		66B2284518FA6896008C6445 /* DRWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRWebViewController.xib; sourceTree = "<group>"; };
+		66B2284A18FA68C7008C6445 /* DRColorPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRColorPickerViewController.h; sourceTree = "<group>"; };
+		66B2284B18FA68C7008C6445 /* DRColorPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRColorPickerViewController.m; sourceTree = "<group>"; };
+		66B2284C18FA68C7008C6445 /* DRControlsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRControlsViewController.h; sourceTree = "<group>"; };
+		66B2284D18FA68C7008C6445 /* DRControlsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRControlsViewController.m; sourceTree = "<group>"; };
+		66B2284E18FA68C7008C6445 /* DRJoystickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRJoystickViewController.h; sourceTree = "<group>"; };
+		66B2284F18FA68C7008C6445 /* DRJoystickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRJoystickViewController.m; sourceTree = "<group>"; };
+		66B2285018FA68C7008C6445 /* DRMotionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMotionViewController.h; sourceTree = "<group>"; };
+		66B2285118FA68C7008C6445 /* DRMotionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMotionViewController.m; sourceTree = "<group>"; };
+		66B2285618FAFDF7008C6445 /* DRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRButton.h; sourceTree = "<group>"; };
+		66B2285718FAFDF7008C6445 /* DRButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRButton.m; sourceTree = "<group>"; };
+		66B2285918FB01EA008C6445 /* Main~iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~iPad.storyboard"; sourceTree = "<group>"; };
 		66D6FD2A18C2DD3B00783AC8 /* Dash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -56,11 +84,7 @@
 		66D6FD3C18C2DD3B00783AC8 /* DRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DRAppDelegate.h; sourceTree = "<group>"; };
 		66D6FD3D18C2DD3B00783AC8 /* DRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DRAppDelegate.m; sourceTree = "<group>"; };
 		66D6FD4018C2DD3B00783AC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		66D6FD4218C2DD3B00783AC8 /* DRJoystickViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DRJoystickViewController.h; sourceTree = "<group>"; };
-		66D6FD4318C2DD3B00783AC8 /* DRJoystickViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DRJoystickViewController.m; sourceTree = "<group>"; };
 		66D6FD4518C2DD3B00783AC8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		66F0558318E514EC00ED241D /* DRControlsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRControlsViewController.h; sourceTree = "<group>"; };
-		66F0558418E514EC00ED241D /* DRControlsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRControlsViewController.m; sourceTree = "<group>"; };
 		66F0558718E521DC00ED241D /* CBUUID+StringExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBUUID+StringExtraction.h"; sourceTree = "<group>"; };
 		66F0558818E521DC00ED241D /* CBUUID+StringExtraction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CBUUID+StringExtraction.m"; sourceTree = "<group>"; };
 		66F0558918E521DC00ED241D /* LGBluetooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGBluetooth.h; sourceTree = "<group>"; };
@@ -78,13 +102,8 @@
 		66F0559B18E526FF00ED241D /* DRCentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCentralManager.m; sourceTree = "<group>"; };
 		66F055CB18E8A80C00ED241D /* DRRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRootViewController.h; sourceTree = "<group>"; };
 		66F055CC18E8A80C00ED241D /* DRRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRootViewController.m; sourceTree = "<group>"; };
-		66F055CE18E8A93100ED241D /* DRDeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRDeviceCell.h; sourceTree = "<group>"; };
-		66F055CF18E8A93100ED241D /* DRDeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRDeviceCell.m; sourceTree = "<group>"; };
 		66F055D418E8B71E00ED241D /* DRTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTabBarController.h; sourceTree = "<group>"; };
 		66F055D518E8B71E00ED241D /* DRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTabBarController.m; sourceTree = "<group>"; };
-		66F055D918E8C02300ED241D /* DRWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRWebViewController.h; sourceTree = "<group>"; };
-		66F055DA18E8C02300ED241D /* DRWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRWebViewController.m; sourceTree = "<group>"; };
-		66F055DB18E8C02300ED241D /* DRWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRWebViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,10 +111,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B2282D18F1CE84008C6445 /* SystemConfiguration.framework in Frameworks */,
+				66B2282B18F1CE7B008C6445 /* Security.framework in Frameworks */,
+				66B2282918F1CE75008C6445 /* QuartzCore.framework in Frameworks */,
+				66B2282718F1CE70008C6445 /* CoreText.framework in Frameworks */,
 				66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */,
 				667EA4CF18C3060C00E1C249 /* CoreMotion.framework in Frameworks */,
 				66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */,
 				66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */,
+				66B2283318F1CEA0008C6445 /* HockeySDK.framework in Frameworks */,
 				66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,6 +137,54 @@
 			);
 			name = BLE;
 			path = ../../dash/Dash/BLE;
+			sourceTree = "<group>";
+		};
+		66B2282E18F1CEA0008C6445 /* HockeySDK.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				66B2282F18F1CEA0008C6445 /* HockeySDK.framework */,
+				66B2283018F1CEA0008C6445 /* Resources */,
+			);
+			name = HockeySDK.embeddedframework;
+			path = "HockeySDK-iOS/HockeySDK.embeddedframework";
+			sourceTree = "<group>";
+		};
+		66B2283018F1CEA0008C6445 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				66B2283118F1CEA0008C6445 /* HockeySDK.xcconfig */,
+				66B2283218F1CEA0008C6445 /* HockeySDKResources.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		66B2284018FA6896008C6445 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				66B2285618FAFDF7008C6445 /* DRButton.h */,
+				66B2285718FAFDF7008C6445 /* DRButton.m */,
+				66B2284118FA6896008C6445 /* DRDeviceCell.h */,
+				66B2284218FA6896008C6445 /* DRDeviceCell.m */,
+				66B2284318FA6896008C6445 /* DRWebViewController.h */,
+				66B2284418FA6896008C6445 /* DRWebViewController.m */,
+				66B2284518FA6896008C6445 /* DRWebViewController.xib */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		66B2284918FA68C7008C6445 /* Driving Controls */ = {
+			isa = PBXGroup;
+			children = (
+				66B2284A18FA68C7008C6445 /* DRColorPickerViewController.h */,
+				66B2284B18FA68C7008C6445 /* DRColorPickerViewController.m */,
+				66B2284C18FA68C7008C6445 /* DRControlsViewController.h */,
+				66B2284D18FA68C7008C6445 /* DRControlsViewController.m */,
+				66B2284E18FA68C7008C6445 /* DRJoystickViewController.h */,
+				66B2284F18FA68C7008C6445 /* DRJoystickViewController.m */,
+				66B2285018FA68C7008C6445 /* DRMotionViewController.h */,
+				66B2285118FA68C7008C6445 /* DRMotionViewController.m */,
+			);
+			path = "Driving Controls";
 			sourceTree = "<group>";
 		};
 		66D6FD2118C2DD3B00783AC8 = {
@@ -135,6 +207,11 @@
 		66D6FD2C18C2DD3B00783AC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66B2282E18F1CEA0008C6445 /* HockeySDK.embeddedframework */,
+				66B2282C18F1CE84008C6445 /* SystemConfiguration.framework */,
+				66B2282A18F1CE7B008C6445 /* Security.framework */,
+				66B2282818F1CE75008C6445 /* QuartzCore.framework */,
+				66B2282618F1CE70008C6445 /* CoreText.framework */,
 				66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */,
 				667EA4CE18C3060C00E1C249 /* CoreMotion.framework */,
 				66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */,
@@ -152,12 +229,13 @@
 				66F0558618E521DC00ED241D /* LGBluetooth */,
 				66AA0F3618CD6E460093D5E3 /* BLE */,
 				66D6FD3F18C2DD3B00783AC8 /* Main.storyboard */,
+				66B2285918FB01EA008C6445 /* Main~iPad.storyboard */,
 				66F055CB18E8A80C00ED241D /* DRRootViewController.h */,
 				66F055CC18E8A80C00ED241D /* DRRootViewController.m */,
-				66F055CE18E8A93100ED241D /* DRDeviceCell.h */,
-				66F055CF18E8A93100ED241D /* DRDeviceCell.m */,
-				66F055D718E8BFEF00ED241D /* Drive Controls */,
-				66F055D818E8C00000ED241D /* Other Views */,
+				66F055D418E8B71E00ED241D /* DRTabBarController.h */,
+				66F055D518E8B71E00ED241D /* DRTabBarController.m */,
+				66B2284918FA68C7008C6445 /* Driving Controls */,
+				66B2284018FA6896008C6445 /* Components */,
 				66D6FD4518C2DD3B00783AC8 /* Images.xcassets */,
 				66D6FD3418C2DD3B00783AC8 /* Supporting Files */,
 			);
@@ -195,33 +273,6 @@
 			path = LGBluetooth;
 			sourceTree = "<group>";
 		};
-		66F055D718E8BFEF00ED241D /* Drive Controls */ = {
-			isa = PBXGroup;
-			children = (
-				66F055D418E8B71E00ED241D /* DRTabBarController.h */,
-				66F055D518E8B71E00ED241D /* DRTabBarController.m */,
-				66F0558318E514EC00ED241D /* DRControlsViewController.h */,
-				66F0558418E514EC00ED241D /* DRControlsViewController.m */,
-				66D6FD4218C2DD3B00783AC8 /* DRJoystickViewController.h */,
-				66D6FD4318C2DD3B00783AC8 /* DRJoystickViewController.m */,
-				667EA4D018C308A700E1C249 /* DRMotionViewController.h */,
-				667EA4D118C308A700E1C249 /* DRMotionViewController.m */,
-				6684408F18D1475100D8FE2D /* DRColorPickerViewController.h */,
-				6684409018D1475100D8FE2D /* DRColorPickerViewController.m */,
-			);
-			name = "Drive Controls";
-			sourceTree = "<group>";
-		};
-		66F055D818E8C00000ED241D /* Other Views */ = {
-			isa = PBXGroup;
-			children = (
-				66F055D918E8C02300ED241D /* DRWebViewController.h */,
-				66F055DA18E8C02300ED241D /* DRWebViewController.m */,
-				66F055DB18E8C02300ED241D /* DRWebViewController.xib */,
-			);
-			name = "Other Views";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -229,10 +280,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66D6FD5C18C2DD3C00783AC8 /* Build configuration list for PBXNativeTarget "Dash" */;
 			buildPhases = (
+				66B9B65318CFD3680083EBEF /* ShellScript */,
 				66D6FD2618C2DD3B00783AC8 /* Sources */,
 				66D6FD2718C2DD3B00783AC8 /* Frameworks */,
 				66D6FD2818C2DD3B00783AC8 /* Resources */,
-				66B9B65318CFD3680083EBEF /* ShellScript */,
+				66B2282518F1CE59008C6445 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -282,15 +334,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				66D6FD4618C2DD3B00783AC8 /* Images.xcassets in Resources */,
+				66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */,
+				66B2285A18FB01EA008C6445 /* Main~iPad.storyboard in Resources */,
 				66D6FD3818C2DD3B00783AC8 /* InfoPlist.strings in Resources */,
 				66D6FD4118C2DD3B00783AC8 /* Main.storyboard in Resources */,
-				66F055DD18E8C02300ED241D /* DRWebViewController.xib in Resources */,
+				66B2283518F1CEA0008C6445 /* HockeySDKResources.bundle in Resources */,
+				66B2284818FA6896008C6445 /* DRWebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		66B2282518F1CE59008C6445 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FILE=\"${SRCROOT}/HockeySDK-iOS/BuildAgent\"\nif [ -f \"$FILE\" ]; then\n\"$FILE\"\nfi";
+		};
 		66B9B65318CFD3680083EBEF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,7 +370,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+			shellScript = "#!/bin/bash\nif [ $CONFIGURATION == Release ]; then\n    buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n    buildNumber=$(($buildNumber + 1))\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -311,23 +379,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B2285518FA68C7008C6445 /* DRMotionViewController.m in Sources */,
 				66F0559718E521DC00ED241D /* LGPeripheral.m in Sources */,
-				6684409118D1475100D8FE2D /* DRColorPickerViewController.m in Sources */,
-				66F055D018E8A93100ED241D /* DRDeviceCell.m in Sources */,
+				66B2284618FA6896008C6445 /* DRDeviceCell.m in Sources */,
 				66F0559418E521DC00ED241D /* CBUUID+StringExtraction.m in Sources */,
+				66B2285218FA68C7008C6445 /* DRColorPickerViewController.m in Sources */,
 				66D6FD3E18C2DD3B00783AC8 /* DRAppDelegate.m in Sources */,
-				66F0558518E514EC00ED241D /* DRControlsViewController.m in Sources */,
 				66F0559618E521DC00ED241D /* LGCharacteristic.m in Sources */,
 				66F0559C18E526FF00ED241D /* DRCentralManager.m in Sources */,
 				66F0559818E521DC00ED241D /* LGService.m in Sources */,
-				66D6FD4418C2DD3B00783AC8 /* DRJoystickViewController.m in Sources */,
 				66F055CD18E8A80C00ED241D /* DRRootViewController.m in Sources */,
 				66F0559518E521DC00ED241D /* LGCentralManager.m in Sources */,
 				66F055D618E8B71E00ED241D /* DRTabBarController.m in Sources */,
+				66B2285418FA68C7008C6445 /* DRJoystickViewController.m in Sources */,
 				66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */,
-				667EA4D218C308A700E1C249 /* DRMotionViewController.m in Sources */,
-				66F055DC18E8C02300ED241D /* DRWebViewController.m in Sources */,
+				66B2284718FA6896008C6445 /* DRWebViewController.m in Sources */,
 				66F0559918E521DC00ED241D /* LGUtils.m in Sources */,
+				66B2285818FAFDF7008C6445 /* DRButton.m in Sources */,
+				66B2285318FA68C7008C6445 /* DRControlsViewController.m in Sources */,
 				66D6FD3A18C2DD3B00783AC8 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,6 +500,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dash/Dash-Prefix.pch";
 				INFOPLIST_FILE = "Dash/Dash-Info.plist";
@@ -449,12 +522,16 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dash/Dash-Prefix.pch";
 				INFOPLIST_FILE = "Dash/Dash-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F80C2C43-8E9E-424D-82DA-0D71A451F7F9";
+				PROVISIONING_PROFILE = "DBA3AFD3-93CD-41AE-86FE-2C584387F3E7";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

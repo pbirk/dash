@@ -10,6 +10,8 @@
 
 @class DRRobotLeService;
 
+#define SCAN_INTERVAL 5.0
+
 /****************************************************************************/
 /*							UI protocols									*/
 /****************************************************************************/
@@ -20,6 +22,12 @@
 - (void) connectionStatusChanged;
 @end
 
+@interface DRRobotProperties : NSObject
+- (id)initWithName:(NSString *)name color:(UIColor *)color;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) UIColor *color;
+@end
+
 @interface DRCentralManager : NSObject <LGCentralManagerDelegate>
 
 + (DRCentralManager *)sharedInstance;
@@ -28,7 +36,7 @@
 - (NSArray *)peripherals;
 
 @property (nonatomic, assign) id<DRDiscoveryDelegate> discoveryDelegate;
-@property (nonatomic, strong) NSMutableDictionary *peripheralNames;
+@property (nonatomic, strong) NSMutableDictionary *peripheralProperties;
 @property (nonatomic, strong) DRRobotLeService *connectedService;
 
 - (void) startScanning;
@@ -37,6 +45,6 @@
 - (void) connectPeripheral:(LGPeripheral*)peripheral completion:(LGPeripheralConnectionCallback)aCallback;
 - (void) disconnectPeripheral;
 
-- (NSString *)nameForPeripheral:(LGPeripheral*)peripheral;
+- (DRRobotProperties *)propertiesForPeripheral:(LGPeripheral*)peripheral;
 
 @end

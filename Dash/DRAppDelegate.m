@@ -7,6 +7,7 @@
 //
 
 #import "DRAppDelegate.h"
+#import <HockeySDK/HockeySDK.h>
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 #import "DRWebViewController.h"
@@ -18,10 +19,14 @@
     // Override point for customization after application launch.
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"bbaef82dd4b40fb821a70c63b6855007"];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+//    [[BITHockeyManager sharedHockeyManager] testIdentifier];
     
     [[UINavigationBar appearance] setTitleTextAttributes:@{
-                                                           //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-DemiBold" size:17],
+//                                                           NSForegroundColorAttributeName: [UIColor blackColor],
+                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:19],
                                                            }];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{
                                                           //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
@@ -31,6 +36,7 @@
                                                         NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10],
                                                         } forState:UIControlStateNormal];
     
+    self.window.tintColor = [UIColor blackColor];
     
     return YES;
 }

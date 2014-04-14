@@ -58,6 +58,7 @@
 
 NSString *kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
 NSString *kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941E";
+NSString *kNotifyCharacteristicUUIDString = @"713D0002-503E-4C75-BA94-3148F18D941E";
 NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
 
 //NSString *kAlarmServiceEnteredBackgroundNotification = @"kAlarmServiceEnteredBackgroundNotification";
@@ -66,7 +67,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 @interface DRRobotLeService()
 @property (readwrite, strong, nonatomic) LGPeripheral *peripheral;
 @property (strong, nonatomic) LGService *robotService;
-@property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic;
+@property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic, *notifyCharacteristic;
 @end
 
 
@@ -82,7 +83,6 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     self = [super init];
     if (self) {
         self.peripheral = peripheral;
-        _eyeColor = [UIColor blackColor];
         [self discover]; // lol
     }
     return self;
@@ -103,6 +103,9 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
                         if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
                             NSLog(@"Discovered write without response");
                             weakSelf.writeWoResponseCharacteristic = characteristic;
+                        } else if ([characteristic.UUIDString isEqualToString:kNotifyCharacteristicUUIDString]) {
+                            NSLog(@"Discovered notify");
+                            weakSelf.notifyCharacteristic = characteristic;
                         }
                     }
                 }];
@@ -112,85 +115,126 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }];
 }
 
-- (void) dealloc {
-//	[self reset];
+- (void) dealloc
+{
     self.peripheral = nil;
     self.robotService = nil;
     self.writeWoResponseCharacteristic = nil;
+    self.notifyCharacteristic = nil;
 }
 
 - (void) reset
 {
 	if (self.peripheral) {
-        self.motor = DRMotorsMakeZero();
+        [self setLeftMotor:0 rightMotor:0];
         self.eyeColor = [UIColor blackColor];
 	}
 }
 
-- (void)setMotor:(DRMotors)motor {
-    _motor = motor;
-    [self writeData];
-}
-
-- (void)setEyeColor:(UIColor *)eyeColor {
-    _eyeColor = eyeColor;
-    [self writeData];
-}
-
-#pragma mark -
-#pragma mark Characteristics interaction
-
-- (void) writeData
+- (void)disconnect
 {
-    // mtrA1, mtrA2, mtrB1, mtrB2, eyesRed, eyesGreen, eyesBlue
+    if (self.notifyCharacteristic) {
+        [self.notifyCharacteristic setNotifyValue:NO completion:nil];
+    }
+    [self reset];
+    self.isManuallyDisconnecting = YES;
+}
+
+- (void)setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor
+{
+    leftMotor = CLAMP(leftMotor, -255, 255);
+    rightMotor = CLAMP(rightMotor, -255, 255);
+    
+    // [type "2" -1]  [mtrA1 - 0-255 - 1] [mtrA2 - 0-255 - 1] [mtrB1 - 0-255 - 1] [mtrB2 - 0-255 - 1]
     
     NSMutableData *data = [NSMutableData dataWithCapacity:7];
     
+    char command = DRCommandTypeDirectDrive;
     uint8_t mtrA1, mtrA2, mtrB1, mtrB2;
     
-    if (self.motor.left >= 0) {
-        mtrA1 = (uint8_t)round(self.motor.left);
+    if (leftMotor >= 0) {
+        mtrA1 = (uint8_t)round(leftMotor);
         mtrA2 = 0;
     } else {
         mtrA1 = 0;
-        mtrA2 = (uint8_t)round(-self.motor.left);
+        mtrA2 = (uint8_t)round(-leftMotor);
     }
     
-    if (self.motor.right >= 0) {
-        mtrB1 = (uint8_t)round(self.motor.right);
+    if (rightMotor >= 0) {
+        mtrB1 = (uint8_t)round(rightMotor);
         mtrB2 = 0;
     } else {
         mtrB1 = 0;
-        mtrB2 = (uint8_t)round(-self.motor.right);
+        mtrB2 = (uint8_t)round(-rightMotor);
     }
     
-    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-    [self.eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
-    
-    uint8_t eyesRed = (uint8_t)(red * 255);
-    uint8_t eyesGreen = (uint8_t)(green * 255);
-    uint8_t eyesBlue = (uint8_t)(blue * 255);
-    
-    if (!self.peripheral) {
-        NSLog(@"Not connected to a peripheral!");
-		return ;
-    }
-
-    if (!self.writeWoResponseCharacteristic) {
-        NSLog(@"No valid characteristic!");
-//        [self discover];
-        return;
-    }
+    [data appendBytes:&command length:sizeof(command)];
     
     [data appendBytes:&mtrA1 length:sizeof(mtrA1)];
     [data appendBytes:&mtrA2 length:sizeof(mtrA2)];
     [data appendBytes:&mtrB1 length:sizeof(mtrB1)];
     [data appendBytes:&mtrB2 length:sizeof(mtrB2)];
     
+    [self sendData:data];
+}
+
+- (void)setEyeColor:(UIColor *)eyeColor
+{
+    if (!eyeColor) {
+        eyeColor = [UIColor blackColor];
+    }
+    
+//    [type "4" -1]  [red - 0-255 - 1] [green - 0-255 - 1] [blue - 0-255 - 1]
+    
+    NSMutableData *data = [NSMutableData dataWithCapacity:7];
+    
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+    [eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    char command = DRCommandTypeSetEyes;
+    uint8_t eyesRed = (uint8_t)(red * 255);
+    uint8_t eyesGreen = (uint8_t)(green * 255);
+    uint8_t eyesBlue = (uint8_t)(blue * 255);
+    
+    [data appendBytes:&command length:sizeof(command)];
+    
     [data appendBytes:&eyesRed length:sizeof(eyesRed)];
     [data appendBytes:&eyesGreen length:sizeof(eyesGreen)];
     [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
     
+    [self sendData:data];
+}
+
+#pragma mark -
+#pragma mark Characteristics interaction
+
+- (void)setNotifyCharacteristic:(LGCharacteristic *)notifyCharacteristic
+{
+    _notifyCharacteristic = notifyCharacteristic;
+    if (_notifyCharacteristic) {
+        __weak typeof(self) weakSelf = self;
+        [_notifyCharacteristic setNotifyValue:YES completion:^(NSError *error) {
+            
+        } onUpdate:^(NSData *data, NSError *error) {
+            if (!error) [weakSelf.delegate receivedNotifyWithData:data];
+        }];
+    }
+}
+
+- (void)sendData:(NSMutableData *)data
+{
+    if (!self.peripheral) {
+        NSLog(@"Not connected to a peripheral!");
+		return ;
+    }
+    
+    if (!self.writeWoResponseCharacteristic) {
+        NSLog(@"No valid characteristic!");
+//        [self discover];
+        return;
+    }
+    
+    [data setLength:14];
     [self.writeWoResponseCharacteristic writeValue:data completion:nil];
     NSLog(@"data %@", data);
 }
