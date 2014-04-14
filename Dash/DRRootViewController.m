@@ -21,10 +21,12 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *stopButton;
 @property (strong, nonatomic) IBOutlet UIProgressView *scanProgressView;
 @property (weak, nonatomic) IBOutlet UIView *footerView;
+@property (weak, nonatomic) IBOutlet UINavigationBar *myNavigationBar;
+@property (weak, nonatomic) IBOutlet UINavigationItem *myNavigationItem;
 - (IBAction)didTapInfoButton:(UIButton *)sender;
 - (IBAction)didTapAboutButton:(id)sender;
 - (IBAction)didTapBuildButton:(id)sender;
-- (IBAction)startScanning;
+- (IBAction)didTapRefreshButton;
 - (IBAction)stopScanning;
 @end
 
@@ -37,10 +39,17 @@
     self.bleManager = [DRCentralManager sharedInstance];
     self.bleManager.discoveryDelegate = self;
     
-    self.navigationItem.leftBarButtonItem = nil;
+    if (IS_IPAD) {
+        self.collectionView.backgroundColor = self.view.backgroundColor;
+        [self.myNavigationBar addSubview:self.scanProgressView];
+    } else {
+        self.myNavigationItem = self.navigationItem;
+        self.myNavigationBar = self.navigationController.navigationBar;
+        self.navigationItem.leftBarButtonItem = nil;
+    }
     
     CGFloat progressBarHeight = 2.5f;
-    CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
+    CGRect navigaitonBarBounds = self.myNavigationBar.bounds;
     CGRect barFrame = CGRectMake(0, navigaitonBarBounds.size.height - progressBarHeight, navigaitonBarBounds.size.width, progressBarHeight);
     self.scanProgressView.frame = barFrame;
     
@@ -58,15 +67,17 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if (IS_IPAD) [self.navigationController setNavigationBarHidden:YES animated:animated];
 //    [self.bleManager disconnectPeripheral];
+    if (!IS_IPAD) [self.navigationController.navigationBar addSubview:self.scanProgressView];
     [self.collectionView reloadData];
-    [self.navigationController.navigationBar addSubview:self.scanProgressView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.scanProgressView removeFromSuperview];
+    if (IS_IPAD) [self.navigationController setNavigationBarHidden:NO animated:animated];
+    if (!IS_IPAD) [self.scanProgressView removeFromSuperview];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -113,6 +124,12 @@
     }
 }
 
+- (void)didTapRefreshButton
+{
+    [self.bleManager.peripheralProperties removeAllObjects];
+    [self startScanning];
+}
+
 - (void)startScanning
 {
     _shouldShowResults = YES;
@@ -121,15 +138,15 @@
         self.scanProgressView.progress = 0;
         [NSTimer scheduledTimerWithTimeInterval:SCAN_INTERVAL/100.0 target:self selector:@selector(updateScanProgress:) userInfo:nil repeats:YES];
         
-        [self.navigationItem setRightBarButtonItem:self.stopButton animated:NO];
-            [self.bleManager.peripheralProperties removeAllObjects];
+        [self.myNavigationItem setRightBarButtonItem:self.stopButton animated:NO];
         
-        if (!self.scanTimer || !self.scanTimer.isValid) {
-            self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startScanning) userInfo:nil repeats:YES];
-        }
         [self.bleManager startScanning];
+        
+        [self.scanTimer invalidate];
+        self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startScanning) userInfo:nil repeats:NO];
     } else {
         [self.bleManager startScanning];
+        self.scanProgressView.progress = 0;
         [self discoveryDidRefresh];
     }
 }
@@ -184,7 +201,7 @@
 
 - (void)stoppedScanning
 {
-    [self.navigationItem setRightBarButtonItem:self.refreshButton animated:YES];
+    [self.myNavigationItem setRightBarButtonItem:self.refreshButton animated:YES];
     if (_shouldShowResults && self.bleManager.peripherals.count && !self.bleManager.manager.scanning
         && [self.collectionView numberOfItemsInSection:0] == self.bleManager.peripherals.count+1) {
         [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
@@ -298,7 +315,8 @@
         LGPeripheral *peripheral = self.bleManager.peripherals[index];
         [[DRCentralManager sharedInstance] connectPeripheral:peripheral completion:^(NSError *error) {
             if (!error && self.bleManager.connectedService) {
-                UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
                 DRRobotProperties *robot = [self.bleManager propertiesForPeripheral:peripheral];
                 vc.title = robot ? robot.name : @"Robot";
                 [self.navigationController pushViewController:vc animated:YES];
@@ -308,7 +326,8 @@
         }];
     } else {
         if (self.inSimulator) {
-            UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
             vc.title = @"Demo";
             [self.navigationController pushViewController:vc animated:YES];
         }

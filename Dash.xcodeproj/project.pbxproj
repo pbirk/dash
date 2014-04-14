@@ -25,6 +25,7 @@
 		66B2285418FA68C7008C6445 /* DRJoystickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2284F18FA68C7008C6445 /* DRJoystickViewController.m */; };
 		66B2285518FA68C7008C6445 /* DRMotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2285118FA68C7008C6445 /* DRMotionViewController.m */; };
 		66B2285818FAFDF7008C6445 /* DRButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2285718FAFDF7008C6445 /* DRButton.m */; };
+		66B2285A18FB01EA008C6445 /* Main~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66B2285918FB01EA008C6445 /* Main~iPad.storyboard */; };
 		66D6FD2E18C2DD3B00783AC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */; };
 		66D6FD3018C2DD3B00783AC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */; };
 		66D6FD3218C2DD3B00783AC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D6FD3118C2DD3B00783AC8 /* UIKit.framework */; };
@@ -71,6 +72,7 @@
 		66B2285118FA68C7008C6445 /* DRMotionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMotionViewController.m; sourceTree = "<group>"; };
 		66B2285618FAFDF7008C6445 /* DRButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRButton.h; sourceTree = "<group>"; };
 		66B2285718FAFDF7008C6445 /* DRButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRButton.m; sourceTree = "<group>"; };
+		66B2285918FB01EA008C6445 /* Main~iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~iPad.storyboard"; sourceTree = "<group>"; };
 		66D6FD2A18C2DD3B00783AC8 /* Dash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D6FD2D18C2DD3B00783AC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D6FD2F18C2DD3B00783AC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -227,6 +229,7 @@
 				66F0558618E521DC00ED241D /* LGBluetooth */,
 				66AA0F3618CD6E460093D5E3 /* BLE */,
 				66D6FD3F18C2DD3B00783AC8 /* Main.storyboard */,
+				66B2285918FB01EA008C6445 /* Main~iPad.storyboard */,
 				66F055CB18E8A80C00ED241D /* DRRootViewController.h */,
 				66F055CC18E8A80C00ED241D /* DRRootViewController.m */,
 				66F055D418E8B71E00ED241D /* DRTabBarController.h */,
@@ -332,6 +335,7 @@
 			files = (
 				66D6FD4618C2DD3B00783AC8 /* Images.xcassets in Resources */,
 				66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */,
+				66B2285A18FB01EA008C6445 /* Main~iPad.storyboard in Resources */,
 				66D6FD3818C2DD3B00783AC8 /* InfoPlist.strings in Resources */,
 				66D6FD4118C2DD3B00783AC8 /* Main.storyboard in Resources */,
 				66B2283518F1CEA0008C6445 /* HockeySDKResources.bundle in Resources */,
