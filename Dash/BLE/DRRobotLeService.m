@@ -127,7 +127,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 {
 	if (self.peripheral) {
         [self setLeftMotor:0 rightMotor:0];
-        self.eyeColor = [UIColor blackColor];
+        [self setEyeColor:[UIColor blackColor]];
 	}
 }
 
@@ -147,7 +147,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     
     // [type "2" -1]  [mtrA1 - 0-255 - 1] [mtrA2 - 0-255 - 1] [mtrB1 - 0-255 - 1] [mtrB2 - 0-255 - 1]
     
-    NSMutableData *data = [NSMutableData dataWithCapacity:7];
+    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
     
     char command = DRCommandTypeDirectDrive;
     uint8_t mtrA1, mtrA2, mtrB1, mtrB2;
@@ -186,7 +186,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     
 //    [type "4" -1]  [red - 0-255 - 1] [green - 0-255 - 1] [blue - 0-255 - 1]
     
-    NSMutableData *data = [NSMutableData dataWithCapacity:7];
+    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
     
     CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
     [eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
@@ -234,7 +234,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
         return;
     }
     
-    [data setLength:14];
+    [data setLength:PACKET_SIZE];
     [self.writeWoResponseCharacteristic writeValue:data completion:nil];
     NSLog(@"data %@", data);
 }

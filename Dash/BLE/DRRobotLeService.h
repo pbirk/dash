@@ -73,6 +73,8 @@
 //    return DRMotorsMake(0, 0);
 //}
 
+static NSUInteger const PACKET_SIZE = 14;
+
 typedef NS_ENUM(char, DRMessageTypes) {
     DRMessageTypeName = '1',
     DRMessageTypeSignals = '2'
