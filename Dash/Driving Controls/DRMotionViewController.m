@@ -15,7 +15,8 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 @interface DRMotionViewController () {
     BOOL _touchDown;
     CGPoint _touchOffset;
-    CGFloat _sliderPosition;
+    CGFloat _sliderPosition, _throttle, _direction;
+    NSTimer *_updateTimer;
 }
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *sliderTouchArea;
@@ -41,6 +42,11 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     self.rotatedView.transform = CGAffineTransformMakeRotation(M_PI_2);
 }
 
+- (void)sendUpdate
+{
+    [self.bleService setThrottle:_throttle direction:_direction];
+}
+
 - (void)viewDidLayoutSubviews {
     self.sliderHead.center = self.sliderTouchArea.center;
 }
@@ -49,6 +55,11 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 {
     [super viewDidAppear:animated];
 //    _bleService.delegate = self;
+    
+    if (!_updateTimer || !_updateTimer.isValid) {
+        _updateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(sendUpdate) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_updateTimer forMode:NSRunLoopCommonModes];
+    }
     
     if (self.motionManager.isDeviceMotionAvailable) {
         [self resetAttitude];
@@ -66,6 +77,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 - (void)viewDidDisappear:(BOOL)animated
 {
     [self.motionManager stopDeviceMotionUpdates];
+    [_updateTimer invalidate];
     [super viewDidDisappear:animated];
 }
 
@@ -84,13 +96,16 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 //    if (direction > -0.1 && direction < 0.1) direction = 0;
     throttle = -throttle;
     
-    CGFloat leftMotor = CLAMP(throttle * (1.0 + direction), -1.0, 1.0) * 255.0;
-    CGFloat rightMotor = CLAMP(throttle * (1.0 - direction), -1.0, 1.0) * 255.0;
+    _throttle = throttle;
+    _direction = direction;
     
-    self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
-    self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
-    
-    [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
+//    CGFloat leftMotor = CLAMP(throttle * (1.0 + direction), -1.0, 1.0) * 255.0;
+//    CGFloat rightMotor = CLAMP(throttle * (1.0 - direction), -1.0, 1.0) * 255.0;
+//    
+//    self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
+//    self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
+//    
+//    [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
 }
 
 - (CGFloat)getDirection:(CMAttitude *)attitude

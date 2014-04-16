@@ -125,10 +125,10 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 
 - (void) reset
 {
-	if (self.peripheral) {
-        [self setLeftMotor:0 rightMotor:0];
-        [self setEyeColor:[UIColor blackColor]];
-	}
+    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+    char command = DRCommandTypeAllStop;
+    [data appendBytes:&command length:sizeof(command)];
+    [self sendData:data];
 }
 
 - (void)disconnect
@@ -174,6 +174,25 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     [data appendBytes:&mtrA2 length:sizeof(mtrA2)];
     [data appendBytes:&mtrB1 length:sizeof(mtrB1)];
     [data appendBytes:&mtrB2 length:sizeof(mtrB2)];
+    
+    [self sendData:data];
+}
+
+- (void)setThrottle:(CGFloat)throttle direction:(CGFloat)direction
+{
+    // [type "3" -1]  [power, -100->100, 2] [rotationRate, -400->400, 2]
+
+    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+    char command = DRCommandTypeGyroDrive;
+    
+    static NSInteger maxPower = 100, maxRotationRate = 400;
+    
+    int16_t power = (int16_t)CLAMP(round(throttle * maxPower), -maxPower, maxPower);
+    int16_t rotationRate = (int16_t)CLAMP(round(direction * maxRotationRate), -maxRotationRate, maxRotationRate);
+    
+    [data appendBytes:&command length:sizeof(command)];
+    [data appendBytes:&power length:sizeof(power)];
+    [data appendBytes:&rotationRate length:sizeof(rotationRate)];
     
     [self sendData:data];
 }

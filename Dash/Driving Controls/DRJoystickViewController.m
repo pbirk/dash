@@ -12,13 +12,16 @@
 static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 
 @interface DRJoystickViewController () {
-    BOOL _touchDown;
+    BOOL _touchDown, _useGyroDrive;
     CGPoint _touchOffset;
+    CGFloat _throttle, _direction, _prevThrottle, _prevDirection;
+    NSTimer *_updateTimer;
 }
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *joystickTouchArea;
 @property (weak, nonatomic) IBOutlet UIImageView *joystickBase;
 @property (weak, nonatomic) IBOutlet UIImageView *joystickNub;
+- (IBAction)didToggleGyroDrive:(UISwitch *)sender;
 @end
 
 @implementation DRJoystickViewController
@@ -32,9 +35,37 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
     self.joystickNub.layer.cornerRadius = CGRectGetWidth(self.joystickNub.bounds) / 2;
 }
 
+- (void)sendUpdate
+{
+    if (_prevThrottle != _throttle || _prevDirection != _direction) {
+        
+        if (_useGyroDrive) {
+            [self.bleService setThrottle:_throttle direction:_direction];
+        } else {
+            CGFloat leftMotor = (_throttle + _direction) * 255.0;
+            CGFloat rightMotor = (_throttle - _direction) * 255.0;
+            [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
+        }
+        
+        _prevThrottle = _throttle;
+        _prevDirection = _direction;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    if (!_updateTimer || !_updateTimer.isValid) {
+        _updateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(sendUpdate) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_updateTimer forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [_updateTimer invalidate];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -48,21 +79,14 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 
 - (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
-    CGFloat leftMotor = (throttle + direction) * 255.0;
-    CGFloat rightMotor = (throttle - direction) * 255.0;
+    _throttle = throttle;
+    _direction = direction;
+//    _leftMotor = (throttle + direction) * 255.0;
+//    _rightMotor = (throttle - direction) * 255.0;
     
-//    if (leftMotor > 220 && rightMotor > 220) {
-//        leftMotor = rightMotor = 255;
-//    } else if (leftMotor < -220 && rightMotor < -220) {
-//        leftMotor = rightMotor = -255;
+//    if (self.bleService) {
+//        [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
 //    }
-    
-//    self.debugLabel.text = [NSString stringWithFormat:@"%.0f, %.0f", roundf(leftMotor), roundf(rightMotor)];
-//    self.debugLabel.text = [self.debugLabel.text stringByReplacingOccurrencesOfString:@"-0" withString:@"0"];
-    
-    if (self.bleService) {
-        [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
-    }
 }
 
 - (void)resetJoystick
@@ -146,4 +170,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
     [self resetJoystick];
 }
 
+- (IBAction)didToggleGyroDrive:(UISwitch *)sender {
+    _useGyroDrive = sender.on;
+}
 @end

@@ -81,6 +81,7 @@ typedef NS_ENUM(char, DRMessageTypes) {
 };
 
 typedef NS_ENUM(char, DRCommandTypes) {
+    DRCommandTypeAllStop = '0',
     DRCommandTypeSetName = '1',
     DRCommandTypeDirectDrive = '2',
     DRCommandTypeGyroDrive = '3',
@@ -125,13 +126,14 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 @interface DRRobotLeService : NSObject
 
 @property BOOL isManuallyDisconnecting;
-- (void) setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
-- (void) setEyeColor:(UIColor *)color;
 
 - (id) initWithPeripheral:(LGPeripheral *)peripheral;
-- (void) reset;
 - (void) disconnect;
-//- (void) start;
+
+- (void) reset;
+- (void) setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
+- (void) setThrottle:(CGFloat)throttle direction:(CGFloat)direction;
+- (void) setEyeColor:(UIColor *)color;
 
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;
 
