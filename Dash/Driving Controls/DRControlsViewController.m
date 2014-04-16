@@ -68,7 +68,10 @@
 
 - (void)receivedNotifyWithData:(NSData *)data
 {
-    
+}
+
+- (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
+{
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "DRJoystickViewController.h"
 #import "DRCentralManager.h"
+#import "DRSignalPacket.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 
@@ -104,6 +105,11 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 - (void)receivedNotifyWithData:(NSData *)data
 {
     self.debugLabel.text = [data description]; 
+}
+
+- (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
+{
+    self.debugLabel.text = [signals description];
 }
 
 #pragma mark - Touch Events

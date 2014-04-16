@@ -110,13 +110,14 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 /****************************************************************************/
 /*								Protocol									*/
 /****************************************************************************/
-@class DRRobotLeService;
+@class DRRobotLeService, DRSignalPacket;
 
 
 @protocol DRRobotLeServiceDelegate<NSObject>
 //- (void) serviceDidChangeStatus:(DRRobotLeService*)service;
 //- (void) alarmServiceDidReset;
 - (void) receivedNotifyWithData:(NSData *)data;
+- (void) receivedNotifyWithSignals:(DRSignalPacket *)signals;
 @end
 
 

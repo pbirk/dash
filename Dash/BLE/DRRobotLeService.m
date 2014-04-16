@@ -54,7 +54,7 @@
 
 #import "DRRobotLeService.h"
 #import "LeDiscovery.h"
-
+#import "DRSignalPacket.h"
 
 NSString *kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
 NSString *kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941E";
@@ -235,7 +235,34 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
         [_notifyCharacteristic setNotifyValue:YES completion:^(NSError *error) {
             
         } onUpdate:^(NSData *data, NSError *error) {
-            if (!error) [weakSelf.delegate receivedNotifyWithData:data];
+            if (!error && data.length == PACKET_SIZE) {
+                char command;
+                [data getBytes:&command length:sizeof(command)];
+                
+                switch (command) {
+                    case DRMessageTypeSignals: {
+                        DRSignalPacket *signals = [DRSignalPacket signalPacketWithData:data];
+                        [weakSelf.delegate receivedNotifyWithSignals:signals];
+                        break;
+                    }
+                    case DRMessageTypeName: {
+                        // do something with the name
+                        [weakSelf.delegate receivedNotifyWithData:data];
+                        break;
+                    }
+                    default:
+                        NSLog(@"Unknown message of type %c", command);
+                        [weakSelf.delegate receivedNotifyWithData:data];
+                        break;
+                }
+            } else {
+                if (error) {
+                    NSLog(@"Problem with notify: %@", error);
+                } else {
+                    NSLog(@"Notify: wrong packet size: %@", data);
+                    [weakSelf.delegate receivedNotifyWithData:data];
+                }
+            }
         }];
     }
 }
