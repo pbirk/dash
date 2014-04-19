@@ -11,6 +11,7 @@
 @interface DRColorPickerViewController () {
 }
 @property (strong, nonatomic) NSArray *colors;
+- (IBAction)didTapDone:(id)sender;
 
 @end
 
@@ -45,6 +46,10 @@
     return self.colors.count;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"header" forIndexPath:indexPath];
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"OffCell" forIndexPath:indexPath];
@@ -64,4 +69,7 @@
     }
 }
 
+- (IBAction)didTapDone:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
 @end

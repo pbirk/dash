@@ -16,7 +16,7 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 @interface DRMotionViewController () {
     BOOL _touchDown;
     CGPoint _touchOffset;
-    CGFloat _sliderPosition, _throttle, _direction;
+    CGFloat _sliderPosition, _throttle, _direction, _prevThrottle, _prevDirection;
     NSTimer *_updateTimer;
 }
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
@@ -45,7 +45,11 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 
 - (void)sendUpdate
 {
-    [self.bleService setThrottle:_throttle direction:_direction];
+    if (_prevThrottle != _throttle || _prevDirection != _direction) {
+        [self.bleService setThrottle:_throttle direction:_direction];
+        _prevThrottle = _throttle;
+        _prevDirection = _direction;
+    }
 }
 
 - (void)viewDidLayoutSubviews {

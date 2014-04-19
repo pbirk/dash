@@ -24,21 +24,32 @@
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 //    [[BITHockeyManager sharedHockeyManager] testIdentifier];
     
+    [self configureStyling];
+    
+    return YES;
+}
+
+- (void)configureStyling
+{
     [[UINavigationBar appearance] setTitleTextAttributes:@{
 //                                                           NSForegroundColorAttributeName: [UIColor blackColor],
                                                            NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:19],
                                                            }];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{
-                                                          //NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-                                                          NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17],
-                                                          } forState:UIControlStateNormal];
+//NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+                                                           NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17],
+                                                           } forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:@{
                                                         NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10],
                                                         } forState:UIControlStateNormal];
     
-    self.window.tintColor = [UIColor blackColor];
+    [[UISegmentedControl appearance] setTitleTextAttributes:@{
+                                                              NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:14],
+                                                              } forState:UIControlStateNormal];
+    NSUInteger yOffset = [UIScreen mainScreen].scale == 2 ? 2 : 1;
+    [[UISegmentedControl appearance] setContentPositionAdjustment:UIOffsetMake(0, yOffset) forSegmentType:UISegmentedControlSegmentAny barMetrics:UIBarMetricsDefault];
     
-    return YES;
+    self.window.tintColor = [UIColor blackColor];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

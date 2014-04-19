@@ -64,7 +64,9 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 //NSString *kAlarmServiceEnteredBackgroundNotification = @"kAlarmServiceEnteredBackgroundNotification";
 //NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredForegroundNotification";
 
-@interface DRRobotLeService()
+@interface DRRobotLeService() {
+    UIColor *_eyeColor;
+}
 @property (readwrite, strong, nonatomic) LGPeripheral *peripheral;
 @property (strong, nonatomic) LGService *robotService;
 @property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic, *notifyCharacteristic;
@@ -222,6 +224,14 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
     
     [self sendData:data];
+    _eyeColor = eyeColor;
+}
+
+- (UIColor *)eyeColor {
+    if (!_eyeColor) {
+        _eyeColor = [UIColor blackColor];
+    }
+    return _eyeColor;
 }
 
 #pragma mark -

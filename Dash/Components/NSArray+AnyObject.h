@@ -16,7 +16,7 @@
 
 - (id)anyObject {
     if (self.count > 0) {
-        return self[arc4random_uniform(self.count)];
+        return self[arc4random_uniform((u_int32_t)self.count)];
     } else {
         return nil;
     }

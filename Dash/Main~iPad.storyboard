@@ -109,7 +109,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="84D-hb-MI7" secondAttribute="bottom" id="7zA-Px-NDk"/>
@@ -152,7 +152,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <outlet property="detailTextLabel" destination="2Ko-X7-g8F" id="AZT-np-2Jt"/>
@@ -168,7 +168,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </collectionViewCell>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="explanation" id="5Y8-Az-p5E" customClass="DRDeviceCell">
                                                 <rect key="frame" x="15" y="240" width="290" height="20"/>
@@ -307,16 +307,10 @@
                         <outlet property="myNavigationBar" destination="uPg-yC-gry" id="zpO-5e-SsU"/>
                         <outlet property="myNavigationItem" destination="zM5-fv-FKH" id="5Zr-kt-xmY"/>
                         <outlet property="refreshButton" destination="wTn-Nk-xsj" id="mzb-5Q-YkV"/>
-                        <outlet property="scanProgressView" destination="YhU-wt-gXh" id="3Ja-xT-CPX"/>
                         <outlet property="stopButton" destination="1Nh-XT-VrU" id="jMd-Uf-Vhj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xzc-9V-hs4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" id="YhU-wt-gXh">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="3"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="tintColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
-                </progressView>
                 <barButtonItem systemItem="stop" id="1Nh-XT-VrU">
                     <connections>
                         <action selector="stopScanning" destination="ANI-8z-4AJ" id="X8L-05-Khx"/>

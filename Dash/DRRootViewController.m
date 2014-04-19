@@ -20,11 +20,11 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *stopButton;
-@property (strong, nonatomic) IBOutlet UIProgressView *scanProgressView;
 @property (weak, nonatomic) IBOutlet UIView *footerView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *myNavigationBar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *myNavigationItem;
+@property (weak, nonatomic) CALayer *scanProgressLayer;
 - (IBAction)didTapInfoButton:(UIButton *)sender;
 - (IBAction)didTapAboutButton:(id)sender;
 - (IBAction)didTapBuildButton:(id)sender;
@@ -51,7 +51,6 @@
     self.bleManager.discoveryDelegate = self;
     
     if (IS_IPAD) {
-        [self.myNavigationBar addSubview:self.scanProgressView];
         [self.myNavigationBar setBackgroundImage:[UIImage imageNamed:@"blank"] forBarMetrics:UIBarMetricsDefault];
         
 //        UIImageView *backgroundView = [[UIImageView alloc] initWithImage:self.backgroundImage];
@@ -81,10 +80,19 @@
         self.navigationItem.leftBarButtonItem = nil;
     }
     
-    CGFloat progressBarHeight = 2.5f;
-    CGRect navigaitonBarBounds = self.myNavigationBar.bounds;
-    CGRect barFrame = CGRectMake(0, navigaitonBarBounds.size.height - progressBarHeight, navigaitonBarBounds.size.width, progressBarHeight);
-    self.scanProgressView.frame = barFrame;
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, 0, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
+    CGPathAddLineToPoint(path, NULL, CGRectGetMaxX(self.myNavigationBar.bounds), CGRectGetMaxY(self.myNavigationBar.bounds)-1);
+    
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.frame = self.myNavigationBar.bounds;
+    layer.path = path;
+    layer.fillColor = nil;
+    layer.lineWidth = 2;
+    layer.strokeEnd = 0;
+    layer.strokeColor = [UIColor colorWithRed:0.515 green:0.515 blue:0.515 alpha:0.666].CGColor;
+    [self.myNavigationBar.layer addSublayer:layer];
+    self.scanProgressLayer = layer;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionStatusChanged)
@@ -116,8 +124,6 @@
     if (IS_IPAD) {
         [self.navigationController setNavigationBarHidden:YES animated:animated];
         [self.backgroundImageView setImage:self.backgroundImage];
-    } else {
-        [self.navigationController.navigationBar addSubview:self.scanProgressView];
     }
 //    [self.bleManager disconnectPeripheral];
     [self.collectionView reloadData];
@@ -128,9 +134,8 @@
     [super viewWillDisappear:animated];
     if (IS_IPAD) {
         [self.navigationController setNavigationBarHidden:NO animated:animated];
-    } else {
-        [self.scanProgressView removeFromSuperview];
     }
+    [self.scanProgressLayer removeAllAnimations];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -188,9 +193,13 @@
     _shouldShowResults = YES;
     
     if (self.bleManager.manager.isCentralReady) {
-        self.scanProgressView.progress = 0;
-        [NSTimer scheduledTimerWithTimeInterval:SCAN_INTERVAL/100.0 target:self selector:@selector(updateScanProgress:) userInfo:nil repeats:YES];
-        
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        animation.duration = SCAN_INTERVAL;
+        animation.fromValue = @0.0;
+        animation.toValue = @1.0;
+        animation.removedOnCompletion = YES;
+        [self.scanProgressLayer addAnimation:animation forKey:@"strokeEnd"];
+
         [self.myNavigationItem setRightBarButtonItem:self.stopButton animated:NO];
         
         [self.bleManager startScanning];
@@ -199,24 +208,14 @@
         self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startScanning) userInfo:nil repeats:NO];
     } else {
         [self.bleManager startScanning];
-        self.scanProgressView.progress = 0;
         [self discoveryDidRefresh];
-    }
-}
-
-- (void)updateScanProgress:(NSTimer *)timer
-{
-    if (self.scanProgressView.progress < 1 && self.bleManager.manager.scanning) {
-        self.scanProgressView.progress += timer.timeInterval / SCAN_INTERVAL;
-    } else {
-        [timer invalidate];
-        self.scanProgressView.progress = 0;
     }
 }
 
 - (void)stopScanning
 {
     [self.bleManager stopScanning];
+    [self.scanProgressLayer removeAllAnimations];
 }
 
 - (IBAction)didTapAboutButton:(id)sender {

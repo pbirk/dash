@@ -12,6 +12,7 @@
 
 -(void)awakeFromNib
 {
+    [super awakeFromNib];
     self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.imageView.layer.cornerRadius = CGRectGetWidth(self.imageView.bounds)/2;
     self.imageView.layer.borderWidth = [UIScreen mainScreen].scale == 2.0 ? 0.5 : 1;

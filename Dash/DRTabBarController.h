@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RMMultipleViewsController.h"
 
-@interface DRTabBarController : UITabBarController
+@interface DRTabBarController : RMMultipleViewsController
 
 @end

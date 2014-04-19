@@ -134,7 +134,8 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 - (void) reset;
 - (void) setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
 - (void) setThrottle:(CGFloat)throttle direction:(CGFloat)direction;
-- (void) setEyeColor:(UIColor *)color;
+@property (strong, nonatomic) UIColor *eyeColor;
+//- (void) setEyeColor:(UIColor *)color;
 
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;
 

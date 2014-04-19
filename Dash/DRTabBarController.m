@@ -10,36 +10,40 @@
 #import "DRCentralManager.h"
 
 @interface DRTabBarController ()
-- (IBAction)didTapDisconnect;
+- (IBAction)didTapDisconnect:(id)sender;
 @end
 
 @implementation DRTabBarController
 
-- (void)viewDidLoad
+- (void)awakeFromNib
 {
-    [super viewDidLoad];
+    [super awakeFromNib];
     
-    UIBarButtonItem *disconnect = [[UIBarButtonItem alloc] initWithTitle:@"Disconnect" style:UIBarButtonItemStyleBordered target:self action:@selector(didTapDisconnect)];
-    self.navigationItem.leftBarButtonItem = disconnect;
     self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.titleView = nil;
+//    [UISegmentedControl appearance] [setTitleTextAttributes: forState:UIControlStateNormal]
     
+    self.viewController = @[
+                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRJoystickViewController"],
+                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRMotionViewController"],
+                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRConfigViewController"]
+                            ];
     if (IS_IPAD) {
-        self.viewControllers = @[self.viewControllers[0], self.viewControllers[2]];
+        [self.viewController[0] setTitle:@"MANUAL DRIVE"];
+        [self.viewController[1] setTitle:@"AUTOMATIC MODES"];
+        [self.viewController[2] setTitle:@"CONFIGURE"];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[@"Disconnect" uppercaseString] style:UIBarButtonItemStyleBordered target:self action:@selector(didTapDisconnect:)];
+    } else {
+        [self.viewController[0] setTitle:@"DRIVE"];
+        [self.viewController[1] setTitle:@"AUTO"];
+        [self.viewController[2] setTitle:@"CONFIG"];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(didTapDisconnect:)];
     }
 }
 
-- (IBAction)didTapDisconnect
+- (IBAction)didTapDisconnect:(id)sender
 {
     [[DRCentralManager sharedInstance] disconnectPeripheral];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
-//- (void)setSelectedViewController:(UIViewController *)selectedViewController {
-//    [super setSelectedViewController:selectedViewController];
-////    self.title = self.tabBar.selectedItem.title;
-//    self.title = selectedViewController.title;
-//}
-
 
 @end
