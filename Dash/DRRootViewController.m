@@ -296,7 +296,7 @@
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
     NSInteger index = self.bleManager.manager.scanning ? indexPath.row - 1 : indexPath.row;
     if (index < 0 || !self.bleManager.peripherals.count) {
-        return CGSizeMake(flowLayout.itemSize.width, flowLayout.itemSize.height/4); // explanation row
+        return CGSizeMake(flowLayout.itemSize.width, 16); // explanation row
     } else {
         return flowLayout.itemSize;
     }

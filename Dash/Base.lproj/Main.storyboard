@@ -439,14 +439,14 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="explanation" id="kke-uW-FZI" customClass="DRDeviceCell">
-                                        <rect key="frame" x="15" y="240" width="290" height="60"/>
+                                        <rect key="frame" x="15" y="240" width="290" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="290" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="left" text="EXPLANATION" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbn-CO-XSO">
-                                                    <rect key="frame" x="104" y="46" width="82" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="left" misplaced="YES" text="EXPLANATION" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbn-CO-XSO">
+                                                    <rect key="frame" x="104" y="5" width="82" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="12"/>
                                                     <color key="textColor" red="0.58647896039603964" green="0.58647896039603964" blue="0.58647896039603964" alpha="1" colorSpace="deviceRGB"/>
@@ -460,6 +460,7 @@
                                             <constraint firstAttribute="centerX" secondItem="Dbn-CO-XSO" secondAttribute="centerX" id="H7q-27-Iq2"/>
                                             <constraint firstAttribute="bottom" secondItem="Dbn-CO-XSO" secondAttribute="bottom" constant="-3" id="WGX-rF-Fap"/>
                                         </constraints>
+                                        <size key="customSize" width="290" height="20"/>
                                         <connections>
                                             <outlet property="textLabel" destination="Dbn-CO-XSO" id="WXk-4c-V1R"/>
                                         </connections>

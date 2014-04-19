@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="V46-6f-W0A">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="V46-6f-W0A">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -24,7 +24,7 @@
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LAR-oH-LBr">
                                         <rect key="frame" x="168" y="102" width="320" height="450"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="320" id="02v-IU-Nvu"/>
                                             <constraint firstAttribute="height" constant="450" id="9N4-lR-E32"/>
@@ -145,14 +145,14 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </collectionViewCell>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="explanation" id="5Y8-Az-p5E" customClass="DRDeviceCell">
-                                                <rect key="frame" x="15" y="240" width="290" height="60"/>
+                                                <rect key="frame" x="15" y="240" width="290" height="20"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="60"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="left" text="EXPLANATION" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMB-QM-DaM">
-                                                            <rect key="frame" x="0.0" y="46" width="290" height="17"/>
+                                                            <rect key="frame" x="0.0" y="6" width="290" height="17"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="12"/>
                                                             <color key="textColor" red="0.58647896040000003" green="0.58647896040000003" blue="0.58647896040000003" alpha="1" colorSpace="deviceRGB"/>
@@ -167,6 +167,7 @@
                                                     <constraint firstItem="wMB-QM-DaM" firstAttribute="leading" secondItem="5Y8-Az-p5E" secondAttribute="leading" id="vJ8-2H-xaV"/>
                                                     <constraint firstAttribute="bottom" secondItem="wMB-QM-DaM" secondAttribute="bottom" constant="-3" id="zOy-Sy-eQv"/>
                                                 </constraints>
+                                                <size key="customSize" width="290" height="20"/>
                                                 <connections>
                                                     <outlet property="textLabel" destination="wMB-QM-DaM" id="GB4-Xb-6mH"/>
                                                 </connections>
@@ -204,11 +205,11 @@
                                         </items>
                                     </navigationBar>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RHI-Ka-EBN">
-                                        <rect key="frame" x="167" y="552" width="320" height="80"/>
+                                        <rect key="frame" x="167" y="552" width="320" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2aU-HU-qc8" customClass="DRButton">
-                                                <rect key="frame" x="167" y="15" width="138" height="50"/>
+                                                <rect key="frame" x="167" y="13" width="138" height="38"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
@@ -223,7 +224,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wje-lx-qwm" customClass="DRButton">
-                                                <rect key="frame" x="15" y="15" width="137" height="50"/>
+                                                <rect key="frame" x="15" y="13" width="137" height="38"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
@@ -240,15 +241,15 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="wje-lx-qwm" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" constant="15" id="8Gd-2x-ny2"/>
+                                            <constraint firstItem="wje-lx-qwm" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" constant="13" id="8Gd-2x-ny2"/>
                                             <constraint firstItem="wje-lx-qwm" firstAttribute="width" secondItem="2aU-HU-qc8" secondAttribute="width" id="9B3-as-j9m"/>
                                             <constraint firstItem="2aU-HU-qc8" firstAttribute="leading" secondItem="wje-lx-qwm" secondAttribute="trailing" constant="15" id="IAf-Qw-hyG"/>
-                                            <constraint firstAttribute="bottom" secondItem="2aU-HU-qc8" secondAttribute="bottom" constant="15" id="PPI-bg-Mrg"/>
-                                            <constraint firstAttribute="height" constant="80" id="g8Y-Qs-SRQ"/>
+                                            <constraint firstAttribute="bottom" secondItem="2aU-HU-qc8" secondAttribute="bottom" constant="13" id="PPI-bg-Mrg"/>
+                                            <constraint firstAttribute="height" constant="64" id="g8Y-Qs-SRQ"/>
                                             <constraint firstItem="wje-lx-qwm" firstAttribute="leading" secondItem="RHI-Ka-EBN" secondAttribute="leading" constant="15" id="gcT-H2-wq2"/>
-                                            <constraint firstItem="2aU-HU-qc8" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" constant="15" id="pXV-1h-IYW"/>
+                                            <constraint firstItem="2aU-HU-qc8" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" constant="13" id="pXV-1h-IYW"/>
                                             <constraint firstAttribute="trailing" secondItem="2aU-HU-qc8" secondAttribute="trailing" constant="15" id="va3-HR-nFK"/>
-                                            <constraint firstAttribute="bottom" secondItem="wje-lx-qwm" secondAttribute="bottom" constant="15" id="zGE-Iw-cHr"/>
+                                            <constraint firstAttribute="bottom" secondItem="wje-lx-qwm" secondAttribute="bottom" constant="13" id="zGE-Iw-cHr"/>
                                         </constraints>
                                     </view>
                                 </subviews>
