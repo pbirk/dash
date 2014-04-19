@@ -5,7 +5,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller - Title-->
+        <!--Root View Controller - Devices-->
         <scene sceneID="YXA-GX-2cC">
             <objects>
                 <viewController storyboardIdentifier="DRRootViewController" automaticallyAdjustsScrollViewInsets="NO" id="ANI-8z-4AJ" customClass="DRRootViewController" sceneMemberID="viewController">
@@ -17,11 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" tag="12" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portrait.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="nay-pO-Lbg">
+                            <imageView userInteractionEnabled="NO" tag="12" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portrait.png" translatesAutoresizingMaskIntoConstraints="NO" id="nay-pO-Lbg">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" tag="21" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landscape.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="NiD-2a-NTc">
+                            <imageView userInteractionEnabled="NO" tag="21" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landscape.png" translatesAutoresizingMaskIntoConstraints="NO" id="NiD-2a-NTc">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -299,7 +299,9 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Title" id="LlB-e3-HmR"/>
+                    <navigationItem key="navigationItem" title="Devices" id="LlB-e3-HmR">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="ibW-Fn-JK0"/>
+                    </navigationItem>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -341,8 +343,8 @@
     <resources>
         <image name="dash-60" width="60" height="60"/>
         <image name="joystick-icon" width="30" height="30"/>
-        <image name="landscape.jpg" width="1024" height="768"/>
-        <image name="portrait.jpg" width="768" height="1024"/>
+        <image name="landscape.png" width="1024" height="768"/>
+        <image name="portrait.png" width="768" height="1024"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

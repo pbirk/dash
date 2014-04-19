@@ -70,10 +70,12 @@
         
         UIView *contentView = [self.view viewWithTag:666];
         contentView.transform = CGAffineTransformMakeTranslation(320, 0);
+        [self animateContentViewDuration:0.6 afterDelay:0.3];
         
-        [UIView animateWithDuration:0.6 delay:0.3 usingSpringWithDamping:0.6 initialSpringVelocity:0.5 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            contentView.transform = CGAffineTransformIdentity;
-        } completion:nil];
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panContentView:)];
+        panGesture.maximumNumberOfTouches = 1;
+        [contentView addGestureRecognizer:panGesture];
+        
     } else {
         self.myNavigationItem = self.navigationItem;
         self.myNavigationBar = self.navigationController.navigationBar;
@@ -82,7 +84,7 @@
     
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathMoveToPoint(path, NULL, 0, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
-    CGPathAddLineToPoint(path, NULL, CGRectGetMaxX(self.myNavigationBar.bounds), CGRectGetMaxY(self.myNavigationBar.bounds)-1);
+    CGPathAddLineToPoint(path, NULL, CGRectGetMaxX(self.myNavigationBar.bounds)*1.1, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
     
     CAShapeLayer *layer = [CAShapeLayer layer];
     layer.frame = self.myNavigationBar.bounds;
@@ -98,6 +100,40 @@
                                              selector:@selector(connectionStatusChanged)
                                                  name:kLGPeripheralDidDisconnect
                                                object:nil];
+}
+
+- (void)panContentView:(UIPanGestureRecognizer *)panGesture
+{
+    UIView *contentView = [self.view viewWithTag:666];
+    CGFloat xTranslation = [panGesture translationInView:contentView.superview].x;
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+            break;
+        case UIGestureRecognizerStateChanged: {
+            if (xTranslation < 0) xTranslation /= 20;
+            contentView.layer.transform = CATransform3DMakeTranslation(xTranslation, 0, 0);
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:{
+            NSTimeInterval animationDuration = xTranslation < 0 ? 0.2 : 0.5;
+            [self animateContentViewDuration:animationDuration afterDelay:0];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)animateContentViewDuration:(NSTimeInterval)duration afterDelay:(NSTimeInterval)delay
+{
+    UIView *contentView = [self.view viewWithTag:666];
+    CGFloat initialSpringVelocity = delay > 0 ? 0.5 : 0;
+    [UIView animateWithDuration:duration delay:delay usingSpringWithDamping:0.6 initialSpringVelocity:initialSpringVelocity options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+//        contentView.transform = CGAffineTransformIdentity;
+        contentView.layer.transform = CATransform3DIdentity;
+    } completion:nil];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
