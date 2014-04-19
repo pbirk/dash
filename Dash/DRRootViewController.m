@@ -10,6 +10,7 @@
 #import "DRRobotLeService.h"
 #import "DRDeviceCell.h"
 #import "DRWebViewController.h"
+#import "NSArray+AnyObject.h"
 
 @interface DRRootViewController () {
     BOOL _shouldShowResults;
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *stopButton;
 @property (strong, nonatomic) IBOutlet UIProgressView *scanProgressView;
 @property (weak, nonatomic) IBOutlet UIView *footerView;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *myNavigationBar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *myNavigationItem;
 - (IBAction)didTapInfoButton:(UIButton *)sender;
@@ -32,6 +34,15 @@
 
 @implementation DRRootViewController
 
+- (UIImage *)backgroundImage
+{
+    return [UIImage imageNamed:@[
+                                 @"dash_on_rocks_tight_credit_DRI.jpg",
+                                 @"IMG_7008_multi_color_bots_credit_DRI.jpg",
+                                 @"7054_dash_in_tube_credit_DRI.jpg"
+                                 ].anyObject];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,8 +51,30 @@
     self.bleManager.discoveryDelegate = self;
     
     if (IS_IPAD) {
-        self.collectionView.backgroundColor = self.view.backgroundColor;
         [self.myNavigationBar addSubview:self.scanProgressView];
+        [self.myNavigationBar setBackgroundImage:[UIImage imageNamed:@"blank"] forBarMetrics:UIBarMetricsDefault];
+        
+//        UIImageView *backgroundView = [[UIImageView alloc] initWithImage:self.backgroundImage];
+//        backgroundView.contentMode = UIViewContentModeScaleAspectFill;
+//        backgroundView.frame = self.view.bounds;
+//        backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+//        [self.view insertSubview:backgroundView atIndex:0];
+//        self.backgroundImageView = backgroundView;
+        
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            [self.view viewWithTag:12].alpha = 1;
+            [self.view viewWithTag:21].alpha = 0;
+        } else {
+            [self.view viewWithTag:12].alpha = 0;
+            [self.view viewWithTag:21].alpha = 1;
+        }
+        
+        UIView *contentView = [self.view viewWithTag:666];
+        contentView.transform = CGAffineTransformMakeTranslation(320, 0);
+        
+        [UIView animateWithDuration:0.6 delay:0.3 usingSpringWithDamping:0.6 initialSpringVelocity:0.5 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            contentView.transform = CGAffineTransformIdentity;
+        } completion:nil];
     } else {
         self.myNavigationItem = self.navigationItem;
         self.myNavigationBar = self.navigationController.navigationBar;
@@ -59,6 +92,19 @@
                                                object:nil];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            [self.view viewWithTag:12].alpha = 1;
+            [self.view viewWithTag:21].alpha = 0;
+        } else {
+            [self.view viewWithTag:12].alpha = 0;
+            [self.view viewWithTag:21].alpha = 1;
+        }
+    }];
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidDisconnect object:nil];
@@ -67,17 +113,24 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (IS_IPAD) [self.navigationController setNavigationBarHidden:YES animated:animated];
+    if (IS_IPAD) {
+        [self.navigationController setNavigationBarHidden:YES animated:animated];
+        [self.backgroundImageView setImage:self.backgroundImage];
+    } else {
+        [self.navigationController.navigationBar addSubview:self.scanProgressView];
+    }
 //    [self.bleManager disconnectPeripheral];
-    if (!IS_IPAD) [self.navigationController.navigationBar addSubview:self.scanProgressView];
     [self.collectionView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (IS_IPAD) [self.navigationController setNavigationBarHidden:NO animated:animated];
-    if (!IS_IPAD) [self.scanProgressView removeFromSuperview];
+    if (IS_IPAD) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    } else {
+        [self.scanProgressView removeFromSuperview];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

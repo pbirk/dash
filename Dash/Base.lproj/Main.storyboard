@@ -47,7 +47,7 @@
                                 <rect key="frame" x="60" y="15" width="200" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-gf-7tw">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-gf-7tw">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="250"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.85882352939999995" green="0.86666666670000003" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -56,10 +56,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UlX-mT-ube">
-                                        <rect key="frame" x="10" y="5" width="73" height="33"/>
+                                        <rect key="frame" x="10" y="5" width="76" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="15"/>
-                                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="15"/>
                                         <state key="normal" title="Reset Attitude">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -237,7 +236,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ify-zw-7Po">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ify-zw-7Po">
                                 <rect key="frame" x="35" y="15" width="250" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.85882352939999995" green="0.86666666670000003" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -263,15 +262,15 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eKO-VT-W4D">
-                                <rect key="frame" x="263" y="5" width="51" height="31"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eKO-VT-W4D">
+                                <rect key="frame" x="263" y="0.0" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="didToggleGyroDrive:" destination="vXZ-lx-hvc" eventType="valueChanged" id="p7V-R2-sKt"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="gyro" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bw8-s3-W0e">
-                                <rect key="frame" x="234" y="10" width="24" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="gyro" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bw8-s3-W0e">
+                                <rect key="frame" x="234" y="5" width="24" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -280,14 +279,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="eKO-VT-W4D" firstAttribute="leading" secondItem="bw8-s3-W0e" secondAttribute="trailing" constant="5" id="2vQ-mw-RHg"/>
                             <constraint firstItem="Ify-zw-7Po" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="35" id="8yk-K7-xAt"/>
                             <constraint firstItem="SY0-ZB-jgF" firstAttribute="top" secondItem="8Tp-FG-hc0" secondAttribute="bottom" constant="20" id="95N-IK-8OR"/>
+                            <constraint firstAttribute="trailing" secondItem="eKO-VT-W4D" secondAttribute="trailing" constant="8" id="HER-BQ-Qgp"/>
                             <constraint firstItem="8Tp-FG-hc0" firstAttribute="top" secondItem="Ify-zw-7Po" secondAttribute="bottom" id="MlI-US-zLb"/>
                             <constraint firstAttribute="trailing" secondItem="8Tp-FG-hc0" secondAttribute="trailing" constant="20" id="Rme-th-BlU"/>
                             <constraint firstItem="8Tp-FG-hc0" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="c1c-6r-2DV"/>
                             <constraint firstAttribute="trailing" secondItem="Ify-zw-7Po" secondAttribute="trailing" constant="35" id="qv6-bQ-pSA"/>
                             <constraint firstAttribute="centerX" secondItem="Ify-zw-7Po" secondAttribute="centerX" id="s4V-Vj-pxu"/>
                             <constraint firstItem="Ify-zw-7Po" firstAttribute="top" secondItem="nDO-so-cMq" secondAttribute="bottom" constant="15" id="tag-oT-tnU"/>
+                            <constraint firstItem="eKO-VT-W4D" firstAttribute="centerY" secondItem="bw8-s3-W0e" secondAttribute="centerY" id="yNN-ga-Ipo"/>
+                            <constraint firstItem="eKO-VT-W4D" firstAttribute="top" secondItem="nDO-so-cMq" secondAttribute="bottom" id="z77-fx-h3q"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>

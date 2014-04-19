@@ -50,8 +50,8 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"mode=%c, yaw=%lu, light=%lu, proxL=%lu, proxR=%lu, motorL=%ld, motorR=%ld",
-            self.mode, (unsigned long)self.yaw, (unsigned long)self.ambientLight,
+    return [NSString stringWithFormat:@"yaw: %lu\nlight: %lu\nproximity: %lu / %lu\nmotor: %ld / %ld",
+            /*self.mode,*/ (unsigned long)self.yaw, (unsigned long)self.ambientLight,
             (unsigned long)self.proximityLeft, (unsigned long)self.proximityRight,
             (long)self.leftMotor, (long)self.rightMotor];
 }

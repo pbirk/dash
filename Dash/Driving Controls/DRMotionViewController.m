@@ -9,6 +9,7 @@
 #import "DRMotionViewController.h"
 #import <CoreMotion/CoreMotion.h>
 #import "DRCentralManager.h"
+#import "DRSignalPacket.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 
@@ -137,6 +138,16 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     if (IS_IPAD) {
         [self resetAttitude];
     }
+}
+
+- (void)receivedNotifyWithData:(NSData *)data
+{
+    self.debugLabel.text = [data description];
+}
+
+- (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
+{
+    self.debugLabel.text = [signals description];
 }
 
 #pragma mark - Touch Events
