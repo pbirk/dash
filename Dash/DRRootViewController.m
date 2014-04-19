@@ -70,7 +70,10 @@
         
         UIView *contentView = [self.view viewWithTag:666];
         contentView.transform = CGAffineTransformMakeTranslation(320, 0);
-        [self animateContentViewDuration:0.6 afterDelay:0.3];
+        [UIView animateWithDuration:0.6 delay:0.3 usingSpringWithDamping:0.6 initialSpringVelocity:0.5 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            contentView.transform = CGAffineTransformIdentity;
+        } completion:nil];
+
         
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panContentView:)];
         panGesture.maximumNumberOfTouches = 1;
@@ -118,22 +121,15 @@
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:{
             NSTimeInterval animationDuration = xTranslation < 0 ? 0.2 : 0.5;
-            [self animateContentViewDuration:animationDuration afterDelay:0];
+            [UIView animateWithDuration:animationDuration delay:0 usingSpringWithDamping:0.66 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                contentView.layer.transform = CATransform3DIdentity;
+            } completion:nil];
+
             break;
         }
         default:
             break;
     }
-}
-
-- (void)animateContentViewDuration:(NSTimeInterval)duration afterDelay:(NSTimeInterval)delay
-{
-    UIView *contentView = [self.view viewWithTag:666];
-    CGFloat initialSpringVelocity = delay > 0 ? 0.5 : 0;
-    [UIView animateWithDuration:duration delay:delay usingSpringWithDamping:0.6 initialSpringVelocity:initialSpringVelocity options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-//        contentView.transform = CGAffineTransformIdentity;
-        contentView.layer.transform = CATransform3DIdentity;
-    } completion:nil];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
