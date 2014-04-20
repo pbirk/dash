@@ -87,7 +87,7 @@
     
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathMoveToPoint(path, NULL, 0, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
-    CGPathAddLineToPoint(path, NULL, CGRectGetMaxX(self.myNavigationBar.bounds)*1.1, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
+    CGPathAddLineToPoint(path, NULL, CGRectGetMaxX(self.myNavigationBar.bounds)*1.05, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
     
     CAShapeLayer *layer = [CAShapeLayer layer];
     layer.frame = self.myNavigationBar.bounds;
