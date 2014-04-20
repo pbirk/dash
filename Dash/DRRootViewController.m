@@ -34,31 +34,30 @@
 
 @implementation DRRootViewController
 
-- (UIImage *)backgroundImage
-{
-    return [UIImage imageNamed:@[
-                                 @"dash_on_rocks_tight_credit_DRI.jpg",
-                                 @"IMG_7008_multi_color_bots_credit_DRI.jpg",
-                                 @"7054_dash_in_tube_credit_DRI.jpg"
-                                 ].anyObject];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Show launch image over content, so we can force it to be visible longer
+//    if (!IS_IPAD) {
+//        NSString *backgroundImage = IS_WIDESCREEN ? @"iphone-tall" : @"iphone";
+//        UIImageView *splashView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:backgroundImage]];
+//        UIWindow *window = [UIApplication sharedApplication].windows[0];
+//        splashView.center = window.center;
+//        [window addSubview:splashView];
+//        [window bringSubviewToFront:splashView];
+//        [UIView animateWithDuration:0.5 delay:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//            splashView.alpha = 0;
+//        } completion:^(BOOL finished) {
+//            if (finished) [splashView removeFromSuperview];
+//        }];
+//    }
     
     self.bleManager = [DRCentralManager sharedInstance];
     self.bleManager.discoveryDelegate = self;
     
     if (IS_IPAD) {
         [self.myNavigationBar setBackgroundImage:[UIImage imageNamed:@"blank"] forBarMetrics:UIBarMetricsDefault];
-        
-//        UIImageView *backgroundView = [[UIImageView alloc] initWithImage:self.backgroundImage];
-//        backgroundView.contentMode = UIViewContentModeScaleAspectFill;
-//        backgroundView.frame = self.view.bounds;
-//        backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-//        [self.view insertSubview:backgroundView atIndex:0];
-//        self.backgroundImageView = backgroundView;
         
         if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
             [self.view viewWithTag:12].alpha = 1;
@@ -74,15 +73,18 @@
             contentView.transform = CGAffineTransformIdentity;
         } completion:nil];
 
-        
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panContentView:)];
         panGesture.maximumNumberOfTouches = 1;
         [contentView addGestureRecognizer:panGesture];
-        
     } else {
         self.myNavigationItem = self.navigationItem;
         self.myNavigationBar = self.navigationController.navigationBar;
         self.navigationItem.leftBarButtonItem = nil;
+        
+//        NSString *backgroundImage = IS_WIDESCREEN ? @"iphone-tall-blur" : @"iphone-blur";
+//        UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:backgroundImage]];
+//        backgroundView.center = CGPointMake(self.view.center.x, self.view.center.y - CGRectGetMaxY(self.navigationController.navigationBar.frame));
+//        [self.view insertSubview:backgroundView atIndex:0];
     }
     
     CGMutablePathRef path = CGPathCreateMutable();
@@ -155,7 +157,6 @@
     [super viewWillAppear:animated];
     if (IS_IPAD) {
         [self.navigationController setNavigationBarHidden:YES animated:animated];
-        [self.backgroundImageView setImage:self.backgroundImage];
     }
 //    [self.bleManager disconnectPeripheral];
     [self.collectionView reloadData];
