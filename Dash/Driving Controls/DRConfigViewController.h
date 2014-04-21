@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DRControlsViewController.h"
 
-@interface DRConfigViewController : UIViewController
+@interface DRConfigViewController : DRControlsViewController
 
 @end

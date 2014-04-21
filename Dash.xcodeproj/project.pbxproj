@@ -21,6 +21,7 @@
 		6638F5461904406000F7396B /* iphone-blur@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6638F5441904406000F7396B /* iphone-blur@2x.png */; };
 		6638F5471904406000F7396B /* iphone-tall-blur@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6638F5451904406000F7396B /* iphone-tall-blur@2x.png */; };
 		6638F54C190459E100F7396B /* iphone-tall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6638F54B190459E100F7396B /* iphone-tall@2x.png */; };
+		6638F54F1904920800F7396B /* DREyeColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6638F54E1904920800F7396B /* DREyeColorButton.m */; };
 		667EA4CF18C3060C00E1C249 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667EA4CE18C3060C00E1C249 /* CoreMotion.framework */; };
 		66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */; };
 		66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */; };
@@ -78,6 +79,8 @@
 		6638F5441904406000F7396B /* iphone-blur@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone-blur@2x.png"; sourceTree = "<group>"; };
 		6638F5451904406000F7396B /* iphone-tall-blur@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone-tall-blur@2x.png"; sourceTree = "<group>"; };
 		6638F54B190459E100F7396B /* iphone-tall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone-tall@2x.png"; sourceTree = "<group>"; };
+		6638F54D1904920800F7396B /* DREyeColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DREyeColorButton.h; sourceTree = "<group>"; };
+		6638F54E1904920800F7396B /* DREyeColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DREyeColorButton.m; sourceTree = "<group>"; };
 		667EA4CE18C3060C00E1C249 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		66AA0F3918CD6E460093D5E3 /* DRRobotLeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRobotLeService.h; sourceTree = "<group>"; };
 		66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRobotLeService.m; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 				6638F5191902048200F7396B /* NSArray+AnyObject.h */,
 				6638F52A190217AE00F7396B /* RMMultipleViewsController.h */,
 				6638F52B190217AE00F7396B /* RMMultipleViewsController.m */,
+				6638F54D1904920800F7396B /* DREyeColorButton.h */,
+				6638F54E1904920800F7396B /* DREyeColorButton.m */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -458,6 +463,7 @@
 				66B2285418FA68C7008C6445 /* DRJoystickViewController.m in Sources */,
 				66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */,
 				66B2284718FA6896008C6445 /* DRWebViewController.m in Sources */,
+				6638F54F1904920800F7396B /* DREyeColorButton.m in Sources */,
 				66F0559918E521DC00ED241D /* LGUtils.m in Sources */,
 				66B2285818FAFDF7008C6445 /* DRButton.m in Sources */,
 				66B2285318FA68C7008C6445 /* DRControlsViewController.m in Sources */,

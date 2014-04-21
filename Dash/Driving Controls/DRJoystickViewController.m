@@ -34,9 +34,16 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
     [self updateThrottle:0 direction:0];
     self.joystickBase.layer.cornerRadius = CGRectGetWidth(self.joystickBase.bounds) / 2;
     self.joystickNub.layer.cornerRadius = CGRectGetWidth(self.joystickNub.bounds) / 2;
-    
-    UIButton *eye = (UIButton *)[self.view viewWithTag:111];
-    [eye setImage:[eye.currentImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+
+    if (IS_IPAD) {
+        UIView *eyeButton = [self.view viewWithTag:111];
+        for (NSLayoutConstraint *constraint in eyeButton.constraints) {
+            NSLog(@"c %@", constraint);
+            if (constraint.firstItem == eyeButton && constraint.secondItem == nil) {
+                constraint.constant = 50;
+            }
+        }
+    }
 }
 
 - (void)sendUpdate
@@ -59,9 +66,6 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    UIColor *color = [self.bleService.eyeColor isEqual:[UIColor whiteColor]] ? [UIColor darkGrayColor] : self.bleService.eyeColor;
-    [[self.view viewWithTag:111] setTintColor:color];
 }
 
 - (void)viewDidAppear:(BOOL)animated
