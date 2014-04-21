@@ -101,20 +101,24 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
             if ([service.UUIDString isEqualToString:kBiscuitServiceUUIDString]) {
                 weakSelf.robotService = service;
                 [weakSelf.robotService discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
-                    for (LGCharacteristic *characteristic in characteristics) {
-                        if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
-                            NSLog(@"Discovered write without response");
-                            weakSelf.writeWoResponseCharacteristic = characteristic;
-                        } else if ([characteristic.UUIDString isEqualToString:kNotifyCharacteristicUUIDString]) {
-                            NSLog(@"Discovered notify");
-                            weakSelf.notifyCharacteristic = characteristic;
-                        }
-                    }
+                    [weakSelf processCharacteristics:characteristics];
                 }];
                 break;
             }
         }
     }];
+}
+
+- (void) processCharacteristics:(NSArray *)characteristics {
+    for (LGCharacteristic *characteristic in characteristics) {
+        if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
+            NSLog(@"Discovered write without response");
+            self.writeWoResponseCharacteristic = characteristic;
+        } else if ([characteristic.UUIDString isEqualToString:kNotifyCharacteristicUUIDString]) {
+            NSLog(@"Discovered notify");
+            self.notifyCharacteristic = characteristic;
+        }
+    }
 }
 
 - (void) dealloc
@@ -285,9 +289,14 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }
     
     if (!self.writeWoResponseCharacteristic) {
-        NSLog(@"No valid characteristic!");
+        if (self.robotService.cbService && self.robotService.cbService.characteristics.count) {
+            [self discover];
+            return;
+        } else {
+            NSLog(@"No valid characteristic!");
 //        [self discover];
-        return;
+            return;
+        }
     }
     
     [data setLength:PACKET_SIZE];

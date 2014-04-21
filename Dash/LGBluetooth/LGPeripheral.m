@@ -195,16 +195,24 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 - (void)connectionWatchDogFired
 {
     _watchDogRaised = YES;
-    __weak LGPeripheral *weakSelf = self;
-    [self disconnectWithCompletion:^(NSError *error) {
-        __strong LGPeripheral *strongSelf = weakSelf;
-        if (strongSelf.connectionBlock) {
-            // Delivering connection timeout
-            strongSelf.connectionBlock([self connectionErrorWithCode:kConnectionTimeoutErrorCode
-                                                             message:kConnectionTimeoutErrorMessage]);
+    if (self.cbPeripheral.state == CBPeripheralStateDisconnected) { // ADAM added so timeout will be called if we totally failed to connect
+        if (self.connectionBlock) {
+            self.connectionBlock([self connectionErrorWithCode:kConnectionTimeoutErrorCode
+                                                       message:kConnectionTimeoutErrorMessage]);
+            self.connectionBlock = nil;
         }
-        self.connectionBlock = nil;
-    }];
+    } else {
+        __weak LGPeripheral *weakSelf = self;
+        [self disconnectWithCompletion:^(NSError *error) {
+            __strong LGPeripheral *strongSelf = weakSelf;
+            if (strongSelf.connectionBlock) {
+                // Delivering connection timeout
+                strongSelf.connectionBlock([self connectionErrorWithCode:kConnectionTimeoutErrorCode
+                                                                 message:kConnectionTimeoutErrorMessage]);
+            }
+            self.connectionBlock = nil;
+        }];
+    }
 }
 
 - (void)updateServiceWrappers

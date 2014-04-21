@@ -57,6 +57,8 @@ static DRCentralManager *_sharedInstance = nil;
                 }
                 if (!data || error) {
                     NSLog(@"Error getting name/color: %@", error);
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error getting name" message:[NSString stringWithFormat:@"Unable to fetch name. %@", error] delegate:nil cancelButtonTitle:@"Bummer" otherButtonTitles:nil];
+//                    [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
                 }
                 [peripheral disconnectWithCompletion:nil];
             }];
@@ -67,7 +69,7 @@ static DRCentralManager *_sharedInstance = nil;
 
 - (void)startScanning {
 	NSArray			*uuidArray	= @[[CBUUID UUIDWithString:kBiscuitServiceUUIDString]];
-	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
+	NSDictionary	*options	= @{CBCentralManagerScanOptionAllowDuplicatesKey: @YES};
     
     [self.manager scanForPeripheralsByInterval:SCAN_INTERVAL services:uuidArray options:options completion:^(NSArray *peripherals) {
         [self.discoveryDelegate stoppedScanning];
