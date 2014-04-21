@@ -19,7 +19,6 @@
 - (void) discoveryDidRefresh;
 - (void) stoppedScanning;
 - (void) discoveryStatePoweredOff;
-- (void) connectionStatusChanged;
 @end
 
 @interface DRRobotProperties : NSObject
