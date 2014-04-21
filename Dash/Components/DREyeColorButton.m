@@ -14,6 +14,23 @@
 @property (weak, nonatomic) DRRobotLeService *bleService;
 @end
 
+@interface UIColor (changeBrightness)
+- (UIColor *)lighterColor;
+@end
+
+@implementation UIColor (changeBrightness)
+- (UIColor *)lighterColor
+{
+    CGFloat r, g, b, a;
+    if ([self getRed:&r green:&g blue:&b alpha:&a])
+        return [UIColor colorWithRed:MIN(r + 0.2, 1.0)
+                               green:MIN(g + 0.2, 1.0)
+                                blue:MIN(b + 0.2, 1.0)
+                               alpha:a];
+    return nil;
+}
+@end
+
 @implementation DREyeColorButton
 
 - (void)layoutSubviews
@@ -89,9 +106,10 @@
                      if (button != sender) button.alpha = 0;
                  }
                  if (sender != self) {
-                     self.tintColor = [sender backgroundColor];
-                     if ([self.tintColor isEqual:[UIColor blueColor]]) {
+                     if ([[sender backgroundColor] isEqual:[UIColor blueColor]]) {
                          self.tintColor = [UIColor colorWithRed:0.122 green:0.512 blue:0.998 alpha:1.000];
+                     } else {
+                         self.tintColor = [[sender backgroundColor] lighterColor];
                      }
                      [self setImage:[[UIImage imageNamed:@"eye-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
                  } else {
@@ -114,6 +132,7 @@
         } completion:nil];
     }
 }
+
 
 
 @end

@@ -17,8 +17,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [UIApplication sharedApplication].idleTimerDisabled = YES;
-    
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"bbaef82dd4b40fb821a70c63b6855007"];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
@@ -46,7 +44,7 @@
     [[UISegmentedControl appearance] setTitleTextAttributes:@{
                                                               NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:14],
                                                               } forState:UIControlStateNormal];
-    NSUInteger yOffset = [UIScreen mainScreen].scale == 2 ? 2 : 1;
+    NSUInteger yOffset = IS_RETINA ? 2 : 1;
     [[UISegmentedControl appearance] setContentPositionAdjustment:UIOffsetMake(0, yOffset) forSegmentType:UISegmentedControlSegmentAny barMetrics:UIBarMetricsDefault];
     
     self.window.tintColor = [UIColor blackColor];

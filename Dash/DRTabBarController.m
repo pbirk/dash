@@ -38,12 +38,21 @@
         [self.viewController[2] setTitle:@"CONFIG"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(didTapDisconnect:)];
     }
+    
+    
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
 }
 
 - (IBAction)didTapDisconnect:(id)sender
 {
     [[DRCentralManager sharedInstance] disconnectPeripheral];
     [self.navigationController popToRootViewControllerAnimated:YES];
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
+}
+
+- (void)dealloc
+{
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
 }
 
 @end
