@@ -65,11 +65,13 @@
     
     NSMutableArray *buttons = [NSMutableArray array];
     for (NSUInteger i = 0; i < colors.count; i++) {
-        UIButton *button = [[UIButton alloc] initWithFrame:self.frame];
+        UIButton *button = [[DRButton alloc] initWithFrame:self.frame];
         button.backgroundColor = colors[i];
         button.layer.cornerRadius = CGRectGetHeight(self.bounds)/2;
-        button.layer.borderColor = [UIColor grayColor].CGColor;
-        button.layer.borderWidth = 0.5;
+        if ([button.backgroundColor isEqual:[UIColor whiteColor]]) {
+            button.layer.borderColor = [UIColor grayColor].CGColor;
+            button.layer.borderWidth = 0.5;
+        }
         button.alpha = 0;
         [button addTarget:self action:@selector(didTapEyeColorButton:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -98,7 +100,7 @@
             }
         }
         
-        [UIView animateWithDuration:kAnimationTotalTime delay:0
+        [UIView animateWithDuration:kAnimationTotalTime-0.09 delay:0
              usingSpringWithDamping:1 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                  for (NSUInteger i = 0; i < self.buttons.count; i++) {
                      UIButton *button = self.buttons[i];

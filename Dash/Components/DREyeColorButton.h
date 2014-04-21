@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DRButton.h"
 
-@interface DREyeColorButton : UIButton
+@interface DREyeColorButton : DRButton
 
 @property CGFloat buttonPadding;
 @property (strong, nonatomic) NSArray *buttons;

@@ -13,9 +13,15 @@
 -(void)awakeFromNib
 {
     [super awakeFromNib];
+    self.imageView.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;
     self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.imageView.layer.cornerRadius = CGRectGetWidth(self.imageView.bounds)/2;
     self.imageView.layer.borderWidth = IS_RETINA == 2.0 ? 0.5 : 1;
+}
+
+- (UIViewTintAdjustmentMode)tintAdjustmentMode
+{
+    return UIViewTintAdjustmentModeNormal;
 }
 
 - (void)setSelected:(BOOL)selected

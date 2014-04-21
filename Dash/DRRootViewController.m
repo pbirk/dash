@@ -102,7 +102,7 @@
     self.scanProgressLayer = layer;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatusChanged)
+                                             selector:@selector(peripheralDidDisconnect:)
                                                  name:kLGPeripheralDidDisconnect
                                                object:nil];
 }
@@ -265,10 +265,10 @@
 
 #pragma mark - DRDiscoveryDelegate
 
-- (void)connectionStatusChanged
+- (void)peripheralDidDisconnect:(NSNotification *)notification
 {
     DRRobotLeService *service = self.bleManager.connectedService;
-    if (service) {
+    if ([service.peripheral isEqual:notification.object]) {
         if (!service.isManuallyDisconnecting) {
             NSString *msg = @"Lost connection with device.";
             if (service.peripheral && [[DRCentralManager sharedInstance] propertiesForPeripheral:service.peripheral]) {
@@ -276,6 +276,7 @@
             }
             [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
         }
+        self.bleManager.connectedService = nil;
     }
 }
 
