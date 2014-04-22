@@ -75,7 +75,11 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 
 - (NSString *)name
 {
-    return [self.cbPeripheral name];
+    if ([self.cbPeripheral name]) {
+        return [self.cbPeripheral name];
+    } else {
+        return [self.advertisingData objectForKey:@"kCBAdvDataLocalName"];
+    }
 }
 
 /*----------------------------------------------------*/

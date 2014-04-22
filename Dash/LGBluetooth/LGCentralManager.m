@@ -182,15 +182,22 @@
 
 - (LGPeripheral *)wrapperByPeripheral:(CBPeripheral *)aPeripheral
 {
+    return [self wrapperByPeripheral:aPeripheral advertisementData:nil];
+}
+
+- (LGPeripheral *)wrapperByPeripheral:(CBPeripheral *)aPeripheral advertisementData:(NSDictionary *)advertisementData
+{
     LGPeripheral *wrapper = nil;
     for (LGPeripheral *scanned in self.scannedPeripherals) {
         if (scanned.cbPeripheral == aPeripheral) {
             wrapper = scanned;
+            if (advertisementData) wrapper.advertisingData = advertisementData;
             break;
         }
     }
     if (!wrapper) {
         wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral];
+        if (advertisementData) wrapper.advertisingData = advertisementData;
         [self.scannedPeripherals addObject:wrapper];
         [self.delegate updatedScannedPeripherals];
     }
@@ -247,14 +254,14 @@
                   RSSI:(NSNumber *)RSSI
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        LGPeripheral *lgPeripheral = [self wrapperByPeripheral:peripheral];
+        LGPeripheral *lgPeripheral = [self wrapperByPeripheral:peripheral advertisementData:advertisementData];
         if (!lgPeripheral.RSSI) {
             lgPeripheral.RSSI = [RSSI integerValue];
         } else {
             // Calculating AVG RSSI
             lgPeripheral.RSSI = (lgPeripheral.RSSI + [RSSI integerValue]) / 2;
         }
-        lgPeripheral.advertisingData = advertisementData;
+//        lgPeripheral.advertisingData = advertisementData;
     });
 }
 
@@ -280,7 +287,7 @@ static LGCentralManager *sharedInstance = nil;
 	self = [super init];
 	if (self) {
         _centralQueue = dispatch_queue_create("com.LGBluetooth.LGCentralQueue", DISPATCH_QUEUE_SERIAL);
-        _manager      = [[CBCentralManager alloc] initWithDelegate:self queue:self.centralQueue];
+        _manager      = [[CBCentralManager alloc] initWithDelegate:self queue:self.centralQueue options:@{CBCentralManagerOptionShowPowerAlertKey: @YES}];
         _scannedPeripherals = [NSMutableArray new];
 	}
 	return self;

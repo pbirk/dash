@@ -340,7 +340,7 @@
             
             LGPeripheral *peripheral = self.bleManager.peripherals[index];
             DRRobotProperties *robot = [self.bleManager propertiesForPeripheral:peripheral];
-            cell.textLabel.text = robot ? robot.name : @"Robot";
+            cell.textLabel.text = robot ? robot.name : (peripheral.name ? peripheral.name : @"Robot");
             cell.detailTextLabel.text = peripheral.UUIDString;
             if (robot) {
 //            NSString *hex = [peripheral.UUIDString substringToIndex:6];
