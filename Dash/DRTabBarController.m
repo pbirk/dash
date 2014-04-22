@@ -31,14 +31,15 @@
         [self.viewController[0] setTitle:@"MANUAL DRIVE"];
         [self.viewController[1] setTitle:@"AUTOMATIC MODES"];
         [self.viewController[2] setTitle:@"CONFIGURE"];
+        self.animationStyle = RMMultipleViewsControllerAnimationNone;
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[@"Disconnect" uppercaseString] style:UIBarButtonItemStyleBordered target:self action:@selector(didTapDisconnect:)];
     } else {
         [self.viewController[0] setTitle:@"DRIVE"];
         [self.viewController[1] setTitle:@"AUTO"];
         [self.viewController[2] setTitle:@"CONFIG"];
+        self.animationStyle = RMMultipleViewsControllerAnimationSlideIn;
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(didTapDisconnect:)];
     }
-    
     
     [UIApplication sharedApplication].idleTimerDisabled = YES;
 }

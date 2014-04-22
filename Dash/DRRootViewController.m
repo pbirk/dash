@@ -59,14 +59,6 @@
     if (IS_IPAD) {
         [self.myNavigationBar setBackgroundImage:[UIImage imageNamed:@"blank"] forBarMetrics:UIBarMetricsDefault];
         
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-            [self.view viewWithTag:12].alpha = 1;
-            [self.view viewWithTag:21].alpha = 0;
-        } else {
-            [self.view viewWithTag:12].alpha = 0;
-            [self.view viewWithTag:21].alpha = 1;
-        }
-        
         UIView *contentView = [self.view viewWithTag:666];
         contentView.transform = CGAffineTransformMakeTranslation(320, 0);
         [UIView animateWithDuration:0.6 delay:0.3 usingSpringWithDamping:0.6 initialSpringVelocity:0.5 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -157,6 +149,14 @@
     [super viewWillAppear:animated];
     if (IS_IPAD) {
         [self.navigationController setNavigationBarHidden:YES animated:animated];
+        
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            [self.view viewWithTag:12].alpha = 1;
+            [self.view viewWithTag:21].alpha = 0;
+        } else {
+            [self.view viewWithTag:12].alpha = 0;
+            [self.view viewWithTag:21].alpha = 1;
+        }
     }
 //    [self.bleManager disconnectPeripheral];
     [self.collectionView reloadData];

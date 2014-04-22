@@ -33,6 +33,10 @@
 
 @implementation DREyeColorButton
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -41,10 +45,29 @@
     }
 }
 
+- (void)orientationDidChange:(NSNotification *)note
+{
+    if (self.buttons.count) {
+        for (UIButton *button in self.buttons) {
+            button.center = self.center;
+        }
+        self.selected = NO;
+        if ([self.bleService.eyeColor isEqual:[UIColor blackColor]]) {
+            [self setImage:[[UIImage imageNamed:@"eye-off-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            self.tintColor = [UIColor whiteColor];
+        } else {
+            [self setImage:[[UIImage imageNamed:@"eye-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            self.tintColor = self.bleService.eyeColor;
+        }
+    }
+}
+
 - (void)globalInit
 {
     self.bleService = [[DRCentralManager sharedInstance] connectedService];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+
     self.buttonPadding = 7;
 
     [self addTarget:self action:@selector(didTapEyeColorButton:) forControlEvents:UIControlEventTouchUpInside];
