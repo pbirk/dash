@@ -124,6 +124,7 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     
     [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.joystickThumb.center = self.joystickBase.center;
+        self.joystickBase.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
         
     }];
@@ -199,7 +200,11 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
         if (distance > MAX_JOYSTICK_TRAVEL) {
             point.x = kCenter.x + cos(angle) * MAX_JOYSTICK_TRAVEL;
             point.y = kCenter.y + sin(angle) * MAX_JOYSTICK_TRAVEL;
+            distance = MAX_JOYSTICK_TRAVEL;
         }
+        
+        self.joystickBase.transform = CGAffineTransformMakeTranslation(cos(angle) * 4 * distance/MAX_JOYSTICK_TRAVEL,
+                                                                       sin(angle) * 4 * distance/MAX_JOYSTICK_TRAVEL);
         
         // Update the thumb's position
         self.joystickThumb.center = point;
