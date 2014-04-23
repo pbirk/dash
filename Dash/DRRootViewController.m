@@ -217,7 +217,7 @@
 
 - (void)didTapRefreshButton
 {
-    [self.bleManager.peripheralProperties removeAllObjects];
+//    [self.bleManager.peripheralProperties removeAllObjects];
     [self startScanning];
 }
 

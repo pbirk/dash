@@ -203,11 +203,11 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
             distance = MAX_JOYSTICK_TRAVEL;
         }
         
-        self.joystickBase.transform = CGAffineTransformMakeTranslation(cos(angle) * 4 * distance/MAX_JOYSTICK_TRAVEL,
-                                                                       sin(angle) * 4 * distance/MAX_JOYSTICK_TRAVEL);
-        
         // Update the thumb's position
         self.joystickThumb.center = point;
+        
+        self.joystickBase.transform = CGAffineTransformMakeTranslation(cos(angle) * 2 * distance/MAX_JOYSTICK_TRAVEL,
+                                                                       sin(angle) * 2 * distance/MAX_JOYSTICK_TRAVEL);
     }
 }
     
