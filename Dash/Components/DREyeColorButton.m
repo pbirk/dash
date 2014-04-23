@@ -112,6 +112,7 @@
 - (IBAction)didTapEyeColorButton:(id)sender
 {
     static NSTimeInterval kAnimationTotalTime = 0.36;
+    self.alpha = 1;
     
     if (self.selected) {
         self.selected = NO;

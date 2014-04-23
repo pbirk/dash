@@ -16,12 +16,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"bbaef82dd4b40fb821a70c63b6855007"];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 //    [[BITHockeyManager sharedHockeyManager] testIdentifier];
     
+    UIStoryboard *storyboard = IS_IPAD ? [UIStoryboard storyboardWithName:@"Main~iPad" bundle:nil]
+                                        : [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [storyboard instantiateInitialViewController];
+    [self.window makeKeyAndVisible];
+
     [self configureStyling];
     
     return YES;

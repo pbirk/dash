@@ -17,9 +17,10 @@
     if (highlighted) {
         self.alpha = 0.25;
     } else {
-        [UIView animateWithDuration:0.2 animations:^{
+        
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.alpha = 1;
-        }];
+        } completion:nil];
     }
 }
 
