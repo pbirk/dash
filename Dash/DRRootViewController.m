@@ -89,7 +89,7 @@
     layer.fillColor = nil;
     layer.lineWidth = 2;
     layer.strokeEnd = 0;
-    layer.strokeColor = [UIColor colorWithRed:0.515 green:0.515 blue:0.515 alpha:0.666].CGColor;
+    layer.strokeColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
     [self.myNavigationBar.layer addSublayer:layer];
     self.scanProgressLayer = layer;
     

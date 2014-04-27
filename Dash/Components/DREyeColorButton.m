@@ -12,6 +12,7 @@
 
 @interface DREyeColorButton ()
 @property (weak, nonatomic) DRRobotLeService *bleService;
+@property (strong, nonatomic, readwrite) NSArray *buttons;
 @end
 
 @interface UIColor (changeBrightness)

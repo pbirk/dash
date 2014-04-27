@@ -74,6 +74,7 @@
 //}
 
 static NSUInteger const PACKET_SIZE = 14;
+static NSUInteger const MAX_NAME_LENGTH = 10;
 
 typedef NS_ENUM(char, DRMessageTypes) {
     DRMessageTypeName = '1',
@@ -87,14 +88,22 @@ typedef NS_ENUM(char, DRCommandTypes) {
     DRCommandTypeGyroDrive = '3',
     DRCommandTypeSetEyes = '4',
 };
-                        // Dark Blue, Red, Holiday Green, Lemon Yellow, Orange, Black
+                        // Dark Blue, Red, Holiday Green, Lemon Yellow, Black, Orange
 #define ROBOT_COLORS @[ [UIColor colorWithRed:0.191 green:0.287 blue:0.611 alpha:1.000], \
                         [UIColor colorWithRed:0.905 green:0.150 blue:0.119 alpha:1.000], \
                         [UIColor colorWithRed:0.149 green:0.591 blue:0.279 alpha:1.000], \
                         [UIColor colorWithRed:0.929 green:0.799 blue:0.145 alpha:1.000], \
-                        [UIColor colorWithRed:0.952 green:0.501 blue:0.115 alpha:1.000], \
                         [UIColor colorWithRed:0.136 green:0.147 blue:0.157 alpha:1.000], \
+                        [UIColor colorWithRed:0.952 green:0.501 blue:0.115 alpha:1.000], \
                       ]
+typedef NS_ENUM(NSUInteger, DRRobotColorNames) {
+    DRBlue = 0,
+    DRRedRobot,
+    DRGreenRobot,
+    DRYellowRobot,
+    DRBlackRobot,
+    DROrangeRobot,
+};
 
 /****************************************************************************/
 /*						Service Characteristics								*/

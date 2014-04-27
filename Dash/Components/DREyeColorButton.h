@@ -12,7 +12,7 @@
 @interface DREyeColorButton : DRButton
 
 @property CGFloat buttonPadding;
-@property (strong, nonatomic) NSArray *buttons;
+@property (strong, nonatomic, readonly) NSArray *buttons;
 - (IBAction)didTapEyeColorButton:(UIButton *)sender;
 
 @end
