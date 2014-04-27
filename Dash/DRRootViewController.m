@@ -8,6 +8,7 @@
 
 #import "DRRootViewController.h"
 #import "DRRobotLeService.h"
+#import "DRRobotProperties.h"
 #import "DRDeviceCell.h"
 #import "DRWebViewController.h"
 #import "NSArray+AnyObject.h"

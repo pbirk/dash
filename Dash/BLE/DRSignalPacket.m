@@ -10,8 +10,6 @@
 
 @implementation DRSignalPacket
 
-#define read(data, bytes, index) { [data getBytes:&bytes range:NSMakeRange(index, sizeof(bytes))]; index += sizeof(bytes); }
-
 + (instancetype)signalPacketWithData:(NSData *)data
 {
     // [type - "2" - 1] [ mode - 0-10 - 1] [ yaw - 0-1024 - 2] [ambient light - 0-1024 - 2] [proxLeft - 0-1024 - 2] [proxRight - 0-1024 - 2] [mtrA1 - 0-255 - 1] [mtrA2 - 0-255 - 1] [mtrB1 - 0-255 - 1] [mtrB2 - 0-255 - 1]

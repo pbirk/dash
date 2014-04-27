@@ -8,6 +8,7 @@
 
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
+#import "DRRobotProperties.h"
 
 @implementation DRCentralManager
 
@@ -36,10 +37,13 @@ static DRCentralManager *_sharedInstance = nil;
 - (void)updatedScannedPeripherals {
     for (LGPeripheral *peripheral in self.peripherals) {
         if (![self.peripheralProperties objectForKey:peripheral.UUIDString]) {
-            [LGUtils readDataFromCharactUUID:kRead1CharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
+            [LGUtils readDataFromCharactUUID:kNotifyCharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
                 if (data) {
-                    NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
-                    DRRobotProperties *robot = [[DRRobotProperties alloc] initWithName:newStr color:arc4random_uniform(ROBOT_COLORS.count-1)+1];
+                    DRRobotProperties *robot = [DRRobotProperties robotPropertiesWithData:data];
+                    if (!robot) {
+                        NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
+                        robot = [[DRRobotProperties alloc] initWithName:newStr color:arc4random_uniform(ROBOT_COLORS.count-1)+1];
+                    }
                     [self.peripheralProperties setObject:robot forKey:peripheral.UUIDString];
                     [self.discoveryDelegate discoveryDidRefresh];
                 }

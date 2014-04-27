@@ -74,7 +74,7 @@
 //}
 
 static NSUInteger const PACKET_SIZE = 14;
-static NSUInteger const MAX_NAME_LENGTH = 10;
+static NSUInteger const MAX_NAME_LENGTH = 9;
 
 typedef NS_ENUM(char, DRMessageTypes) {
     DRMessageTypeName = '1',
@@ -121,7 +121,7 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 /****************************************************************************/
 /*								Protocol									*/
 /****************************************************************************/
-@class DRRobotLeService, DRSignalPacket;
+@class DRRobotLeService, DRSignalPacket, DRRobotProperties;
 
 
 @protocol DRRobotLeServiceDelegate<NSObject>
@@ -129,16 +129,7 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 //- (void) alarmServiceDidReset;
 - (void) receivedNotifyWithData:(NSData *)data;
 - (void) receivedNotifyWithSignals:(DRSignalPacket *)signals;
-@end
-
-/****************************************************************************/
-/*                          Attributes of robot.                            */
-/****************************************************************************/
-
-@interface DRRobotProperties : NSObject
-- (id)initWithName:(NSString *)name color:(NSUInteger)color;
-@property (strong, nonatomic) NSString *name;
-@property NSUInteger color;
+- (void) receivedNotifyWithProperties:(DRRobotProperties *)properties;
 @end
 
 /****************************************************************************/

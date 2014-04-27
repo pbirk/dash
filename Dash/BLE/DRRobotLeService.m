@@ -55,30 +55,12 @@
 #import "DRRobotLeService.h"
 #import "LeDiscovery.h"
 #import "DRSignalPacket.h"
+#import "DRRobotProperties.h"
 
 NSString *kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
 NSString *kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941E";
 NSString *kNotifyCharacteristicUUIDString = @"713D0002-503E-4C75-BA94-3148F18D941E";
 NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
-
-@implementation DRRobotProperties
-- (id)initWithName:(NSString *)name color:(NSUInteger)color
-{
-    self = [super init];
-    if (self) {
-        self.name = name;
-        self.color = color;
-    }
-    return self;
-}
-- (void)setName:(NSString *)name
-{
-    while ([name lengthOfBytesUsingEncoding:NSUTF8StringEncoding] > MAX_NAME_LENGTH) {
-        name = [name substringToIndex:name.length-1];
-    }
-    _name = name;
-}
-@end
 
 @interface DRRobotLeService() {
     UIColor *_eyeColor;
@@ -166,7 +148,32 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 - (void)setRobotProperties:(DRRobotProperties *)properties
 {
     NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
-    // TODO: add stuff here!
+    
+    // [type "1" - 1]  [robot Type - 0-255 - 1] [robot color - 0-255 - 1] [code version - 0-255 - 1] [name - string - 10, terminated with a null character]
+    
+    char command = DRCommandTypeSetName;
+    uint8_t robotType = 0,
+            robotColor = properties.color,
+            codeVersion = 0;
+    NSData *name = [properties.name dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    char null = '\0';
+    
+    [data appendBytes:&command length:sizeof(command)];
+    [data appendBytes:&robotType length:sizeof(robotType)];
+    [data appendBytes:&robotColor length:sizeof(robotColor)];
+    [data appendBytes:&codeVersion length:sizeof(codeVersion)];
+    
+    if (name.length > MAX_NAME_LENGTH) {
+        name = [NSData dataWithBytes:name.bytes length:MAX_NAME_LENGTH];
+        NSLog(@"Error: name data > %lu (%@)", (unsigned long)MAX_NAME_LENGTH, properties.name);
+    }
+    [data appendData:name];
+    [data appendBytes:&null length:sizeof(null)]; // I don't think we really need this, sendData will pad to 14 bytes with 0s
+    
+//    [data setLength:PACKET_SIZE];
+//    DRRobotProperties *test = [DRRobotProperties robotPropertiesWithData:data];
+//    NSLog(@"test prop :%@", test);
+    
     [self sendData:data];
 }
 
@@ -274,23 +281,27 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
             
         } onUpdate:^(NSData *data, NSError *error) {
             if (!error && data.length == PACKET_SIZE) {
-                char command;
-                [data getBytes:&command length:sizeof(command)];
+//                if (data.length > PACKET_SIZE) {
+//                    data = [NSData dataWithBytes:data.bytes length:PACKET_SIZE];
+//                    NSLog(@"Trimmed packet: %@", data);
+//                }
+                char msgType;
+                [data getBytes:&msgType length:sizeof(msgType)];
                 
-                switch (command) {
+                switch (msgType) {
                     case DRMessageTypeSignals: {
                         DRSignalPacket *signals = [DRSignalPacket signalPacketWithData:data];
                         [weakSelf.delegate receivedNotifyWithSignals:signals];
                         break;
                     }
                     case DRMessageTypeName: {
-                        // do something with the name
-                        [weakSelf.delegate receivedNotifyWithData:data];
+                        DRRobotProperties *properties = [DRRobotProperties robotPropertiesWithData:data];
+                        [weakSelf.delegate receivedNotifyWithProperties:properties];
                         break;
                     }
                     default:
-                        NSLog(@"Unknown message of type %c", command);
-                        [weakSelf.delegate receivedNotifyWithData:data];
+                        NSLog(@"Unknown message of type %c", msgType);
+//                        [weakSelf.delegate receivedNotifyWithData:data];
                         break;
                 }
             } else {

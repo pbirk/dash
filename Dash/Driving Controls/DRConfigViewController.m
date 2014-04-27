@@ -9,6 +9,7 @@
 #import "DRConfigViewController.h"
 #import "DRButton.h"
 #import "DRCentralManager.h"
+#import "DRRobotProperties.h"
 
 @interface DRConfigViewController () <UITextFieldDelegate>
 @property (strong, nonatomic) DRRobotProperties *robotProperties;
@@ -64,6 +65,11 @@
         [buttons addObject:button];
     }
     self.buttons = [NSArray arrayWithArray:buttons];
+}
+
+- (void)receivedNotifyWithProperties:(DRRobotProperties *)properties
+{
+    NSLog(@"Received properties (?) : %@", properties);
 }
 
 - (void)viewWillDisappear:(BOOL)animated

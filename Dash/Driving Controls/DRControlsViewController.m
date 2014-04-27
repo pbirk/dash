@@ -54,4 +54,8 @@
 {
 }
 
+- (void)receivedNotifyWithProperties:(DRRobotProperties *)properties
+{
+}
+
 @end

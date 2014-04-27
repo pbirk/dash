@@ -16,15 +16,17 @@
 
     #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
-#define IS_IPAD  (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-#define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
-#define IS_RETINA ([UIScreen mainScreen].scale == 2.0)
+    #define read(data, bytes, index) { [data getBytes:&bytes range:NSMakeRange(index, sizeof(bytes))]; index += sizeof(bytes); }
 
-#define DR_DARK_GRAY [UIColor colorWithRed:0.515 green:0.515 blue:0.515 alpha:1.000]
-//#define DR_DARK_GRAY [UIColor colorWithRed:0.638 green:0.638 blue:0.638 alpha:1.000]
-#define DR_LITE_GRAY [UIColor colorWithRed:0.866 green:0.866 blue:0.866 alpha:1.000]
+    #define IS_IPAD  (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    #define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+    #define IS_RETINA ([UIScreen mainScreen].scale == 2.0)
 
-#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+    #define DR_DARK_GRAY [UIColor colorWithRed:0.515 green:0.515 blue:0.515 alpha:1.000]
+    //#define DR_DARK_GRAY [UIColor colorWithRed:0.638 green:0.638 blue:0.638 alpha:1.000]
+    #define DR_LITE_GRAY [UIColor colorWithRed:0.866 green:0.866 blue:0.866 alpha:1.000]
+
+    #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #endif
 
