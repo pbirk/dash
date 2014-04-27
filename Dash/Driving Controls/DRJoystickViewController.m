@@ -48,7 +48,7 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
         for (NSLayoutConstraint *constraint in eyeButton.constraints) {
             NSLog(@"c %@", constraint);
             if (constraint.firstItem == eyeButton && (constraint.firstAttribute == NSLayoutAttributeWidth || constraint.firstAttribute == NSLayoutAttributeHeight )) {
-                constraint.constant = 52;
+                constraint.constant = 72;
             }
         }
     }

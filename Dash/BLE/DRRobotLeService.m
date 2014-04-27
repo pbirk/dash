@@ -61,8 +61,24 @@ NSString *kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941
 NSString *kNotifyCharacteristicUUIDString = @"713D0002-503E-4C75-BA94-3148F18D941E";
 NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
 
-//NSString *kAlarmServiceEnteredBackgroundNotification = @"kAlarmServiceEnteredBackgroundNotification";
-//NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredForegroundNotification";
+@implementation DRRobotProperties
+- (id)initWithName:(NSString *)name color:(NSUInteger)color
+{
+    self = [super init];
+    if (self) {
+        self.name = name;
+        self.color = color;
+    }
+    return self;
+}
+- (void)setName:(NSString *)name
+{
+    while ([name lengthOfBytesUsingEncoding:NSUTF8StringEncoding] > MAX_NAME_LENGTH) {
+        name = [name substringToIndex:name.length-1];
+    }
+    _name = name;
+}
+@end
 
 @interface DRRobotLeService() {
     UIColor *_eyeColor;
@@ -71,7 +87,6 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 @property (strong, nonatomic) LGService *robotService;
 @property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic, *notifyCharacteristic;
 @end
-
 
 @implementation DRRobotLeService
 
@@ -144,6 +159,15 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }
     [self reset];
     self.isManuallyDisconnecting = YES;
+}
+
+#pragma mark - Commands
+
+- (void)setRobotProperties:(DRRobotProperties *)properties
+{
+    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+    // TODO: add stuff here!
+    [self sendData:data];
 }
 
 - (void)setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor

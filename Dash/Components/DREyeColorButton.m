@@ -10,6 +10,9 @@
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 
+#define kEyeOpenIcon IS_IPAD ? @"eye-big" : @"eye-icon"
+#define kEyeClosedIcon IS_IPAD ? @"eye-big-off" : @"eye-off-icon"
+
 @interface DREyeColorButton ()
 @property (weak, nonatomic) DRRobotLeService *bleService;
 @property (strong, nonatomic, readwrite) NSArray *buttons;
@@ -54,10 +57,10 @@
         }
         self.selected = NO;
         if ([self.bleService.eyeColor isEqual:[UIColor blackColor]]) {
-            [self setImage:[[UIImage imageNamed:@"eye-off-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
             self.tintColor = [UIColor whiteColor];
         } else {
-            [self setImage:[[UIImage imageNamed:@"eye-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            [self setImage:[[UIImage imageNamed:kEyeOpenIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
             self.tintColor = self.bleService.eyeColor;
         }
     }
@@ -75,8 +78,8 @@
     
     self.backgroundColor = [UIColor blackColor];
     self.tintColor = [UIColor whiteColor];
-    [self setImage:[[UIImage imageNamed:@"eye-off-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [self setImage:[[UIImage imageNamed:@"eye-off-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+    [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     self.layer.cornerRadius = CGRectGetHeight(self.bounds)/2;
     
     NSArray *colors = @[
@@ -138,9 +141,9 @@
                      } else {
                          self.tintColor = [[sender backgroundColor] lighterColor];
                      }
-                     [self setImage:[[UIImage imageNamed:@"eye-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+                     [self setImage:[[UIImage imageNamed:kEyeOpenIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
                  } else {
-                     [self setImage:[[UIImage imageNamed:@"eye-off-icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+                     [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
                  }
              } completion:^(BOOL finished) {
                  if (sender != self) {

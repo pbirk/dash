@@ -8,7 +8,7 @@
 
 #import "LGCentralManager.h"
 
-@class DRRobotLeService;
+@class DRRobotLeService, DRRobotProperties;
 
 #define SCAN_INTERVAL 5.0
 
@@ -19,12 +19,6 @@
 - (void) discoveryDidRefresh;
 - (void) stoppedScanning;
 - (void) discoveryStatePoweredOff;
-@end
-
-@interface DRRobotProperties : NSObject
-- (id)initWithName:(NSString *)name color:(UIColor *)color;
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) UIColor *color;
 @end
 
 @interface DRCentralManager : NSObject <LGCentralManagerDelegate>
@@ -45,5 +39,8 @@
 - (void) disconnectPeripheral;
 
 - (DRRobotProperties *)propertiesForPeripheral:(LGPeripheral*)peripheral;
+- (DRRobotProperties *)propertiesForConnectedService;
+
+- (void)updateProperties:(DRRobotProperties *)properties forPeripheral:(LGPeripheral *)periperhal;
 
 @end

@@ -345,7 +345,7 @@
             if (robot) {
 //            NSString *hex = [peripheral.UUIDString substringToIndex:6];
 //            cell.backgroundColor = UIColorFromRGB([hex integerValue]); // hilarious HACK to show custom colors
-                cell.imageView.backgroundColor = robot.color;
+                cell.imageView.backgroundColor = ROBOT_COLORS[robot.color];
                 cell.imageView.tintColor = [UIColor whiteColor];
                 cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;
             } else {

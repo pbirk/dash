@@ -9,18 +9,6 @@
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 
-@implementation DRRobotProperties
-- (id)initWithName:(NSString *)name color:(UIColor *)color
-{
-    self = [super init];
-    if (self) {
-        self.name = name;
-        self.color = color;
-    }
-    return self;
-}
-@end
-
 @implementation DRCentralManager
 
 static DRCentralManager *_sharedInstance = nil;
@@ -51,7 +39,7 @@ static DRCentralManager *_sharedInstance = nil;
             [LGUtils readDataFromCharactUUID:kRead1CharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
                 if (data) {
                     NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
-                    DRRobotProperties *robot = [[DRRobotProperties alloc] initWithName:newStr color:ROBOT_COLORS[arc4random_uniform(6)]];
+                    DRRobotProperties *robot = [[DRRobotProperties alloc] initWithName:newStr color:arc4random_uniform(ROBOT_COLORS.count-1)+1];
                     [self.peripheralProperties setObject:robot forKey:peripheral.UUIDString];
                     [self.discoveryDelegate discoveryDidRefresh];
                 }
@@ -105,6 +93,20 @@ static DRCentralManager *_sharedInstance = nil;
 
 - (DRRobotProperties *)propertiesForPeripheral:(LGPeripheral *)peripheral {
     return [self.peripheralProperties objectForKey:peripheral.UUIDString];
+}
+
+- (DRRobotProperties *)propertiesForConnectedService {
+    if (self.connectedService && self.connectedService.peripheral) {
+        return [self propertiesForPeripheral:self.connectedService.peripheral];
+    } else {
+        return nil;
+    }
+}
+
+- (void)updateProperties:(DRRobotProperties *)properties forPeripheral:(LGPeripheral *)periperhal {
+    if (properties && periperhal) {
+        [self.peripheralProperties setObject:properties forKey:periperhal.UUIDString];
+    }
 }
 
 @end
