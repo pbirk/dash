@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "RMMultipleViewsController.h"
 
+@class DRRobotProperties;
+
 @interface DRTabBarController : RMMultipleViewsController
+
+- (void)configureWithProperties:(DRRobotProperties *)properties;
 
 @end

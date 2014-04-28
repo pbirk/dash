@@ -58,7 +58,7 @@
     if (highlighted) {
         self.contentView.alpha = 0.25;
     } else {
-        [UIView animateWithDuration:0.2 animations:^{
+        [UIView animateWithDuration:0.15 animations:^{
             self.contentView.alpha = 1;
         }];
     }

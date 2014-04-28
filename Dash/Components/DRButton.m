@@ -31,15 +31,20 @@
 
 - (void)setEnabled:(BOOL)enabled
 {
+    [self setEnabled:enabled animated:YES];
+}
+
+- (void)setEnabled:(BOOL)enabled animated:(BOOL)animated
+{
     [super setEnabled:enabled];
-    if (enabled) {
-        [UIView animateWithDuration:0.11 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.alpha = 1;
+    
+    if (animated) {
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.alpha = enabled ? 1 : 0.25;
         } completion:nil];
     } else {
-        self.alpha = 0.25;
+        self.alpha = enabled ? 1 : 0.25;
     }
-
 }
 
 @end

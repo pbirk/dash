@@ -8,6 +8,7 @@
 
 #import "DRTabBarController.h"
 #import "DRCentralManager.h"
+#import "DRRobotProperties.h"
 
 @interface DRTabBarController ()
 - (IBAction)didTapDisconnect:(id)sender;
@@ -20,11 +21,11 @@
     [super awakeFromNib];
     
     self.navigationItem.hidesBackButton = YES;
-//    [UISegmentedControl appearance] [setTitleTextAttributes: forState:UIControlStateNormal]
     
+    UIStoryboard *iPadStoryboard = [UIStoryboard storyboardWithName:@"Main~iPad" bundle:nil];
     self.viewController = @[
                             [self.storyboard instantiateViewControllerWithIdentifier:@"DRJoystickViewController"],
-                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRAutoModesViewController"],
+                            [(IS_IPAD ? iPadStoryboard : self.storyboard) instantiateViewControllerWithIdentifier:@"DRAutoModesViewController"],
 //                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRMotionViewController"],
                             [self.storyboard instantiateViewControllerWithIdentifier:@"DRConfigViewController"]
                             ];
@@ -43,6 +44,17 @@
     }
     
     [UIApplication sharedApplication].idleTimerDisabled = YES;
+}
+
+- (void)configureWithProperties:(DRRobotProperties *)properties
+{
+    if (properties) {
+        self.title = properties.name;
+    } else {
+        self.title = @"Robot";
+        [self showViewController:self.viewController[2] animated:NO];
+    }
+
 }
 
 - (IBAction)didTapDisconnect:(id)sender

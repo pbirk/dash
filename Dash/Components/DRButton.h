@@ -10,4 +10,6 @@
 
 @interface DRButton : UIButton
 
+- (void)setEnabled:(BOOL)enabled animated:(BOOL)animated;
+
 @end

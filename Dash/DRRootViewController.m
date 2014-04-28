@@ -10,6 +10,7 @@
 #import "DRRobotLeService.h"
 #import "DRRobotProperties.h"
 #import "DRDeviceCell.h"
+#import "DRTabBarController.h"
 #import "DRWebViewController.h"
 #import "CAShapeLayer+Progress.h"
 #import "NSArray+AnyObject.h"
@@ -349,9 +350,9 @@
         [[DRCentralManager sharedInstance] connectPeripheral:peripheral completion:^(NSError *error) {
             if (!error && self.bleManager.connectedService) {
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
+                DRTabBarController *vc = (DRTabBarController *)[storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
                 DRRobotProperties *robot = [self.bleManager propertiesForPeripheral:peripheral];
-                vc.title = robot ? robot.name : @"Robot";
+                [vc configureWithProperties:robot];
                 [self.navigationController pushViewController:vc animated:YES];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to connect to device." delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
@@ -360,8 +361,8 @@
     } else {
         if (IS_SIMULATOR) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
-            vc.title = @"Demo";
+            DRTabBarController *vc = (DRTabBarController *)[storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
+            [vc configureWithProperties:nil];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

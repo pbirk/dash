@@ -285,6 +285,7 @@
                                     <constraint firstAttribute="height" constant="44" id="Sko-fV-1pe"/>
                                     <constraint firstAttribute="width" constant="44" id="opr-E3-v8d"/>
                                 </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="eye-icon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>

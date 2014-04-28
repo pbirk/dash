@@ -11,13 +11,14 @@
 #import "DRRobotProperties.h"
 #import "DRAutoModeCell.h"
 #import "DRSignalPacket.h"
+#import "DRButton.h"
 
 #define PLACEHOLDER_AUTO_MODES @[ @"Figure 8", @"Circle", @"Dance", @"Wall Follow", @"Bump" ]
 
 @interface DRAutoModesViewController ()
 @property NSIndexPath *selectedModeIndex;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UIButton *stopButton;
+@property (weak, nonatomic) IBOutlet DRButton *stopButton;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 - (IBAction)didTapStopbutton:(id)sender;
 @end
@@ -28,7 +29,7 @@
 {
     [super viewDidLoad];
     self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
-    self.stopButton.enabled = NO;
+    [self.stopButton setEnabled:NO animated:NO];
     
 //    [self addBottomBorderWithColor:DR_LITE_GRAY width:1 toView:self.debugLabel];
     [self addBottomBorderToView:self.debugLabel];
@@ -54,7 +55,7 @@
 - (IBAction)didTapStopbutton:(id)sender {
 //    self.stopButton.backgroundColor = DR_LITE_GRAY;
     self.stopButton.enabled = NO;
-    [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:YES];
+    [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:NO];
     self.selectedModeIndex = nil;
 }
 
@@ -78,31 +79,34 @@
     return cell;
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-    return IS_RETINA ? 0.5 : 1.0;
-}
-
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
     
-    CGFloat height = flowLayout.itemSize.height;
     if (IS_IPAD) {
-        height = flowLayout.itemSize.width;
-    } else if (IS_WIDESCREEN) {
-        height += 15;
-    }
-    
-    CGFloat width = flowLayout.itemSize.width;
-    if (indexPath.row % 2 == 0) {
-        width += 1;
+        return flowLayout.itemSize;
     } else {
-        width += (IS_RETINA ? 0.5 : 0);
+        CGFloat height = flowLayout.itemSize.height + (IS_WIDESCREEN ? 15 : 0);
+        CGFloat width = flowLayout.itemSize.width;
+        if (indexPath.row % 2 == 0) {
+            width += 1;
+        } else {
+            width += (IS_RETINA ? 0.5 : 0);
+        }
+        return CGSizeMake(width, height);
     }
-    return CGSizeMake(width, height);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return !IS_IPAD && IS_RETINA ? 0.5 : 1.0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return !IS_IPAD && IS_RETINA ? 0.5 : 1.0;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
