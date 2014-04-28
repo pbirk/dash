@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar *myNavigationBar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *myNavigationItem;
 @property (weak, nonatomic) CAShapeLayer *scanProgressLayer;
-- (IBAction)didTapInfoButton:(UIButton *)sender;
+//- (IBAction)didTapInfoButton:(UIButton *)sender;
 - (IBAction)didTapAboutButton:(id)sender;
 - (IBAction)didTapBuildButton:(id)sender;
 - (IBAction)didTapRefreshButton;
@@ -81,6 +81,7 @@
 //        [self.view insertSubview:backgroundView atIndex:0];
     }
     
+    // create animated progress bar
     CAShapeLayer *layer = [CAShapeLayer layer];
     [layer configureForView:self.myNavigationBar];
     [self.myNavigationBar.layer addSublayer:layer];
@@ -90,46 +91,6 @@
                                              selector:@selector(peripheralDidDisconnect:)
                                                  name:kLGPeripheralDidDisconnect
                                                object:nil];
-}
-
-- (void)panContentView:(UIPanGestureRecognizer *)panGesture
-{
-    UIView *contentView = [self.view viewWithTag:666];
-    CGFloat xTranslation = [panGesture translationInView:contentView.superview].x;
-    
-    switch (panGesture.state) {
-        case UIGestureRecognizerStateBegan:
-            break;
-        case UIGestureRecognizerStateChanged: {
-            if (xTranslation < 0) xTranslation /= 20;
-            contentView.layer.transform = CATransform3DMakeTranslation(xTranslation, 0, 0);
-            break;
-        }
-        case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled:{
-            NSTimeInterval animationDuration = xTranslation < 0 ? 0.2 : 0.5;
-            [UIView animateWithDuration:animationDuration delay:0 usingSpringWithDamping:0.66 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                contentView.layer.transform = CATransform3DIdentity;
-            } completion:nil];
-
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [UIView animateWithDuration:duration animations:^{
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-            [self.view viewWithTag:12].alpha = 1;
-            [self.view viewWithTag:21].alpha = 0;
-        } else {
-            [self.view viewWithTag:12].alpha = 0;
-            [self.view viewWithTag:21].alpha = 1;
-        }
-    }];
 }
 
 - (void)dealloc
@@ -180,33 +141,33 @@
 
 #pragma mark - IBActions
 
-- (IBAction)didTapInfoButton:(UIButton *)sender
-{
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    
-    NSString *cancelButtonTitle = IS_IPAD ? nil : @"Dismiss";
+//- (IBAction)didTapInfoButton:(UIButton *)sender
+//{
+//    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+//    NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+//    
+//    NSString *cancelButtonTitle = IS_IPAD ? nil : @"Dismiss";
+//
+//    UIActionSheet *popupSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Dash Robotics %@ (%@)", version, build]
+//                                                            delegate:self
+//                                                   cancelButtonTitle:cancelButtonTitle
+//                                              destructiveButtonTitle:nil
+//                                                   otherButtonTitles:@"What is Dash?", @"How to Build", nil];
+//    [popupSheet showFromRect:sender.bounds inView:sender.superview animated:YES];
+//}
 
-    UIActionSheet *popupSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Dash Robotics %@ (%@)", version, build]
-                                                            delegate:self
-                                                   cancelButtonTitle:cancelButtonTitle
-                                              destructiveButtonTitle:nil
-                                                   otherButtonTitles:@"What is Dash?", @"How to Build", nil];
-    [popupSheet showFromRect:sender.bounds inView:sender.superview animated:YES];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.firstOtherButtonIndex) { // What is Dash?
-        DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com"]];
-        dvc.title = [actionSheet buttonTitleAtIndex:buttonIndex];
-        [self.navigationController pushViewController:dvc animated:YES];
-    } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) { // How to Build
-        DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com/pages/dash-at-home"]];
-        dvc.title = [actionSheet buttonTitleAtIndex:buttonIndex];
-        [self.navigationController pushViewController:dvc animated:YES];
-    }
-}
+//- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == actionSheet.firstOtherButtonIndex) { // What is Dash?
+//        DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com"]];
+//        dvc.title = [actionSheet buttonTitleAtIndex:buttonIndex];
+//        [self.navigationController pushViewController:dvc animated:YES];
+//    } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) { // How to Build
+//        DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com/pages/dash-at-home"]];
+//        dvc.title = [actionSheet buttonTitleAtIndex:buttonIndex];
+//        [self.navigationController pushViewController:dvc animated:YES];
+//    }
+//}
 
 - (void)didTapRefreshButton
 {
@@ -404,6 +365,48 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
+}
+
+#pragma mark - iPad specific
+
+- (void)panContentView:(UIPanGestureRecognizer *)panGesture
+{
+    UIView *contentView = [self.view viewWithTag:666];
+    CGFloat xTranslation = [panGesture translationInView:contentView.superview].x;
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+            break;
+        case UIGestureRecognizerStateChanged: {
+            if (xTranslation < 0) xTranslation /= 20;
+            contentView.layer.transform = CATransform3DMakeTranslation(xTranslation, 0, 0);
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:{
+            NSTimeInterval animationDuration = xTranslation < 0 ? 0.2 : 0.5;
+            [UIView animateWithDuration:animationDuration delay:0 usingSpringWithDamping:0.66 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                contentView.layer.transform = CATransform3DIdentity;
+            } completion:nil];
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            [self.view viewWithTag:12].alpha = 1;
+            [self.view viewWithTag:21].alpha = 0;
+        } else {
+            [self.view viewWithTag:12].alpha = 0;
+            [self.view viewWithTag:21].alpha = 1;
+        }
+    }];
 }
 
 @end

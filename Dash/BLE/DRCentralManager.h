@@ -10,7 +10,7 @@
 
 @class DRRobotLeService, DRRobotProperties;
 
-#define SCAN_INTERVAL 5.0
+static NSTimeInterval const SCAN_INTERVAL = 5.0;
 
 /****************************************************************************/
 /*							UI protocols									*/

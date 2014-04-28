@@ -42,7 +42,8 @@ static DRCentralManager *_sharedInstance = nil;
                     DRRobotProperties *robot = [DRRobotProperties robotPropertiesWithData:data];
                     if (!robot) {
                         NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
-                        robot = [[DRRobotProperties alloc] initWithName:newStr color:arc4random_uniform(ROBOT_COLORS.count-1)+1];
+                        NSUInteger randomColor = arc4random_uniform(DRRobotColorCount) + 1;
+                        robot = [[DRRobotProperties alloc] initWithName:newStr color:randomColor];
                     }
                     [self.peripheralProperties setObject:robot forKey:peripheral.UUIDString];
                     [self.discoveryDelegate discoveryDidRefresh];
