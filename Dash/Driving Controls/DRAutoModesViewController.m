@@ -13,10 +13,9 @@
 #import "DRSignalPacket.h"
 #import "DRButton.h"
 
-#define PLACEHOLDER_AUTO_MODES @[ @"Figure 8", @"Circle", @"Dance", @"Wall Follow", @"Bump" ]
-
 @interface DRAutoModesViewController ()
 @property NSIndexPath *selectedModeIndex;
+@property (strong, nonatomic) NSArray *autoModeData;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet DRButton *stopButton;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
@@ -28,6 +27,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"DashAutoModes" ofType:@"plist"];
+    self.autoModeData = [NSArray arrayWithContentsOfFile:dataPath];
+    
     self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
     [self.stopButton setEnabled:NO animated:NO];
     
@@ -53,7 +56,6 @@
 #pragma mark - IBActions
 
 - (IBAction)didTapStopbutton:(id)sender {
-//    self.stopButton.backgroundColor = DR_LITE_GRAY;
     self.stopButton.enabled = NO;
     [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:NO];
     self.selectedModeIndex = nil;
@@ -68,14 +70,17 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [PLACEHOLDER_AUTO_MODES count];
+    return self.autoModeData.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     DRAutoModeCell *cell = (DRAutoModeCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"DRAutoModeCell" forIndexPath:indexPath];
-    [cell setTitle:PLACEHOLDER_AUTO_MODES[indexPath.row]
-             image:[UIImage imageNamed:@"motion-icon"]];
+    
+    NSString *name = self.autoModeData[indexPath.row][@"ModeName"];
+    NSString *image = self.autoModeData[indexPath.row][@"ImageName"];
+    
+    [cell setTitle:name image:[UIImage imageNamed:image]];
     return cell;
 }
 
@@ -124,8 +129,13 @@
     if (![indexPath isEqual:self.selectedModeIndex]) {
         [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:YES];
         self.selectedModeIndex = indexPath;
+        
+        NSString *cmdString = self.autoModeData[indexPath.row][@"DRCommandType"];
+        if (cmdString.length) {
+            char command = [cmdString characterAtIndex:0];
+            NSLog(@"Selected auto mode %c", command);
+        }
     }
-//    self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
     self.stopButton.enabled = YES;
 }
 
@@ -133,7 +143,6 @@
 {
     if ([indexPath isEqual:self.selectedModeIndex]) {
         [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//        self.selectedModeIndex = nil;
     }
 }
 

@@ -27,6 +27,7 @@
 		66878CD6190DBFF20094B5CA /* DRAutoModesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66878CD5190DBFF20094B5CA /* DRAutoModesViewController.m */; };
 		66878CD9190DC2C70094B5CA /* DRAutoModeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66878CD8190DC2C70094B5CA /* DRAutoModeCell.m */; };
 		66878CDF190DD4710094B5CA /* CAShapeLayer+Progress.m in Sources */ = {isa = PBXBuildFile; fileRef = 66878CDE190DD4710094B5CA /* CAShapeLayer+Progress.m */; };
+		66878CE1190DEF860094B5CA /* DashAutoModes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 66878CE0190DEF860094B5CA /* DashAutoModes.plist */; };
 		66AA0F3C18CD6E460093D5E3 /* DRRobotLeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */; };
 		66AA0F3E18CD6E560093D5E3 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */; };
 		66B2282718F1CE70008C6445 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B2282618F1CE70008C6445 /* CoreText.framework */; };
@@ -93,6 +94,7 @@
 		66878CD8190DC2C70094B5CA /* DRAutoModeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRAutoModeCell.m; path = Components/DRAutoModeCell.m; sourceTree = "<group>"; };
 		66878CDD190DD4710094B5CA /* CAShapeLayer+Progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+Progress.h"; sourceTree = "<group>"; };
 		66878CDE190DD4710094B5CA /* CAShapeLayer+Progress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+Progress.m"; sourceTree = "<group>"; };
+		66878CE0190DEF860094B5CA /* DashAutoModes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DashAutoModes.plist; sourceTree = "<group>"; };
 		66AA0F3918CD6E460093D5E3 /* DRRobotLeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRobotLeService.h; sourceTree = "<group>"; };
 		66AA0F3A18CD6E460093D5E3 /* DRRobotLeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRobotLeService.m; sourceTree = "<group>"; };
 		66AA0F3D18CD6E560093D5E3 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -333,6 +335,7 @@
 				6638F53019033AA500F7396B /* landscape@2x.png */,
 				6638F53119033AA500F7396B /* landscape.png */,
 				66D6FD3518C2DD3B00783AC8 /* Dash-Info.plist */,
+				66878CE0190DEF860094B5CA /* DashAutoModes.plist */,
 				66D6FD3618C2DD3B00783AC8 /* InfoPlist.strings */,
 				66D6FD3918C2DD3B00783AC8 /* main.m */,
 				66D6FD3B18C2DD3B00783AC8 /* Dash-Prefix.pch */,
@@ -420,6 +423,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66878CE1190DEF860094B5CA /* DashAutoModes.plist in Resources */,
 				66D6FD4618C2DD3B00783AC8 /* Images.xcassets in Resources */,
 				66B2283418F1CEA0008C6445 /* HockeySDK.xcconfig in Resources */,
 				6638F53E19033B4000F7396B /* portrait.png in Resources */,

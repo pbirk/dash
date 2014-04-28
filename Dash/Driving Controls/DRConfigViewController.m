@@ -48,6 +48,7 @@
                                                               attributes:@{ NSForegroundColorAttributeName : DR_DARK_GRAY,     // set custom color
                                                                             NSFontAttributeName : self.namePlaceholderFont }]; // BUG: setting font doesn't work
     
+    self.characterLimitLabel.text = [NSString stringWithFormat:@"%lu byte limit", (unsigned long)MAX_NAME_LENGTH];
     self.characterLimitLabel.alpha = 0;
     self.characterLimitLabel.textColor = ROBOT_COLORS[DRRedRobot];
     
@@ -73,10 +74,18 @@
     NSLog(@"Received properties (?) : %@", properties);
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (!self.nameTextField.hasText) {
+        [self.nameTextField becomeFirstResponder];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
     [self.nameTextField resignFirstResponder];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning

@@ -9,6 +9,7 @@
 #import "DRTabBarController.h"
 #import "DRCentralManager.h"
 #import "DRRobotProperties.h"
+#import "DRConfigViewController.h"
 
 @interface DRTabBarController ()
 - (IBAction)didTapDisconnect:(id)sender;
@@ -52,7 +53,10 @@
         self.title = properties.name;
     } else {
         self.title = @"Robot";
-        [self showViewController:self.viewController[2] animated:NO];
+        DRConfigViewController *cvc = self.viewController.lastObject;
+        if (cvc) {
+            [self showViewController:cvc animated:NO];
+        }
     }
 
 }
