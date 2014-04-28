@@ -50,24 +50,29 @@
 {
     CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
     CALayer *topBorder = [CALayer layer];
-    topBorder.backgroundColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
-    topBorder.frame = CGRectMake(0, 0, CGRectGetWidth(view.bounds), borderWidth);
+    topBorder.backgroundColor = DR_LITE_GRAY.CGColor;//[DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
+    topBorder.frame = CGRectMake(0, 0, 1024, borderWidth);
     [view.layer addSublayer:topBorder];
 }
 
 - (void)addBottomBorderToView:(UIView *)view
 {
     CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
+    [self addBottomBorderWithColor:DR_LITE_GRAY width:borderWidth toView:view];
+}
+
+- (void) addBottomBorderWithColor:(UIColor *)color width:(CGFloat)width toView:(UIView *)view;
+{
     CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.backgroundColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
-    bottomBorder.frame = CGRectMake(0, CGRectGetHeight(view.bounds)-borderWidth, CGRectGetWidth(view.bounds), borderWidth);
+    bottomBorder.backgroundColor = color.CGColor;
+    bottomBorder.frame = CGRectMake(0, CGRectGetHeight(view.bounds)-width, 1024, width);
     [view.layer addSublayer:bottomBorder];
 }
 
 - (void)addBordersToView:(UIView *)view
 {
     CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
-    view.layer.borderColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
+    view.layer.borderColor = DR_LITE_GRAY.CGColor;
     view.layer.borderWidth = borderWidth;
 }
 

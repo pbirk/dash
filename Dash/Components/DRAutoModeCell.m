@@ -12,6 +12,7 @@
 @interface DRAutoModeCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (strong, nonatomic) UIColor *deselectedColor;
 @end
 
 @implementation DRAutoModeCell
@@ -21,7 +22,7 @@
     [super awakeFromNib];
     self.imageView.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;
     self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    self.backgroundColor = DR_LITE_GRAY;
+    self.deselectedColor = self.backgroundColor;
 }
 
 - (void)setTitle:(NSString *)title image:(UIImage *)image
@@ -44,7 +45,7 @@
         self.imageView.tintColor = [UIColor whiteColor];
         self.textLabel.textColor = [UIColor whiteColor];
     } else {
-        self.backgroundColor = DR_LITE_GRAY;
+        self.backgroundColor = self.deselectedColor;
         self.imageView.tintColor = [UIColor blackColor];
         self.textLabel.textColor = [UIColor blackColor];
     }
@@ -55,10 +56,10 @@
     [super setHighlighted:highlighted];
     
     if (highlighted) {
-        self.alpha = 0.25;
+        self.contentView.alpha = 0.25;
     } else {
         [UIView animateWithDuration:0.2 animations:^{
-            self.alpha = 1;
+            self.contentView.alpha = 1;
         }];
     }
 }

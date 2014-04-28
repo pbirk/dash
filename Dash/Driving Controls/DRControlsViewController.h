@@ -17,4 +17,6 @@
 - (void) addTopBorderToView:(UIView *)view;
 - (void) addBottomBorderToView:(UIView *)view;
 
+- (void) addBottomBorderWithColor:(UIColor *)color width:(CGFloat)width toView:(UIView *)view;
+
 @end

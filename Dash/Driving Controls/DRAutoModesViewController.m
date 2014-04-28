@@ -27,9 +27,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.stopButton.backgroundColor = DR_LITE_GRAY;
+    self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
+    self.stopButton.enabled = NO;
+    
+    [self addBottomBorderWithColor:DR_LITE_GRAY width:1 toView:self.debugLabel];
+    
+    self.collectionView.allowsMultipleSelection = YES;
     [self.collectionView reloadData];
-    [self addBottomBorderToView:self.debugLabel];
 }
 
 #pragma mark - BLE control
@@ -47,8 +51,10 @@
 #pragma mark - IBActions
 
 - (IBAction)didTapStopbutton:(id)sender {
-    self.stopButton.backgroundColor = DR_LITE_GRAY;
+//    self.stopButton.backgroundColor = DR_LITE_GRAY;
+    self.stopButton.enabled = NO;
     [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:YES];
+    self.selectedModeIndex = nil;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -81,20 +87,31 @@
     return CGSizeMake(width, height);
 }
 
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return ![indexPath isEqual:self.selectedModeIndex];
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return ![indexPath isEqual:self.selectedModeIndex];
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (![indexPath isEqual:self.selectedModeIndex]) {
         [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:YES];
         self.selectedModeIndex = indexPath;
     }
-    self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
+//    self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
+    self.stopButton.enabled = YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UICollectionViewCell *item = [collectionView cellForItemAtIndexPath:indexPath];
     if ([indexPath isEqual:self.selectedModeIndex]) {
-        self.selectedModeIndex = nil;
+        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+//        self.selectedModeIndex = nil;
     }
 }
 

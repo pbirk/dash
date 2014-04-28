@@ -348,9 +348,9 @@
                                 </connections>
                             </button>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nq9-67-FK0">
-                                <rect key="frame" x="0.0" y="135" width="320" height="318"/>
+                                <rect key="frame" x="0.0" y="135" width="320" height="319"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="7ds-JJ-MCM">
                                     <size key="itemSize" width="159" height="110"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -379,7 +379,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="Yh0-JT-lxc" firstAttribute="leading" secondItem="2NY-BV-VSO" secondAttribute="leading" id="1Le-1h-jse"/>
                                             <constraint firstAttribute="centerX" secondItem="MFu-TZ-Nr7" secondAttribute="centerX" id="81k-aO-CFh"/>
@@ -424,7 +424,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="nq9-67-FK0" secondAttribute="trailing" id="17h-ku-Y3h"/>
-                            <constraint firstItem="n9Q-ut-d3K" firstAttribute="top" secondItem="nq9-67-FK0" secondAttribute="bottom" constant="1" id="3cK-cT-jxO"/>
+                            <constraint firstItem="n9Q-ut-d3K" firstAttribute="top" secondItem="nq9-67-FK0" secondAttribute="bottom" id="3cK-cT-jxO"/>
                             <constraint firstAttribute="trailing" secondItem="1ST-wM-J21" secondAttribute="trailing" id="4fV-Hz-ToV"/>
                             <constraint firstAttribute="trailing" secondItem="n9Q-ut-d3K" secondAttribute="trailing" id="5ou-3E-fbe"/>
                             <constraint firstItem="1ST-wM-J21" firstAttribute="leading" secondItem="kHp-Co-MFR" secondAttribute="leading" id="Hs2-WK-6gv"/>
