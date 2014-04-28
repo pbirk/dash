@@ -23,7 +23,7 @@
     if (highlighted) {
         self.alpha = 0.25;
     } else {
-        [UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [UIView animateWithDuration:0.14 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.alpha = self.enabled ? 1 : 0.25;
         } completion:nil];
     }
@@ -32,7 +32,14 @@
 - (void)setEnabled:(BOOL)enabled
 {
     [super setEnabled:enabled];
-    self.alpha = enabled ? 1 : 0.25;
+    if (enabled) {
+        [UIView animateWithDuration:0.11 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.alpha = 1;
+        } completion:nil];
+    } else {
+        self.alpha = 0.25;
+    }
+
 }
 
 @end

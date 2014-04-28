@@ -30,7 +30,8 @@
     self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
     self.stopButton.enabled = NO;
     
-    [self addBottomBorderWithColor:DR_LITE_GRAY width:1 toView:self.debugLabel];
+//    [self addBottomBorderWithColor:DR_LITE_GRAY width:1 toView:self.debugLabel];
+    [self addBottomBorderToView:self.debugLabel];
     
     self.collectionView.allowsMultipleSelection = YES;
     [self.collectionView reloadData];
@@ -77,13 +78,30 @@
     return cell;
 }
 
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return IS_RETINA ? 0.5 : 1.0;
+}
+
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
-    CGFloat height = IS_WIDESCREEN ? flowLayout.itemSize.height + 15 : flowLayout.itemSize.height;
-    CGFloat width = (indexPath.row % 2 == 0) ? flowLayout.itemSize.width + 1 : flowLayout.itemSize.width;
+    
+    CGFloat height = flowLayout.itemSize.height;
+    if (IS_IPAD) {
+        height = flowLayout.itemSize.width;
+    } else if (IS_WIDESCREEN) {
+        height += 15;
+    }
+    
+    CGFloat width = flowLayout.itemSize.width;
+    if (indexPath.row % 2 == 0) {
+        width += 1;
+    } else {
+        width += (IS_RETINA ? 0.5 : 0);
+    }
     return CGSizeMake(width, height);
 }
 
