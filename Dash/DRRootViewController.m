@@ -11,6 +11,7 @@
 #import "DRRobotProperties.h"
 #import "DRDeviceCell.h"
 #import "DRWebViewController.h"
+#import "CAShapeLayer+Progress.h"
 #import "NSArray+AnyObject.h"
 
 @interface DRRootViewController () {
@@ -25,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *myNavigationBar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *myNavigationItem;
-@property (weak, nonatomic) CALayer *scanProgressLayer;
+@property (weak, nonatomic) CAShapeLayer *scanProgressLayer;
 - (IBAction)didTapInfoButton:(UIButton *)sender;
 - (IBAction)didTapAboutButton:(id)sender;
 - (IBAction)didTapBuildButton:(id)sender;
@@ -80,17 +81,8 @@
 //        [self.view insertSubview:backgroundView atIndex:0];
     }
     
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, 0, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
-    CGPathAddLineToPoint(path, NULL, CGRectGetMaxX(self.myNavigationBar.bounds)*1.05, CGRectGetMaxY(self.myNavigationBar.bounds)-1);
-    
     CAShapeLayer *layer = [CAShapeLayer layer];
-    layer.frame = self.myNavigationBar.bounds;
-    layer.path = path;
-    layer.fillColor = nil;
-    layer.lineWidth = 2;
-    layer.strokeEnd = 0;
-    layer.strokeColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
+    [layer configureForView:self.myNavigationBar];
     [self.myNavigationBar.layer addSublayer:layer];
     self.scanProgressLayer = layer;
     
@@ -227,19 +219,12 @@
     _shouldShowResults = YES;
     
     if (self.bleManager.manager.isCentralReady) {
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        animation.duration = SCAN_INTERVAL;
-        animation.fromValue = @0.0;
-        animation.toValue = @1.0;
-        animation.removedOnCompletion = YES;
-        [self.scanProgressLayer addAnimation:animation forKey:@"strokeEnd"];
-
-        [self.myNavigationItem setRightBarButtonItem:self.stopButton animated:NO];
-        
+        [self.scanProgressLayer animateForDuration:SCAN_INTERVAL];
         [self.bleManager startScanning];
         
         [self.scanTimer invalidate];
         self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startScanning) userInfo:nil repeats:NO];
+        [self.myNavigationItem setRightBarButtonItem:self.stopButton animated:NO];
     } else {
         [self.bleManager startScanning];
         [self discoveryDidRefresh];
@@ -392,7 +377,7 @@
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger index = self.bleManager.manager.scanning ? indexPath.row - 1 : indexPath.row;
-    return self.inSimulator || (_shouldShowResults && index >=0 && index < self.bleManager.peripherals.count);
+    return IS_SIMULATOR || (_shouldShowResults && index >=0 && index < self.bleManager.peripherals.count);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -412,22 +397,13 @@
             }
         }];
     } else {
-        if (self.inSimulator) {
+        if (IS_SIMULATOR) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
             vc.title = @"Demo";
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
-}
-
-- (BOOL)inSimulator
-{
-#if TARGET_IPHONE_SIMULATOR
-    return YES;
-#else
-    return NO;
-#endif
 }
 
 @end

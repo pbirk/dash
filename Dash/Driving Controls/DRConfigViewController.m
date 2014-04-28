@@ -42,7 +42,8 @@
     
     self.nameTextField.delegate = self;
     self.nameTextField.backgroundColor = self.view.backgroundColor;
-    [self addBordersToView:self.nameTextField];
+    [self addBottomBorderToView:self.nameTextField];
+    [self addTopBorderToView:self.nameTextField];
     self.nameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.nameTextField.placeholder
                                                               attributes:@{ NSForegroundColorAttributeName : DR_DARK_GRAY,     // set custom color
                                                                             NSFontAttributeName : self.namePlaceholderFont }]; // BUG: setting font doesn't work
@@ -175,23 +176,6 @@
 {
     [textField resignFirstResponder];
     return YES;
-}
-
-#pragma mark - Styling
-
-- (void) addBordersToView:(UIView *)view
-{
-    CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
-    
-    CALayer *topBorder = [CALayer layer];
-    topBorder.backgroundColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
-    topBorder.frame = CGRectMake(0, 0, CGRectGetWidth(view.bounds), borderWidth);
-    [view.layer addSublayer:topBorder];
-    
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.backgroundColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
-    bottomBorder.frame = CGRectMake(0, CGRectGetHeight(view.bounds)-borderWidth, CGRectGetWidth(view.bounds), borderWidth);
-    [view.layer addSublayer:bottomBorder];
 }
 
 @end

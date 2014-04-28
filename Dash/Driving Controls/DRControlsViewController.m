@@ -44,6 +44,33 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - Styling
+
+- (void) addTopBorderToView:(UIView *)view
+{
+    CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
+    CALayer *topBorder = [CALayer layer];
+    topBorder.backgroundColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
+    topBorder.frame = CGRectMake(0, 0, CGRectGetWidth(view.bounds), borderWidth);
+    [view.layer addSublayer:topBorder];
+}
+
+- (void)addBottomBorderToView:(UIView *)view
+{
+    CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.backgroundColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
+    bottomBorder.frame = CGRectMake(0, CGRectGetHeight(view.bounds)-borderWidth, CGRectGetWidth(view.bounds), borderWidth);
+    [view.layer addSublayer:bottomBorder];
+}
+
+- (void)addBordersToView:(UIView *)view
+{
+    CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
+    view.layer.borderColor = [DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
+    view.layer.borderWidth = borderWidth;
+}
+
 #pragma mark - DRRobotLeServiceDelegate
 
 - (void)receivedNotifyWithData:(NSData *)data

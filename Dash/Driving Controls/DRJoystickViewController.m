@@ -31,6 +31,9 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 {
     [super viewDidLoad];
     
+    self.debugLabel.backgroundColor = self.view.backgroundColor;
+    [self addBottomBorderToView:self.debugLabel];
+    
     UIImageView *joystickThumb = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, JOYSTICK_THUMB_SIZE, JOYSTICK_THUMB_SIZE)];
     joystickThumb.image = [UIImage imageNamed:@"joystick-thumb"];
     [self.view insertSubview:joystickThumb aboveSubview:self.joystickTouchArea];

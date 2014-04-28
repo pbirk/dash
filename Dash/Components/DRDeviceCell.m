@@ -24,10 +24,10 @@
     return UIViewTintAdjustmentModeNormal;
 }
 
-- (void)setSelected:(BOOL)selected
-{
-    [super setSelected:selected];
-}
+//- (void)setSelected:(BOOL)selected
+//{
+//    [super setSelected:selected];
+//}
 
 - (void)setHighlighted:(BOOL)highlighted
 {

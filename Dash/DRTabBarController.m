@@ -24,7 +24,8 @@
     
     self.viewController = @[
                             [self.storyboard instantiateViewControllerWithIdentifier:@"DRJoystickViewController"],
-                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRMotionViewController"],
+                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRAutoModesViewController"],
+//                            [self.storyboard instantiateViewControllerWithIdentifier:@"DRMotionViewController"],
                             [self.storyboard instantiateViewControllerWithIdentifier:@"DRConfigViewController"]
                             ];
     if (IS_IPAD) {

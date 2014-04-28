@@ -13,4 +13,8 @@
 
 @property (weak, nonatomic) DRRobotLeService *bleService;
 
+- (void)addBordersToView:(UIView *)view;
+- (void) addTopBorderToView:(UIView *)view;
+- (void) addBottomBorderToView:(UIView *)view;
+
 @end

@@ -30,3 +30,8 @@
 
 #endif
 
+#if TARGET_IPHONE_SIMULATOR
+#define IS_SIMULATOR YES
+#else
+#define IS_SIMULATOR NO
+#endif
