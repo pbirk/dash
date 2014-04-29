@@ -707,7 +707,6 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="XRt-j4-jpE" id="KE6-Cw-C8X"/>
-                        <outlet property="footerView" destination="iFd-z6-qnm" id="HCP-xz-qPf"/>
                         <outlet property="refreshButton" destination="Yj9-H5-SUs" id="hEy-0y-g9N"/>
                         <outlet property="stopButton" destination="2f9-ht-9ax" id="Jzj-vc-vFU"/>
                     </connections>
@@ -715,7 +714,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EDO-Lz-G8a" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="stop" id="2f9-ht-9ax">
                     <connections>
-                        <action selector="stopScanning" destination="XYC-tf-E7P" id="qn3-Bz-fQd"/>
+                        <action selector="didTapStopButton" destination="XYC-tf-E7P" id="ADV-LC-1zV"/>
                     </connections>
                 </barButtonItem>
             </objects>

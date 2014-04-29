@@ -315,7 +315,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xzc-9V-hs4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="stop" id="1Nh-XT-VrU">
                     <connections>
-                        <action selector="stopScanning" destination="ANI-8z-4AJ" id="X8L-05-Khx"/>
+                        <action selector="didTapStopButton" destination="ANI-8z-4AJ" id="AUG-C9-EhA"/>
                     </connections>
                 </barButtonItem>
             </objects>
