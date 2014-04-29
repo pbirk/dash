@@ -58,7 +58,6 @@
             [self showViewController:cvc animated:NO];
         }
     }
-
 }
 
 - (IBAction)didTapDisconnect:(id)sender

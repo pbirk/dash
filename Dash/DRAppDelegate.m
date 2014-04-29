@@ -47,11 +47,12 @@
                                                         NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10],
                                                         } forState:UIControlStateNormal];
     
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{
-                                                              NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:14],
-                                                              } forState:UIControlStateNormal];
-    NSUInteger yOffset = IS_RETINA ? 2 : 1;
-    [[UISegmentedControl appearance] setContentPositionAdjustment:UIOffsetMake(0, yOffset) forSegmentType:UISegmentedControlSegmentAny barMetrics:UIBarMetricsDefault];
+    NSDictionary *segmentedControlTextAttributes = @{ NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:14],
+                                                     NSForegroundColorAttributeName: [UIColor blackColor] };
+    [[UISegmentedControl appearance] setTitleTextAttributes:segmentedControlTextAttributes forState:UIControlStateNormal];
+    [[UISegmentedControl appearance] setTitleTextAttributes:segmentedControlTextAttributes forState:UIControlStateSelected];
+    [[UISegmentedControl appearance] setTintColor:DR_LITE_GRAY];
+    [[UISegmentedControl appearance] setContentPositionAdjustment:UIOffsetMake(0, IS_RETINA ? 2 : 1) forSegmentType:UISegmentedControlSegmentAny barMetrics:UIBarMetricsDefault];
     
     self.window.tintColor = [UIColor blackColor];
 }
