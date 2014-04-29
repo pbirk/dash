@@ -54,21 +54,24 @@
 
 #import "DRRobotLeService.h"
 #import "LeDiscovery.h"
-#import "DRSignalPacket.h"
-#import "DRRobotProperties.h"
+
 
 NSString *kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
-NSString *kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941E";
-NSString *kNotifyCharacteristicUUIDString = @"713D0002-503E-4C75-BA94-3148F18D941E";
 NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
 
-@interface DRRobotLeService() {
-    UIColor *_eyeColor;
+//NSString *kAlarmServiceEnteredBackgroundNotification = @"kAlarmServiceEnteredBackgroundNotification";
+//NSString *kAlarmServiceEnteredForegroundNotification = @"kAlarmServiceEnteredForegroundNotification";
+
+@interface DRRobotLeService() <CBPeripheralDelegate> {
+@private
+    CBService			*_robotService;
+    CBCharacteristic	*_writeWoResponseCharacteristic;
+    CBUUID              *_writeWoResponseUUID;
 }
-@property (readwrite, strong, nonatomic) LGPeripheral *peripheral;
-@property (strong, nonatomic) LGService *robotService;
-@property (strong, nonatomic) LGCharacteristic *writeWoResponseCharacteristic, *notifyCharacteristic;
+@property (readwrite, strong, nonatomic) CBPeripheral *peripheral;
 @end
+
+
 
 @implementation DRRobotLeService
 
@@ -77,266 +80,282 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 /****************************************************************************/
 /*								Init										*/
 /****************************************************************************/
-- (id) initWithPeripheral:(LGPeripheral *)peripheral
+- (id) initWithPeripheral:(CBPeripheral *)peripheral
 {
     self = [super init];
     if (self) {
         self.peripheral = peripheral;
-        [self discover]; // lol
-    }
+        [self.peripheral setDelegate:self];
+        
+        _writeWoResponseUUID	= [CBUUID UUIDWithString:kWriteWithoutResponseCharacteristicUUIDString];
+        self.eyeColor = [UIColor blackColor];
+	}
     return self;
 }
 
-- (void) discover
-{
-    CBUUID *serviceUuid = [CBUUID UUIDWithString:kBiscuitServiceUUIDString];
-    
-    __weak typeof(self) weakSelf = self;
 
-    [self.peripheral discoverServices:@[serviceUuid] completion:^(NSArray *services, NSError *error) {
-        for (LGService *service in services) {
-            if ([service.UUIDString isEqualToString:kBiscuitServiceUUIDString]) {
-                weakSelf.robotService = service;
-                [weakSelf.robotService discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
-                    [weakSelf processCharacteristics:characteristics];
-                }];
-                break;
-            }
-        }
-    }];
-}
-
-- (void) processCharacteristics:(NSArray *)characteristics {
-    for (LGCharacteristic *characteristic in characteristics) {
-        if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
-            NSLog(@"Discovered write without response");
-            self.writeWoResponseCharacteristic = characteristic;
-        } else if ([characteristic.UUIDString isEqualToString:kNotifyCharacteristicUUIDString]) {
-            NSLog(@"Discovered notify");
-            self.notifyCharacteristic = characteristic;
-        }
-    }
-}
-
-- (void) dealloc
-{
+- (void) dealloc {
+	[self reset];
+    self.peripheral.delegate = nil;
     self.peripheral = nil;
-    self.robotService = nil;
-    self.writeWoResponseCharacteristic = nil;
-    self.notifyCharacteristic = nil;
 }
+
 
 - (void) reset
 {
-    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
-    char command = DRCommandTypeAllStop;
-    [data appendBytes:&command length:sizeof(command)];
-    [self sendData:data];
+	if (self.peripheral) {
+        self.motor = DRMotorsMakeZero();
+        self.eyeColor = [UIColor blackColor];
+	}
 }
 
-- (void)disconnect
+
+
+#pragma mark -
+#pragma mark Service interaction
+/****************************************************************************/
+/*							Service Interactions							*/
+/****************************************************************************/
+- (void) start
 {
-    if (self.notifyCharacteristic) {
-        [self.notifyCharacteristic setNotifyValue:NO completion:nil];
-    }
-    [self reset];
-    self.isManuallyDisconnecting = YES;
+	CBUUID	*serviceUUID	= [CBUUID UUIDWithString:kBiscuitServiceUUIDString];
+	NSArray	*serviceArray	= @[serviceUUID];
+
+    [self.peripheral discoverServices:serviceArray];
 }
 
-#pragma mark - Commands
-
-- (void)setRobotProperties:(DRRobotProperties *)properties
+- (void) peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
-    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+	NSArray		*services	= nil;
+	NSArray		*uuids	= @[];
+
+	if (peripheral != self.peripheral) {
+		NSLog(@"Wrong Peripheral.\n");
+		return ;
+	}
     
-    // [type "1" - 1]  [robot Type - 0-255 - 1] [robot color - 0-255 - 1] [code version - 0-255 - 1] [name - string - 10, terminated with a null character]
+    if (error != nil) {
+        NSLog(@"Error %@\n", error);
+		return ;
+	}
+
+	services = [peripheral services];
+	if (!services || ![services count]) {
+		return ;
+	}
+
+	_robotService = nil;
     
-    char command = DRCommandTypeSetName;
-    uint8_t robotType = 0,
-            robotColor = properties.color,
-            codeVersion = 0;
-    NSData *name = [properties.name dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-    char null = '\0';
-    
-    [data appendBytes:&command length:sizeof(command)];
-    [data appendBytes:&robotType length:sizeof(robotType)];
-    [data appendBytes:&robotColor length:sizeof(robotColor)];
-    [data appendBytes:&codeVersion length:sizeof(codeVersion)];
-    
-    if (name.length > MAX_NAME_LENGTH) {
-        name = [NSData dataWithBytes:name.bytes length:MAX_NAME_LENGTH];
-        NSLog(@"Error: name data > %lu (%@)", (unsigned long)MAX_NAME_LENGTH, properties.name);
-    }
-    [data appendData:name];
-    [data appendBytes:&null length:sizeof(null)]; // I don't think we really need this, sendData will pad to 14 bytes with 0s
-    
-//    [data setLength:PACKET_SIZE];
-//    DRRobotProperties *test = [DRRobotProperties robotPropertiesWithData:data];
-//    NSLog(@"test prop :%@", test);
-    
-    [self sendData:data];
+	for (CBService *service in services) {
+		if ([[service UUID] isEqual:[CBUUID UUIDWithString:kBiscuitServiceUUIDString]]) {
+			_robotService = service;
+			break;
+		}
+	}
+
+	if (_robotService) {
+		[peripheral discoverCharacteristics:uuids forService:_robotService];
+	}
 }
 
-- (void)setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor
+
+- (void) peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error;
 {
-    leftMotor = CLAMP(leftMotor, -255, 255);
-    rightMotor = CLAMP(rightMotor, -255, 255);
+	NSArray		*characteristics	= [service characteristics];
+	CBCharacteristic *characteristic;
     
-    // [type "2" -1]  [mtrA1 - 0-255 - 1] [mtrA2 - 0-255 - 1] [mtrB1 - 0-255 - 1] [mtrB2 - 0-255 - 1]
+	if (peripheral != self.peripheral) {
+		NSLog(@"Wrong Peripheral.\n");
+		return ;
+	}
+	
+	if (service != _robotService) {
+		NSLog(@"Wrong Service.\n");
+		return ;
+	}
     
-    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+    if (error != nil) {
+		NSLog(@"Error %@\n", error);
+		return ;
+	}
     
-    char command = DRCommandTypeDirectDrive;
+	for (characteristic in characteristics) {
+        NSLog(@"discovered characteristic %@", [characteristic UUID]);
+        
+		if ([[characteristic UUID] isEqual:_writeWoResponseUUID]) { // Min Temperature.
+            NSLog(@"Discovered Minimum Alarm Characteristic");
+			_writeWoResponseCharacteristic = characteristic;
+		}
+//        else if ([[characteristic UUID] isEqual:temperatureAlarmUUID]) { // Alarm
+//            NSLog(@"Discovered Alarm Characteristic");
+//			alarmCharacteristic = [characteristic retain];
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//		}
+	}
+}
+
+- (void)setMotor:(DRMotors)motor {
+    _motor = motor;
+    [self writeData];
+}
+
+- (void)setEyeColor:(UIColor *)eyeColor {
+    _eyeColor = eyeColor;
+    [self writeData];
+}
+
+#pragma mark -
+#pragma mark Characteristics interaction
+
+- (void) writeData
+{
+    // mtrA1, mtrA2, mtrB1, mtrB2, eyesRed, eyesGreen, eyesBlue
+    
+    NSMutableData *data = [NSMutableData dataWithCapacity:7];
+    
     uint8_t mtrA1, mtrA2, mtrB1, mtrB2;
     
-    if (leftMotor >= 0) {
-        mtrA1 = (uint8_t)round(leftMotor);
+    if (self.motor.left >= 0) {
+        mtrA1 = (uint8_t)round(self.motor.left);
         mtrA2 = 0;
     } else {
         mtrA1 = 0;
-        mtrA2 = (uint8_t)round(-leftMotor);
+        mtrA2 = (uint8_t)round(-self.motor.left);
     }
     
-    if (rightMotor >= 0) {
-        mtrB1 = (uint8_t)round(rightMotor);
+    if (self.motor.right >= 0) {
+        mtrB1 = (uint8_t)round(self.motor.right);
         mtrB2 = 0;
     } else {
         mtrB1 = 0;
-        mtrB2 = (uint8_t)round(-rightMotor);
+        mtrB2 = (uint8_t)round(-self.motor.right);
     }
     
-    [data appendBytes:&command length:sizeof(command)];
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+    [self.eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    uint8_t eyesRed = (uint8_t)(red * 255);
+    uint8_t eyesGreen = (uint8_t)(green * 255);
+    uint8_t eyesBlue = (uint8_t)(blue * 255);
+    
+    if (!self.peripheral) {
+        NSLog(@"Not connected to a peripheral!");
+		return ;
+    }
+
+    if (!_writeWoResponseCharacteristic) {
+        NSLog(@"No valid characteristic!");
+        return;
+    }
     
     [data appendBytes:&mtrA1 length:sizeof(mtrA1)];
     [data appendBytes:&mtrA2 length:sizeof(mtrA2)];
     [data appendBytes:&mtrB1 length:sizeof(mtrB1)];
     [data appendBytes:&mtrB2 length:sizeof(mtrB2)];
     
-    [self sendData:data];
-}
-
-- (void)setThrottle:(CGFloat)throttle direction:(CGFloat)direction
-{
-    // [type "3" -1]  [power, -100->100, 2] [rotationRate, -400->400, 2]
-
-    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
-    char command = DRCommandTypeGyroDrive;
-    
-    static NSInteger maxPower = 100, maxRotationRate = 400;
-    
-    int16_t power = (int16_t)CLAMP(round(throttle * maxPower), -maxPower, maxPower);
-    int16_t rotationRate = (int16_t)CLAMP(round(direction * maxRotationRate), -maxRotationRate, maxRotationRate);
-    
-    [data appendBytes:&command length:sizeof(command)];
-    [data appendBytes:&power length:sizeof(power)];
-    [data appendBytes:&rotationRate length:sizeof(rotationRate)];
-    
-    [self sendData:data];
-}
-
-- (void)setEyeColor:(UIColor *)eyeColor
-{
-    if (!eyeColor) {
-        eyeColor = [UIColor blackColor];
-    }
-    
-//    [type "4" -1]  [red - 0-255 - 1] [green - 0-255 - 1] [blue - 0-255 - 1]
-    
-    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
-    
-    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-    [eyeColor getRed:&red green:&green blue:&blue alpha:&alpha];
-    
-    char command = DRCommandTypeSetEyes;
-    uint8_t eyesRed = (uint8_t)(red * 255);
-    uint8_t eyesGreen = (uint8_t)(green * 255);
-    uint8_t eyesBlue = (uint8_t)(blue * 255);
-    
-    [data appendBytes:&command length:sizeof(command)];
-    
     [data appendBytes:&eyesRed length:sizeof(eyesRed)];
     [data appendBytes:&eyesGreen length:sizeof(eyesGreen)];
     [data appendBytes:&eyesBlue length:sizeof(eyesBlue)];
     
-    [self sendData:data];
-    _eyeColor = eyeColor;
-}
-
-- (UIColor *)eyeColor {
-    if (!_eyeColor) {
-        _eyeColor = [UIColor blackColor];
-    }
-    return _eyeColor;
-}
-
-#pragma mark -
-#pragma mark Characteristics interaction
-
-- (void)setNotifyCharacteristic:(LGCharacteristic *)notifyCharacteristic
-{
-    _notifyCharacteristic = notifyCharacteristic;
-    if (_notifyCharacteristic) {
-        __weak typeof(self) weakSelf = self;
-        [_notifyCharacteristic setNotifyValue:YES completion:^(NSError *error) {
-            
-        } onUpdate:^(NSData *data, NSError *error) {
-            if (!error && data.length == PACKET_SIZE) {
-//                if (data.length > PACKET_SIZE) {
-//                    data = [NSData dataWithBytes:data.bytes length:PACKET_SIZE];
-//                    NSLog(@"Trimmed packet: %@", data);
-//                }
-                char msgType;
-                [data getBytes:&msgType length:sizeof(msgType)];
-                
-                switch (msgType) {
-                    case DRMessageTypeSignals: {
-                        DRSignalPacket *signals = [DRSignalPacket signalPacketWithData:data];
-                        [weakSelf.delegate receivedNotifyWithSignals:signals];
-                        break;
-                    }
-                    case DRMessageTypeName: {
-                        DRRobotProperties *properties = [DRRobotProperties robotPropertiesWithData:data];
-                        [weakSelf.delegate receivedNotifyWithProperties:properties];
-                        break;
-                    }
-                    default:
-                        NSLog(@"Unknown message of type %c", msgType);
-//                        [weakSelf.delegate receivedNotifyWithData:data];
-                        break;
-                }
-            } else {
-                if (error) {
-                    NSLog(@"Problem with notify: %@", error);
-                } else {
-                    NSLog(@"Notify: wrong packet size: %@", data);
-                    [weakSelf.delegate receivedNotifyWithData:data];
-                }
-            }
-        }];
-    }
-}
-
-- (void)sendData:(NSMutableData *)data
-{
-    if (!self.peripheral) {
-        NSLog(@"Not connected to a peripheral!");
-		return ;
-    }
-    
-    if (!self.writeWoResponseCharacteristic) {
-        if (self.robotService.cbService && self.robotService.cbService.characteristics.count) {
-            [self discover];
-            return;
-        } else {
-            NSLog(@"No valid characteristic!");
-//        [self discover];
-            return;
-        }
-    }
-    
-    [data setLength:PACKET_SIZE];
-    [self.writeWoResponseCharacteristic writeValue:data completion:nil];
+    [self.peripheral writeValue:data forCharacteristic:_writeWoResponseCharacteristic type:CBCharacteristicWriteWithoutResponse];
     NSLog(@"data %@", data);
 }
 
+///** If we're connected, we don't want to be getting temperature change notifications while we're in the background.
+// We will want alarm notifications, so we don't turn those off.
+// */
+//- (void)enteredBackground
+//{
+//    // Find the fishtank service
+//    for (CBService *service in [self.peripheral services]) {
+//        if ([[service UUID] isEqual:[CBUUID UUIDWithString:kBiscuitServiceUUIDString]]) {
+//            
+//            // Find the temperature characteristic
+//            for (CBCharacteristic *characteristic in [service characteristics]) {
+//                if ( [[characteristic UUID] isEqual:[CBUUID UUIDWithString:kWriteWithoutResponseCharacteristicUUIDString]] ) {
+//                    
+//                    // And STOP getting notifications from it
+//                    [self.peripheral setNotifyValue:NO forCharacteristic:characteristic];
+//                }
+//            }
+//        }
+//    }
+//}
+//
+///** Coming back from the background, we want to register for notifications again for the temperature changes */
+//- (void)enteredForeground
+//{
+//    // Find the fishtank service
+//    for (CBService *service in [self.peripheral services]) {
+//        if ([[service UUID] isEqual:[CBUUID UUIDWithString:kBiscuitServiceUUIDString]]) {
+//            
+//            // Find the temperature characteristic
+//            for (CBCharacteristic *characteristic in [service characteristics]) {
+//                if ( [[characteristic UUID] isEqual:[CBUUID UUIDWithString:kWriteWithoutResponseCharacteristicUUIDString]] ) {
+//                    
+//                    // And START getting notifications from it
+//                    [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//                }
+//            }
+//        }
+//    }
+//}
+
+//- (void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+//{
+////    uint8_t alarmValue  = 0;
+//    
+//	if (peripheral != self.peripheral) {
+//		NSLog(@"Wrong peripheral\n");
+//		return ;
+//	}
+//
+//    if ([error code] != 0) {
+//		NSLog(@"Error %@\n", error);
+//		return ;
+//	}
+//
+////    /* Temperature change */
+////    if ([[characteristic UUID] isEqual:currentTemperatureUUID]) {
+////        [self.delegate alarmServiceDidChangeTemperature:self];
+////        return;
+////    }
+////    
+////    /* Alarm change */
+////    if ([[characteristic UUID] isEqual:temperatureAlarmUUID]) {
+////
+////        /* get the value for the alarm */
+////        [[alarmCharacteristic value] getBytes:&alarmValue length:sizeof (alarmValue)];
+////
+////        NSLog(@"alarm!  0x%x", alarmValue);
+////        if (alarmValue & 0x01) {
+////            /* Alarm is firing */
+////            if (alarmValue & 0x02) {
+////                [self.delegate alarmService:self didSoundAlarmOfType:kAlarmLow];
+////			} else {
+////                [self.delegate alarmService:self didSoundAlarmOfType:kAlarmHigh];
+////			}
+////        } else {
+////            [self.delegate alarmServiceDidStopAlarm:self];
+////        }
+////
+////        return;
+////    }
+////
+////    /* Upper or lower bounds changed */
+////    if ([characteristic.UUID isEqual:minimumTemperatureUUID] || [characteristic.UUID isEqual:maximumTemperatureUUID]) {
+////        [self.delegate alarmServiceDidChangeTemperatureBounds:self];
+////    }
+//}
+//
+//- (void) peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+//{
+//    /* When a write occurs, need to set off a re-read of the local CBCharacteristic to update its value */
+//    [peripheral readValueForCharacteristic:characteristic];
+//    
+////    /* Upper or lower bounds changed */
+////    if ([characteristic.UUID isEqual:minimumTemperatureUUID] || [characteristic.UUID isEqual:maximumTemperatureUUID]) {
+////        [self.delegate alarmServiceDidChangeTemperatureBounds:self];
+////    }
+//}
 @end

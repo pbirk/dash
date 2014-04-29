@@ -54,48 +54,32 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "LGBluetooth.h"
 
-//struct DRMotors {
-//    CGFloat left;
-//    CGFloat right;
-//};
-//typedef struct DRMotors DRMotors;
-//
-//static inline DRMotors
-//DRMotorsMake(CGFloat left, CGFloat right)
-//{
-//    DRMotors p; p.left = left; p.right = right; return p;
-//}
-//static inline DRMotors
-//DRMotorsMakeZero()
-//{
-//    return DRMotorsMake(0, 0);
-//}
-
-static NSUInteger const PACKET_SIZE = 14;
-static NSUInteger const MAX_NAME_LENGTH = 9;
-
-typedef NS_ENUM(char, DRMessageTypes) {
-    DRMessageTypeName = '1',
-    DRMessageTypeSignals = '2'
+struct DRMotors {
+    CGFloat left;
+    CGFloat right;
 };
+typedef struct DRMotors DRMotors;
 
-typedef NS_ENUM(char, DRCommandTypes) {
-    DRCommandTypeAllStop = '0',
-    DRCommandTypeSetName = '1',
-    DRCommandTypeDirectDrive = '2',
-    DRCommandTypeGyroDrive = '3',
-    DRCommandTypeSetEyes = '4',
-};
+static inline DRMotors
+DRMotorsMake(CGFloat left, CGFloat right)
+{
+    DRMotors p; p.left = left; p.right = right; return p;
+}
+static inline DRMotors
+DRMotorsMakeZero()
+{
+    return DRMotorsMake(0, 0);
+}
 
 /****************************************************************************/
 /*						Service Characteristics								*/
 /****************************************************************************/
-extern NSString *kBiscuitServiceUUIDString;                     // Service UUID
-extern NSString *kRead1CharacteristicUUIDString;                // First read characteristic
-extern NSString *kNotifyCharacteristicUUIDString;                // Notify characteristic
-extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Response Characteristic
+extern NSString *kBiscuitServiceUUIDString;                 // 713D0003-503E-4C75-BA94-3148F18D941E     Service UUID
+extern NSString *kWriteWithoutResponseCharacteristicUUIDString;   // 713D0003-503E-4C75-BA94-3148F18D941E     Write W/O Response Characteristic
+//extern NSString *kMinimumTemperatureCharacteristicUUIDString;   // C0C0C0C0-DEAD-F154-1319-740381000000     Minimum Temperature Characteristic
+//extern NSString *kMaximumTemperatureCharacteristicUUIDString;   // EDEDEDED-DEAD-F154-1319-740381000000     Maximum Temperature Characteristic
+//extern NSString *kAlarmCharacteristicUUIDString;                // AAAAAAAA-DEAD-F154-1319-740381000000     Alarm Characteristic
 
 //extern NSString *kAlarmServiceEnteredBackgroundNotification;
 //extern NSString *kAlarmServiceEnteredForegroundNotification;
@@ -103,40 +87,41 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 /****************************************************************************/
 /*								Protocol									*/
 /****************************************************************************/
-@class DRRobotLeService, DRSignalPacket, DRRobotProperties;
+@class DRRobotLeService;
 
+//typedef enum {
+//    kAlarmHigh  = 0,
+//    kAlarmLow   = 1,
+//} AlarmType;
 
 @protocol DRRobotLeServiceDelegate<NSObject>
+//- (void) alarmService:(DRRobotLeService*)service didSoundAlarmOfType:(AlarmType)alarm;
+//- (void) alarmServiceDidStopAlarm:(DRRobotLeService*)service;
+//- (void) alarmServiceDidChangeTemperature:(DRRobotLeService*)service;
+//- (void) alarmServiceDidChangeTemperatureBounds:(DRRobotLeService*)service;
 //- (void) serviceDidChangeStatus:(DRRobotLeService*)service;
 //- (void) alarmServiceDidReset;
-- (void) receivedNotifyWithData:(NSData *)data;
-- (void) receivedNotifyWithSignals:(DRSignalPacket *)signals;
-- (void) receivedNotifyWithProperties:(DRRobotProperties *)properties;
 @end
 
+
 /****************************************************************************/
-/*                              Robot service.                              */
+/*						Temperature Alarm service.                          */
 /****************************************************************************/
 @interface DRRobotLeService : NSObject
 
-@property BOOL isManuallyDisconnecting;
-
-- (id) initWithPeripheral:(LGPeripheral *)peripheral;
-- (void) disconnect;
-
-- (void) reset;
-- (void) setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
-- (void) setThrottle:(CGFloat)throttle direction:(CGFloat)direction;
-- (void) setRobotProperties:(DRRobotProperties *)properties;
-
+@property (nonatomic) DRMotors motor;
+@property BOOL disconnecting;
 @property (strong, nonatomic) UIColor *eyeColor;
-//- (void) setEyeColor:(UIColor *)color;
-@property BOOL useGyroDrive;
+
+- (id) initWithPeripheral:(CBPeripheral *)peripheral;
+- (void) reset;
+- (void) start;
+
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;
 
 ///* Behave properly when heading into and out of the background */
 //- (void)enteredBackground;
 //- (void)enteredForeground;
 
-@property (readonly) LGPeripheral *peripheral;
+@property (readonly) CBPeripheral *peripheral;
 @end
