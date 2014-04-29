@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *colorPickerView;
 @property (strong, nonatomic) NSArray *buttons;
 - (IBAction)didToggleGyroDrive:(UISwitch *)sender;
+- (IBAction)didToggleFixedJoystick:(UISwitch *)sender;
 @property (strong, nonatomic) UIFont *nameFont, *namePlaceholderFont;
 @end
 
@@ -114,21 +115,15 @@
     self.bleService.useGyroDrive = sender.on;
 }
 
+- (IBAction)didToggleFixedJoystick:(UISwitch *)sender
+{
+    [DRCentralManager sharedInstance].moveableJoystick = !sender.on;
+}
+
 - (IBAction)didTapColorButton:(UIButton *)sender
 {
     [self.nameTextField resignFirstResponder];
-//    for (NSUInteger i = 0; i < self.buttons.count; i++) {
-//        UIButton *button = self.buttons[i];
-//        if (button == sender) {
-//            self.robotProperties.color = i+1;
-//            [self sendRobotProperties];
-//            button.selected = YES;
-//        } else {
-//            button.selected = NO;
-//        }
-//    }
     for (UIButton *button in self.buttons) {
-//        button.selected = (button == sender);
         if (button == sender) {
             self.robotProperties.color = button.tag;
             [self sendRobotProperties];

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DRControlsViewController.h"
 
-@interface DRJoystickViewController : DRControlsViewController
+
+@interface DRJoystickViewController : DRControlsViewController 
 
 @end

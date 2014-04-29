@@ -31,6 +31,7 @@ static NSTimeInterval const SCAN_INTERVAL = 5.0;
 @property (nonatomic, assign) id<DRDiscoveryDelegate> discoveryDelegate;
 @property (nonatomic, strong) NSMutableDictionary *peripheralProperties;
 @property (nonatomic, strong) DRRobotLeService *connectedService;
+@property BOOL moveableJoystick;
 
 - (void) startScanning;
 - (void) stopScanning;

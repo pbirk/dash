@@ -45,7 +45,7 @@
                                             <navigationItem title="Dash Robotics" id="zM5-fv-FKH">
                                                 <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="wTn-Nk-xsj">
                                                     <connections>
-                                                        <action selector="didTapRefreshButton" destination="ANI-8z-4AJ" id="sqj-Ac-80x"/>
+                                                        <action selector="didTapRefreshButton:" destination="ANI-8z-4AJ" id="Zb5-bt-Jst"/>
                                                     </connections>
                                                 </barButtonItem>
                                             </navigationItem>
@@ -315,7 +315,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xzc-9V-hs4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="stop" id="1Nh-XT-VrU">
                     <connections>
-                        <action selector="didTapStopButton" destination="ANI-8z-4AJ" id="AUG-C9-EhA"/>
+                        <action selector="didTapStopButton:" destination="ANI-8z-4AJ" id="Qi0-Sd-MOt"/>
                     </connections>
                 </barButtonItem>
             </objects>

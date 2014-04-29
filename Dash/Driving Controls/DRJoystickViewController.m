@@ -31,6 +31,8 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 {
     [super viewDidLoad];
     
+    [DRCentralManager sharedInstance].moveableJoystick = YES;
+    
     self.debugLabel.backgroundColor = self.view.backgroundColor;
     [self addBottomBorderToView:self.debugLabel];
     
@@ -150,14 +152,17 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     CGPoint touch = [[touches anyObject] locationInView:self.view];
     if (CGRectContainsPoint(self.joystickTouchArea.frame, touch)) {
         if (!CGRectContainsPoint(self.joystickThumb.frame, touch)) {
-            self.joystickThumb.center = self.joystickBase.center = touch;
-            _touchOffset = CGPointZero;
+            if ([DRCentralManager sharedInstance].moveableJoystick) {
+                self.joystickThumb.center = self.joystickBase.center = touch;
+                _touchOffset = CGPointZero;
+                _touchDown = YES;
+            }
         } else {
             _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
+            _touchDown = YES;
         }
-        _touchDown = YES;
     } else {
-        if (CGRectContainsPoint(CGRectInset(self.joystickTouchArea.frame, -JOYSTICK_THUMB_SIZE/2, -JOYSTICK_THUMB_SIZE/2), touch)) {
+        if ([DRCentralManager sharedInstance].moveableJoystick && CGRectContainsPoint(CGRectInset(self.joystickTouchArea.frame, -JOYSTICK_THUMB_SIZE/2, -JOYSTICK_THUMB_SIZE/2), touch)) {
             CGPoint newCenter;
             newCenter.x = MAX(touch.x, CGRectGetMinX(self.joystickTouchArea.frame));
             newCenter.x = MIN(newCenter.x, CGRectGetMaxX(self.joystickTouchArea.frame));
