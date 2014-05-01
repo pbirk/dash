@@ -10,6 +10,8 @@
 
 @interface DRAutoModeCell : UICollectionViewCell
 
+@property (strong, nonatomic) UIColor *selectedColor;
+
 - (void)setTitle:(NSString *)title image:(UIImage *)image;
 
 @end

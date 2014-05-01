@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet DRButton *stopButton;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewWidthConstraint;
 - (IBAction)didTapStopbutton:(id)sender;
 @end
 
@@ -41,6 +42,19 @@
     [self.collectionView reloadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self didTapStopbutton:nil];
+}
+
 #pragma mark - BLE control
 
 - (void)receivedNotifyWithData:(NSData *)data
@@ -59,6 +73,18 @@
     self.stopButton.enabled = NO;
     [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:NO];
     self.selectedModeIndex = nil;
+    NSLog(@"Sent STOP command");
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+            self.collectionViewWidthConstraint.constant = 662;
+        } else {
+            self.collectionViewWidthConstraint.constant = 501;
+        }
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -70,18 +96,28 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.autoModeData.count;
+    
+    if (IS_IPAD || self.autoModeData.count % 2 == 0) {
+        return self.autoModeData.count;
+    } else {
+        return self.autoModeData.count + 1;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DRAutoModeCell *cell = (DRAutoModeCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"DRAutoModeCell" forIndexPath:indexPath];
-    
-    NSString *name = self.autoModeData[indexPath.row][@"ModeName"];
-    NSString *image = self.autoModeData[indexPath.row][@"ImageName"];
-    
-    [cell setTitle:name image:[UIImage imageNamed:image]];
-    return cell;
+    if (indexPath.row < self.autoModeData.count) {
+        DRAutoModeCell *cell = (DRAutoModeCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"DRAutoModeCell" forIndexPath:indexPath];
+        cell.selectedColor = IS_IPAD ? [UIColor blackColor] : ROBOT_COLORS[DRRedRobot];
+        
+        NSString *name = self.autoModeData[indexPath.row][@"ModeName"];
+        NSString *image = self.autoModeData[indexPath.row][@"ImageName"];
+        [cell setTitle:name image:[UIImage imageNamed:image]];
+        
+        return cell;
+    } else {
+        return [collectionView dequeueReusableCellWithReuseIdentifier:@"blank" forIndexPath:indexPath];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -93,7 +129,7 @@
     if (IS_IPAD) {
         return flowLayout.itemSize;
     } else {
-        CGFloat height = flowLayout.itemSize.height + (IS_WIDESCREEN ? 15 : 0);
+        CGFloat height = flowLayout.itemSize.height + (IS_WIDESCREEN ? 11 : 0);
         CGFloat width = flowLayout.itemSize.width;
         if (indexPath.row % 2 == 0) {
             width += 1;
@@ -102,6 +138,11 @@
         }
         return CGSizeMake(width, height);
     }
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return indexPath.row < self.autoModeData.count;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -114,36 +155,22 @@
     return !IS_IPAD && IS_RETINA ? 0.5 : 1.0;
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return ![indexPath isEqual:self.selectedModeIndex];
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return ![indexPath isEqual:self.selectedModeIndex];
-}
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![indexPath isEqual:self.selectedModeIndex]) {
-        [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:YES];
-        self.selectedModeIndex = indexPath;
-        
-        NSString *cmdString = self.autoModeData[indexPath.row][@"DRCommandType"];
-        if (cmdString.length) {
-            char command = [cmdString characterAtIndex:0];
-            NSLog(@"Selected auto mode %c", command);
-        }
+    [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:YES];
+    self.selectedModeIndex = indexPath;
+    
+    NSString *cmdString = self.autoModeData[indexPath.row][@"DRCommandType"];
+    if (cmdString.length) {
+        char command = [cmdString characterAtIndex:0];
+        NSLog(@"Selected auto mode %c", command);
     }
     self.stopButton.enabled = YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath isEqual:self.selectedModeIndex]) {
-        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-    }
+    [self didTapStopbutton:nil];
 }
 
 @end

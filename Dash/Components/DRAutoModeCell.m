@@ -23,6 +23,7 @@
     self.imageView.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;
     self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.deselectedColor = self.backgroundColor;
+    self.selectedColor = ROBOT_COLORS[DRGreenRobot];
 }
 
 - (void)setTitle:(NSString *)title image:(UIImage *)image
@@ -41,7 +42,7 @@
     [super setSelected:selected];
     
     if (selected) {
-        self.backgroundColor = ROBOT_COLORS[DRGreenRobot];
+        self.backgroundColor = self.selectedColor;
         self.imageView.tintColor = [UIColor whiteColor];
         self.textLabel.textColor = [UIColor whiteColor];
     } else {
