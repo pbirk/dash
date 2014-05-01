@@ -78,11 +78,12 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     [UIView animateWithDuration:duration animations:^{
         if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-            self.collectionViewWidthConstraint.constant = 662;
+            self.collectionViewWidthConstraint.constant = flowLayout.itemSize.width * 4 + flowLayout.minimumInteritemSpacing * 3;
         } else {
-            self.collectionViewWidthConstraint.constant = 501;
+            self.collectionViewWidthConstraint.constant = flowLayout.itemSize.width * 3 + flowLayout.minimumInteritemSpacing * 2;
         }
     }];
 }
@@ -147,12 +148,14 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return !IS_IPAD && IS_RETINA ? 0.5 : 1.0;
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+    return !IS_IPAD && IS_RETINA ? 0.5 : flowLayout.minimumLineSpacing;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return !IS_IPAD && IS_RETINA ? 0.5 : 1.0;
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+    return !IS_IPAD && IS_RETINA ? 0.5 : flowLayout.minimumInteritemSpacing;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
