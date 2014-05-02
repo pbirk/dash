@@ -128,6 +128,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 
 - (void) reset
 {
+    // send ALL STOP command
     NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
     char command = DRCommandTypeAllStop;
     [data appendBytes:&command length:sizeof(command)];
@@ -217,21 +218,27 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 
 - (void)setThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
-    // [type "3" -1]  [power, -100->100, 2] [rotationRate, -400->400, 2]
+    // send all-stop instead of 0,0 because robot prefers it
+    if (throttle == direction == 0.0) {
+        [self reset];
+    } else {
+    
+        // [type "3" -1]  [power, -100->100, 2] [rotationRate, -400->400, 2]
 
-    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
-    char command = DRCommandTypeGyroDrive;
-    
-    static NSInteger maxPower = 100, maxRotationRate = 400;
-    
-    int16_t power = (int16_t)CLAMP(round(throttle * maxPower), -maxPower, maxPower);
-    int16_t rotationRate = (int16_t)CLAMP(round(direction * maxRotationRate), -maxRotationRate, maxRotationRate);
-    
-    [data appendBytes:&command length:sizeof(command)];
-    [data appendBytes:&power length:sizeof(power)];
-    [data appendBytes:&rotationRate length:sizeof(rotationRate)];
-    
-    [self sendData:data];
+        NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+        char command = DRCommandTypeGyroDrive;
+        
+        static NSInteger maxPower = 100, maxRotationRate = 400;
+        
+        int16_t power = (int16_t)CLAMP(round(throttle * maxPower), -maxPower, maxPower);
+        int16_t rotationRate = (int16_t)CLAMP(round(direction * maxRotationRate), -maxRotationRate, maxRotationRate);
+        
+        [data appendBytes:&command length:sizeof(command)];
+        [data appendBytes:&power length:sizeof(power)];
+        [data appendBytes:&rotationRate length:sizeof(rotationRate)];
+        
+        [self sendData:data];
+    }
 }
 
 - (void)setEyeColor:(UIColor *)eyeColor
