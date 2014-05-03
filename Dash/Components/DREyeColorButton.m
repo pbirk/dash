@@ -54,16 +54,11 @@
     if (self.buttons.count) {
         for (UIButton *button in self.buttons) {
             button.center = self.center;
+            button.alpha = 0;
         }
         self.selected = NO;
-        if ([self.bleService.eyeColor isEqual:[UIColor blackColor]]) {
-            [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-            self.tintColor = [UIColor whiteColor];
-        } else {
-            [self setImage:[[UIImage imageNamed:kEyeOpenIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-            self.tintColor = self.bleService.eyeColor;
-            if ([self.tintColor isEqual:[UIColor blackColor]]) self.tintColor = [UIColor whiteColor];
-        }
+        BOOL eyeOpen = self.bleService.eyeColor && ![self.bleService.eyeColor isEqual:[UIColor blackColor]];
+        [self configureOpenEye:eyeOpen color:self.bleService.eyeColor];
     }
 }
 
@@ -118,7 +113,7 @@
 
 - (IBAction)didTapEyeColorButton:(id)sender
 {
-    static NSTimeInterval kAnimationTotalTime = 0.36;
+    static NSTimeInterval kDRAnimationTotalTime = 0.36;
     self.alpha = 1;
     
     if (self.selected) {
@@ -131,23 +126,14 @@
             }
         }
         
-        [UIView animateWithDuration:kAnimationTotalTime-0.09 delay:0
+        [UIView animateWithDuration:kDRAnimationTotalTime-0.09 delay:0
              usingSpringWithDamping:1 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                  for (NSUInteger i = 0; i < self.buttons.count; i++) {
                      UIButton *button = self.buttons[i];
                      button.center = self.center;
                      if (button != sender) button.alpha = 0;
                  }
-                 if (sender != self) {
-                     if ([[sender backgroundColor] isEqual:[UIColor blueColor]]) {
-                         self.tintColor = [UIColor colorWithRed:0.122 green:0.512 blue:0.998 alpha:1.000];
-                     } else {
-                         self.tintColor = [[sender backgroundColor] lighterColor];
-                     }
-                     [self setImage:[[UIImage imageNamed:kEyeOpenIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-                 } else {
-                     [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-                 }
+                 [self configureOpenEye:(sender != self) color:[sender backgroundColor]];
              } completion:^(BOOL finished) {
                  if (sender != self) {
                      [sender setAlpha:0];
@@ -156,7 +142,7 @@
     } else {
         self.selected = YES;
         self.tintColor = [UIColor whiteColor];
-        [UIView animateWithDuration:kAnimationTotalTime delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [UIView animateWithDuration:kDRAnimationTotalTime delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
                 button.center = CGPointMake(self.center.x + (CGRectGetWidth(self.bounds)+self.buttonPadding)*(i+1), self.center.y);
@@ -166,6 +152,21 @@
     }
 }
 
+- (void)configureOpenEye:(BOOL)open color:(UIColor *)color {
+    if (open) {
+        if (!color || [color isEqual:[UIColor blackColor]]) {
+            self.tintColor = [UIColor whiteColor];
+        } else if ([color isEqual:[UIColor blueColor]]) {
+            self.tintColor = [UIColor colorWithRed:0.122 green:0.512 blue:0.998 alpha:1.000];
+        } else {
+            self.tintColor = [color lighterColor];
+        }
+        [self setImage:[[UIImage imageNamed:kEyeOpenIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    } else {
+        self.tintColor = [UIColor whiteColor];
+        [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    }
+}
 
 
 @end
