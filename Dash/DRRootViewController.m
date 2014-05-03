@@ -64,10 +64,7 @@
     [self.myNavigationBar.layer addSublayer:layer];
     self.scanProgressLayer = layer;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(peripheralDidDisconnect:)
-                                                 name:kLGPeripheralDidDisconnect
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peripheralDidDisconnect:) name:kLGPeripheralDidDisconnect object:nil];
 }
 
 - (void)dealloc
@@ -84,36 +81,53 @@
     }
 //    [self.bleManager disconnectPeripheral];
     [self.collectionView reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    if (IS_IPAD) {
-        [self.navigationController setNavigationBarHidden:NO animated:animated];
-    }
-    [self.scanProgressLayer removeAllAnimations];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self appDidBecomeActive];
+}
+
+- (void)appDidBecomeActive
+{
     [self startScanning];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.scanProgressLayer removeAllAnimations];
+    if (IS_IPAD) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [self appWillResignActive];
+}
+
+- (void)appWillResignActive
+{
     _shouldShowResults = NO;
+    [self.scanProgressLayer removeAllAnimations];
     [[DRCentralManager sharedInstance] stopScanning];
     [self.scanTimer invalidate];
 }
+
 
 #pragma mark - IBActions
 
 - (void)didTapRefreshButton:(id)sender
 {
-//    [self.bleManager.peripheralProperties removeAllObjects];
+    [self.bleManager.peripheralProperties removeAllObjects];
     [self startScanning];
 }
 
@@ -126,11 +140,11 @@
         [self.bleManager startScanning];
         
         [self.scanTimer invalidate];
-        self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startScanning) userInfo:nil repeats:NO];
+        self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:RESCAN_INTERVAL target:self selector:@selector(startScanning) userInfo:nil repeats:NO];
         [self.myNavigationItem setRightBarButtonItem:self.stopButton animated:NO];
     } else {
         [self.bleManager startScanning];
-        [self discoveryDidRefresh];
+//        [self discoveryDidRefresh];
     }
 }
 

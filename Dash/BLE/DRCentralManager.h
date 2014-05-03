@@ -11,6 +11,7 @@
 @class DRRobotLeService, DRRobotProperties;
 
 static NSTimeInterval const SCAN_INTERVAL = 5.0;
+static NSTimeInterval const RESCAN_INTERVAL = SCAN_INTERVAL * 3;
 
 /****************************************************************************/
 /*							UI protocols									*/

@@ -38,7 +38,7 @@
 @implementation DREyeColorButton
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (IS_IPAD) [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)layoutSubviews
@@ -62,6 +62,7 @@
         } else {
             [self setImage:[[UIImage imageNamed:kEyeOpenIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
             self.tintColor = self.bleService.eyeColor;
+            if ([self.tintColor isEqual:[UIColor blackColor]]) self.tintColor = [UIColor whiteColor];
         }
     }
 }
@@ -70,7 +71,9 @@
 {
     self.bleService = [[DRCentralManager sharedInstance] connectedService];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    if (IS_IPAD) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    }
 
     self.buttonPadding = 7;
 
