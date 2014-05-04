@@ -2,45 +2,45 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
+    <dict>
+        <key>ModeName</key>
+        <string>Circle</string>
+        <key>ImageName</key>
+        <string>auto-circle</string>
+        <key>DRCommandType</key>
+        <string>7</string>
+    </dict>
 	<dict>
 		<key>ModeName</key>
 		<string>Figure 8</string>
 		<key>ImageName</key>
-		<string>motion-icon</string>
+		<string>auto-figure8</string>
 		<key>DRCommandType</key>
 		<string>5</string>
 	</dict>
 	<dict>
 		<key>ModeName</key>
-		<string>Circle</string>
-		<key>ImageName</key>
-		<string>joystick-icon</string>
-		<key>DRCommandType</key>
-		<string>7</string>
-	</dict>
-	<dict>
-		<key>ModeName</key>
 		<string>Dance</string>
 		<key>ImageName</key>
-		<string>eye-icon</string>
+		<string>auto-circle</string>
 		<key>DRCommandType</key>
 		<string>6</string>
 	</dict>
 	<dict>
 		<key>ModeName</key>
-		<string>Wall Follow</string>
+		<string>Bump</string>
 		<key>ImageName</key>
-		<string>motion-icon</string>
+		<string>auto-bump</string>
 		<key>DRCommandType</key>
-		<string>8</string>
+		<string>9</string>
 	</dict>
 	<dict>
 		<key>ModeName</key>
-		<string>Bump</string>
+		<string>Wall Follow</string>
 		<key>ImageName</key>
-		<string>joystick-icon</string>
+		<string>auto-wallfollow</string>
 		<key>DRCommandType</key>
-		<string>9</string>
+		<string>8</string>
 	</dict>
 </array>
 </plist>

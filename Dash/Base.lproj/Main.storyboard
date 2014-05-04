@@ -364,15 +364,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="159" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" text="FIGURE 8" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFu-TZ-Nr7">
-                                                    <rect key="frame" x="49" y="93" width="61" height="25"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="FIGURE 8" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFu-TZ-Nr7">
+                                                    <rect key="frame" x="49" y="82" width="61" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yh0-JT-lxc">
-                                                    <rect key="frame" x="0.0" y="0.0" width="159" height="93"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="auto-wallfollow" translatesAutoresizingMaskIntoConstraints="NO" id="Yh0-JT-lxc">
+                                                    <rect key="frame" x="0.0" y="0.0" width="159" height="82"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -730,6 +730,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="auto-wallfollow" width="150" height="80"/>
         <image name="dash-60" width="60" height="60"/>
         <image name="eye-icon" width="30" height="30"/>
         <image name="joystick-icon" width="30" height="30"/>
