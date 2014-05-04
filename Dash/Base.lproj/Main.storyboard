@@ -327,6 +327,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="debugLabel" destination="Ify-zw-7Po" id="kEO-Ij-bwm"/>
+                        <outlet property="eyeColorButton" destination="yef-97-Teb" id="2zT-2z-b83"/>
                         <outlet property="joystickTouchArea" destination="8Tp-FG-hc0" id="8qq-4r-mqZ"/>
                     </connections>
                 </viewController>

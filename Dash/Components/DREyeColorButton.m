@@ -37,10 +37,6 @@
 
 @implementation DREyeColorButton
 
-- (void)dealloc {
-    if (IS_IPAD) [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -49,26 +45,32 @@
     }
 }
 
-- (void)orientationDidChange:(NSNotification *)note
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if (self.buttons.count) {
-        for (UIButton *button in self.buttons) {
-            button.center = self.center;
-            button.alpha = 0;
-        }
+    if (self.selected && IS_IPAD && self.buttons.count) {
         self.selected = NO;
-        BOOL eyeOpen = self.bleService.eyeColor && ![self.bleService.eyeColor isEqual:[UIColor blackColor]];
-        [self configureOpenEye:eyeOpen color:self.bleService.eyeColor];
+        [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            for (UIButton *button in self.buttons) {
+                button.center = self.center;
+                button.alpha = 0;
+            }
+        } completion:^(BOOL finished) {
+            BOOL eyeOpen = self.bleService.eyeColor && ![self.bleService.eyeColor isEqual:[UIColor blackColor]];
+            [self configureOpenEye:eyeOpen color:self.bleService.eyeColor];
+        }];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    for (UIButton *button in self.buttons) {
+        button.center = self.center; // reset to new orientation
     }
 }
 
 - (void)globalInit
 {
     self.bleService = [[DRCentralManager sharedInstance] connectedService];
-    
-    if (IS_IPAD) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    }
 
     self.buttonPadding = 7;
 

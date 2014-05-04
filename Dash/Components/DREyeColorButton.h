@@ -13,6 +13,7 @@
 
 @property CGFloat buttonPadding;
 @property (strong, nonatomic, readonly) NSArray *buttons;
-- (IBAction)didTapEyeColorButton:(UIButton *)sender;
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
 @end

@@ -9,6 +9,7 @@
 #import "DRJoystickViewController.h"
 #import "DRCentralManager.h"
 #import "DRSignalPacket.h"
+#import "DREyeColorButton.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 static CGFloat JOYSTICK_THUMB_SIZE = 100;
@@ -21,6 +22,7 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 }
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *joystickTouchArea;
+@property (weak, nonatomic) IBOutlet DREyeColorButton *eyeColorButton;
 @property (weak, nonatomic) UIImageView *joystickBase;
 @property (weak, nonatomic) UIImageView *joystickThumb;
 @end
@@ -103,6 +105,15 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
         center = CGPointMake(round(center.x), round(center.y));
     }
     self.joystickThumb.center = self.joystickBase.center = center;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self.eyeColorButton willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.eyeColorButton didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning

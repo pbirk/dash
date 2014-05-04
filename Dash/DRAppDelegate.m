@@ -40,7 +40,6 @@
                                                            NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:19],
                                                            }];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{
-//NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
                                                            NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17],
                                                            } forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:@{
