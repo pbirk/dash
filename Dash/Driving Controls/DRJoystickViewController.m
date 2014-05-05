@@ -10,6 +10,7 @@
 #import "DRCentralManager.h"
 #import "DRSignalPacket.h"
 #import "DREyeColorButton.h"
+#import "DRRobotProperties.h"
 
 static CGFloat MAX_JOYSTICK_TRAVEL = 40;
 static CGFloat JOYSTICK_THUMB_SIZE = 100;
@@ -20,7 +21,6 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     CGFloat _throttle, _direction, _prevThrottle, _prevDirection;
     NSTimer *_updateTimer;
 }
-@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *joystickTouchArea;
 @property (weak, nonatomic) IBOutlet DREyeColorButton *eyeColorButton;
 @property (weak, nonatomic) UIImageView *joystickBase;
@@ -66,11 +66,11 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     if (_prevThrottle != _throttle || _prevDirection != _direction) {
         
         if (self.bleService.useGyroDrive) {
-            [self.bleService setThrottle:_throttle direction:_direction];
+            [self.bleService sendThrottle:_throttle direction:_direction];
         } else {
             CGFloat leftMotor = (_throttle + _direction) * 255.0;
             CGFloat rightMotor = (_throttle - _direction) * 255.0;
-            [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
+            [self.bleService sendLeftMotor:leftMotor rightMotor:rightMotor];
         }
         
         _prevThrottle = _throttle;
@@ -86,6 +86,7 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self displayRobotName];
     
     if (!_updateTimer || !_updateTimer.isValid) {
         _updateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(sendUpdate) userInfo:nil repeats:YES];
@@ -148,12 +149,27 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 
 - (void)receivedNotifyWithData:(NSData *)data
 {
-    self.debugLabel.text = [data description]; 
+    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [data description]];
 }
 
 - (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
 {
-    self.debugLabel.text = [signals description];
+    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [signals description]];
+}
+
+- (void)receivedNotifyWithProperties:(DRRobotProperties *)properties
+{
+    [self displayRobotName];
+}
+
+- (void)displayRobotName
+{
+    if (self.bleService.robotProperties.hasName) {
+        self.title = self.bleService.robotProperties.name;
+    } else {
+        self.title = @"Robot";
+    }
+    self.debugLabel.text = self.title;
 }
 
 #pragma mark - Touch Events

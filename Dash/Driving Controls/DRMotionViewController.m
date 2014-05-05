@@ -19,7 +19,6 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
     CGFloat _sliderPosition, _throttle, _direction, _prevThrottle, _prevDirection;
     NSTimer *_updateTimer;
 }
-@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet UIView *sliderTouchArea;
 @property (weak, nonatomic) IBOutlet UIImageView *sliderHead;
 @property (weak, nonatomic) IBOutlet UIView *rotatedView;
@@ -47,11 +46,11 @@ static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 {
     if (_prevThrottle != _throttle || _prevDirection != _direction) {
         if (self.bleService.useGyroDrive) {
-            [self.bleService setThrottle:_throttle direction:_direction];
+            [self.bleService sendThrottle:_throttle direction:_direction];
         } else {
             CGFloat leftMotor = CLAMP(_throttle * (1.0 + _direction), -1.0, 1.0) * 255.0;
             CGFloat rightMotor = CLAMP(_throttle * (1.0 - _direction), -1.0, 1.0) * 255.0;
-            [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
+            [self.bleService sendLeftMotor:leftMotor rightMotor:rightMotor];
         }
         _prevThrottle = _throttle;
         _prevDirection = _direction;

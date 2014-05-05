@@ -16,7 +16,7 @@ static NSTimeInterval const RESCAN_INTERVAL = SCAN_INTERVAL * 3;
 /****************************************************************************/
 /*							UI protocols									*/
 /****************************************************************************/
-@protocol DRDiscoveryDelegate <NSObject>
+@protocol DRDiscoveryDelegate <NSObject, UIAlertViewDelegate>
 - (void) discoveryDidRefresh;
 - (void) stoppedScanning;
 - (void) discoveryStatePoweredOff;
@@ -41,8 +41,6 @@ static NSTimeInterval const RESCAN_INTERVAL = SCAN_INTERVAL * 3;
 - (void) disconnectPeripheral;
 
 - (DRRobotProperties *)propertiesForPeripheral:(LGPeripheral*)peripheral;
-- (DRRobotProperties *)propertiesForConnectedService;
-
 - (void)updateProperties:(DRRobotProperties *)properties forPeripheral:(LGPeripheral *)periperhal;
 
 @end

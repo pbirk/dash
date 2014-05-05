@@ -10,6 +10,10 @@
 
 @implementation DRRobotProperties
 
+- (BOOL)hasName {
+    return self.name.length > 0;
+}
+
 - (id)initWithName:(NSString *)name color:(NSUInteger)color
 {
     self = [super init];
@@ -62,8 +66,6 @@
         while ([name lengthOfBytesUsingEncoding:NSUTF8StringEncoding] > MAX_NAME_LENGTH) {
             name = [name substringToIndex:name.length-1];
         }
-    } else {
-        name = @"Robot";
     }
     _name = name;
 }

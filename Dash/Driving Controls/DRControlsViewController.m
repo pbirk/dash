@@ -7,6 +7,7 @@
 //
 
 #import "DRControlsViewController.h"
+#import "DRTabBarController.h"
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 
@@ -15,6 +16,11 @@
 @end
 
 @implementation DRControlsViewController
+
+- (id) init {
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    return nil;
+}
 
 - (void)viewDidLoad
 {
@@ -74,6 +80,10 @@
     CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
     view.layer.borderColor = DR_LITE_GRAY.CGColor;
     view.layer.borderWidth = borderWidth;
+}
+
+- (void)configureWithProperties:(DRRobotProperties *)properties
+{
 }
 
 #pragma mark - DRRobotLeServiceDelegate

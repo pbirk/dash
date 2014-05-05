@@ -22,6 +22,8 @@ static DRCentralManager *_sharedInstance = nil;
 			_sharedInstance = [DRCentralManager new];
             _sharedInstance.peripheralProperties = [NSMutableDictionary new];
             _sharedInstance.manager.delegate = _sharedInstance;
+            
+            [[NSNotificationCenter defaultCenter] addObserver:_sharedInstance selector:@selector(peripheralDidDisconnect:) name:kLGPeripheralDidDisconnect object:nil];
 		}
 	}
 	return _sharedInstance;
@@ -33,6 +35,8 @@ static DRCentralManager *_sharedInstance = nil;
 - (NSArray *)peripherals {
     return self.manager.peripherals;
 }
+
+#pragma mark - Scanning
 
 - (void)updatedScannedPeripherals {
     for (LGPeripheral *peripheral in self.peripherals) {
@@ -70,10 +74,13 @@ static DRCentralManager *_sharedInstance = nil;
     [self.discoveryDelegate stoppedScanning];
 }
 
+#pragma mark - Connecting
+
 - (void)connectPeripheral:(LGPeripheral *)peripheral completion:(LGPeripheralConnectionCallback)aCallback{
     [peripheral connectWithCompletion:^(NSError *error) {
         if (!error) {
-            self.connectedService = [[DRRobotLeService alloc] initWithPeripheral:peripheral];
+            DRRobotProperties *properties = [self propertiesForPeripheral:peripheral];
+            self.connectedService = [[DRRobotLeService alloc] initWithPeripheral:peripheral robotProperties:properties];
         }
         if (aCallback) {
             aCallback(error);
@@ -91,16 +98,25 @@ static DRCentralManager *_sharedInstance = nil;
     }
 }
 
-- (DRRobotProperties *)propertiesForPeripheral:(LGPeripheral *)peripheral {
-    return [self.peripheralProperties objectForKey:peripheral.UUIDString];
+- (void)peripheralDidDisconnect:(NSNotification *)notification
+{
+    if (self.connectedService && [self.connectedService.peripheral isEqual:notification.object]) {
+        if (!self.connectedService.isManuallyDisconnecting) {
+            NSString *msg = @"Lost connection with device.";
+            if (self.connectedService.robotProperties.hasName) {
+                msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:self.connectedService.robotProperties.name];
+            }
+            [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self.discoveryDelegate cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
+        }
+        [self updateProperties:self.connectedService.robotProperties forPeripheral:self.connectedService.peripheral];
+        self.connectedService = nil;
+    }
 }
 
-- (DRRobotProperties *)propertiesForConnectedService {
-    if (self.connectedService && self.connectedService.peripheral) {
-        return [self propertiesForPeripheral:self.connectedService.peripheral];
-    } else {
-        return nil;
-    }
+#pragma mark - Robot Properties
+
+- (DRRobotProperties *)propertiesForPeripheral:(LGPeripheral *)peripheral {
+    return [self.peripheralProperties objectForKey:peripheral.UUIDString];
 }
 
 - (void)updateProperties:(DRRobotProperties *)properties forPeripheral:(LGPeripheral *)periperhal {
@@ -108,5 +124,6 @@ static DRCentralManager *_sharedInstance = nil;
         [self.peripheralProperties setObject:properties forKey:periperhal.UUIDString];
     }
 }
+
 
 @end

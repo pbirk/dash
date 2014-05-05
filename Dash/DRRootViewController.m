@@ -64,12 +64,12 @@
     [self.myNavigationBar.layer addSublayer:layer];
     self.scanProgressLayer = layer;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peripheralDidDisconnect:) name:kLGPeripheralDidDisconnect object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peripheralDidDisconnect:) name:kLGPeripheralDidDisconnect object:nil];
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidDisconnect object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidDisconnect object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -168,22 +168,7 @@
 
 #pragma mark - DRDiscoveryDelegate
 
-- (void)peripheralDidDisconnect:(NSNotification *)notification
-{
-    DRRobotLeService *service = self.bleManager.connectedService;
-    if ([service.peripheral isEqual:notification.object]) {
-        if (!service.isManuallyDisconnecting) {
-            NSString *msg = @"Lost connection with device.";
-            if (service.peripheral && [[DRCentralManager sharedInstance] propertiesForPeripheral:service.peripheral]) {
-                msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:[[DRCentralManager sharedInstance] propertiesForPeripheral:service.peripheral].name];
-            }
-            [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
-        }
-        self.bleManager.connectedService = nil;
-    }
-}
-
-- (void) discoveryDidRefresh
+- (void)discoveryDidRefresh
 {
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }

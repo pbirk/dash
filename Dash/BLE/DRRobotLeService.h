@@ -122,17 +122,17 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 
 @property BOOL isManuallyDisconnecting;
 
-- (id) initWithPeripheral:(LGPeripheral *)peripheral;
+- (id) initWithPeripheral:(LGPeripheral *)peripheral robotProperties:(DRRobotProperties *)properties;
 - (void) disconnect;
 
 - (void) reset;
-- (void) setSignalNotifyMode:(BOOL)active;
-- (void) setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
-- (void) setThrottle:(CGFloat)throttle direction:(CGFloat)direction;
-- (void) setRobotProperties:(DRRobotProperties *)properties;
+- (void) requestSignalNotifications:(BOOL)active;
+- (void) sendLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
+- (void) sendThrottle:(CGFloat)throttle direction:(CGFloat)direction;
+- (void) sendRobotProperties:(DRRobotProperties *)properties;
 
 @property (strong, nonatomic) UIColor *eyeColor;
-//- (void) setEyeColor:(UIColor *)color;
+@property (strong, nonatomic) DRRobotProperties *robotProperties;
 @property BOOL useGyroDrive;
 @property (strong, nonatomic) id<DRRobotLeServiceDelegate> delegate;
 

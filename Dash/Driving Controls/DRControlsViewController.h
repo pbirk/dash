@@ -12,11 +12,12 @@
 @interface DRControlsViewController : UIViewController <DRRobotLeServiceDelegate>
 
 @property (weak, nonatomic) DRRobotLeService *bleService;
+@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 
 - (void)addBordersToView:(UIView *)view;
-- (void) addTopBorderToView:(UIView *)view;
-- (void) addBottomBorderToView:(UIView *)view;
+- (void)addTopBorderToView:(UIView *)view;
+- (void)addBottomBorderToView:(UIView *)view;
 
-- (void) addBottomBorderWithColor:(UIColor *)color width:(CGFloat)width toView:(UIView *)view;
+- (void)addBottomBorderWithColor:(UIColor *)color width:(CGFloat)width toView:(UIView *)view;
 
 @end

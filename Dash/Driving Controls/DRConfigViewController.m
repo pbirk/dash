@@ -32,14 +32,7 @@
     self.namePlaceholderFont = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
     self.nameFont = [UIFont fontWithName:@"AvenirNext-Regular" size:17];
     
-    self.robotProperties = [[DRCentralManager sharedInstance] propertiesForConnectedService];
-    if (!self.robotProperties) {
-        self.robotProperties = [DRRobotProperties new];
-        self.nameTextField.font = self.namePlaceholderFont;
-    } else {
-        self.nameTextField.text = self.robotProperties.name;
-        self.nameTextField.font = self.nameFont;
-    }
+    [self fetchRobotProperties];
     
     self.nameTextField.delegate = self;
     self.nameTextField.backgroundColor = self.view.backgroundColor;
@@ -70,14 +63,37 @@
     self.buttons = [NSArray arrayWithArray:buttons];
 }
 
+- (void)fetchRobotProperties {
+    self.robotProperties = self.bleService.robotProperties;
+    if (!self.robotProperties) {
+        self.robotProperties = [DRRobotProperties new];
+        self.nameTextField.font = self.namePlaceholderFont;
+    } else {
+        self.nameTextField.text = self.robotProperties.name;
+        self.nameTextField.font = self.nameFont;
+        
+        for (NSUInteger i = 0; i < self.buttons.count; i++) { // start from 1 to skip DRColorUndefined
+            UIButton *button = self.buttons[i];
+            button.selected = (self.robotProperties.color == i+1);
+        }
+    }
+}
+
 - (void)receivedNotifyWithProperties:(DRRobotProperties *)properties
 {
-    NSLog(@"Received properties (?) : %@", properties);
+    if (properties) {
+        if (!self.robotProperties.hasName && properties.hasName) {
+            [self fetchRobotProperties];
+        } else {
+            NSLog(@"Received properties : %@", properties);
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self fetchRobotProperties];
     if (!self.nameTextField.hasText) {
         [self.nameTextField becomeFirstResponder];
     }
@@ -105,7 +121,7 @@
 - (void)sendRobotProperties
 {
     [[DRCentralManager sharedInstance] updateProperties:self.robotProperties forPeripheral:self.bleService.peripheral];
-    [self.bleService setRobotProperties:self.robotProperties];
+    [self.bleService sendRobotProperties:self.robotProperties];
 }
 
 #pragma mark - IBActions

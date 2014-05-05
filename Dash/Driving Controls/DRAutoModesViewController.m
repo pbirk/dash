@@ -7,6 +7,7 @@
 //
 
 #import "DRAutoModesViewController.h"
+#import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 #import "DRRobotProperties.h"
 #import "DRAutoModeCell.h"
@@ -18,7 +19,6 @@
 @property (strong, nonatomic) NSArray *autoModeData;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet DRButton *stopButton;
-@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewWidthConstraint;
 - (IBAction)didTapStopbutton:(id)sender;
 @end
@@ -46,6 +46,7 @@
 {
     [super viewWillAppear:animated];
     [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+    [self displayRobotName];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -59,12 +60,27 @@
 
 - (void)receivedNotifyWithData:(NSData *)data
 {
-    self.debugLabel.text = [data description];
+    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [data description]];
 }
 
 - (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
 {
-    self.debugLabel.text = [signals description];
+    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [signals description]];
+}
+
+- (void)receivedNotifyWithProperties:(DRRobotProperties *)properties
+{
+    [self displayRobotName];
+}
+
+- (void)displayRobotName
+{
+    if (self.bleService.robotProperties.hasName) {
+        self.title = self.bleService.robotProperties.name;
+    } else {
+        self.title = @"Robot";
+    }
+    self.debugLabel.text = self.title;
 }
 
 #pragma mark - IBActions

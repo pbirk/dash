@@ -77,17 +77,18 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 /****************************************************************************/
 /*								Init										*/
 /****************************************************************************/
-- (id) initWithPeripheral:(LGPeripheral *)peripheral
+- (id)initWithPeripheral:(LGPeripheral *)peripheral robotProperties:(DRRobotProperties *)properties
 {
     self = [super init];
     if (self) {
-        self.peripheral = peripheral;
+        _robotProperties = properties;
+        _peripheral = peripheral;
         [self discover]; // lol
     }
     return self;
 }
 
-- (void) discover
+- (void)discover
 {
     CBUUID *serviceUuid = [CBUUID UUIDWithString:kBiscuitServiceUUIDString];
     
@@ -106,7 +107,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }];
 }
 
-- (void) processCharacteristics:(NSArray *)characteristics {
+- (void)processCharacteristics:(NSArray *)characteristics {
     for (LGCharacteristic *characteristic in characteristics) {
         if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
             NSLog(@"Discovered write without response");
@@ -118,7 +119,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     self.peripheral = nil;
     self.robotService = nil;
@@ -126,7 +127,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     self.notifyCharacteristic = nil;
 }
 
-- (void) reset
+- (void)reset
 {
     // send ALL STOP command
     NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
@@ -146,8 +147,10 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 
 #pragma mark - Commands
 
-- (void)setRobotProperties:(DRRobotProperties *)properties
+- (void)sendRobotProperties:(DRRobotProperties *)properties
 {
+    _robotProperties = properties;
+    
     NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
     
     // [type "1" - 1]  [robot Type - 0-255 - 1] [robot color - 0-255 - 1] [code version - 0-255 - 1] [name - string - 10, terminated with a null character]
@@ -178,7 +181,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     [self sendData:data];
 }
 
-- (void)setSignalNotifyMode:(BOOL)active
+- (void)requestSignalNotifications:(BOOL)active
 {
     if (active) {
         NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
@@ -190,7 +193,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     }
 }
 
-- (void)setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor
+- (void)sendLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor
 {
     leftMotor = CLAMP(leftMotor, -255, 255);
     rightMotor = CLAMP(rightMotor, -255, 255);
@@ -228,7 +231,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     [self sendData:data];
 }
 
-- (void)setThrottle:(CGFloat)throttle direction:(CGFloat)direction
+- (void)sendThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
     // send all-stop instead of 0,0 because robot prefers it
     if (throttle == 0.0 && direction == 0.0) {
@@ -297,16 +300,12 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     if (_notifyCharacteristic) {
         __weak typeof(self) weakSelf = self;
         [_notifyCharacteristic setNotifyValue:YES completion:^(NSError *error) {
-            
+            if (error) {
+                NSLog(@"Error setting up notify! %@", error);
+            }
         } onUpdate:^(NSData *data, NSError *error) {
             if (!error && data.length == PACKET_SIZE) {
-//                if (data.length > PACKET_SIZE) {
-//                    data = [NSData dataWithBytes:data.bytes length:PACKET_SIZE];
-//                    NSLog(@"Trimmed packet: %@", data);
-//                }
-                char msgType;
-                [data getBytes:&msgType length:sizeof(msgType)];
-                
+                char msgType; [data getBytes:&msgType length:sizeof(msgType)];
                 switch (msgType) {
                     case DRMessageTypeSignals: {
                         DRSignalPacket *signals = [DRSignalPacket signalPacketWithData:data];
@@ -315,6 +314,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
                     }
                     case DRMessageTypeName: {
                         DRRobotProperties *properties = [DRRobotProperties robotPropertiesWithData:data];
+                        weakSelf.robotProperties = properties;
                         [weakSelf.delegate receivedNotifyWithProperties:properties];
                         break;
                     }
