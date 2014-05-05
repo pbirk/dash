@@ -87,7 +87,7 @@ typedef NS_ENUM(char, DRCommandTypes) {
     DRCommandTypeDirectDrive = '2',
     DRCommandTypeGyroDrive = '3',
     DRCommandTypeSetEyes = '4',
-    DRCommandTypeRequestSignals = '5',
+    DRCommandTypeRequestSignals = '6',
 };
 
 /****************************************************************************/

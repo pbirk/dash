@@ -183,14 +183,12 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 
 - (void)requestSignalNotifications:(BOOL)active
 {
-    if (active) {
-        NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
-        char command = DRCommandTypeRequestSignals;
-        [data appendBytes:&command length:sizeof(command)];
-        [self sendData:data];
-    } else {
-        [self reset];
-    }
+    NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+    char command = DRCommandTypeRequestSignals;
+    uint8_t activate = active ? 1 : 0;
+    [data appendBytes:&command length:sizeof(command)];
+    [data appendBytes:&activate length:sizeof(activate)];
+    [self sendData:data];
 }
 
 - (void)sendLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor
@@ -247,6 +245,9 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
         
         int16_t power = (int16_t)CLAMP(round(throttle * maxPower), -maxPower, maxPower);
         int16_t rotationRate = (int16_t)CLAMP(round(direction * maxRotationRate), -maxRotationRate, maxRotationRate);
+        
+        power = NSSwapShort(power);
+        rotationRate = NSSwapShort(rotationRate);
         
         [data appendBytes:&command length:sizeof(command)];
         [data appendBytes:&power length:sizeof(power)];

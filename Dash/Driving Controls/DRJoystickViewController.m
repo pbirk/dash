@@ -18,7 +18,7 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 @interface DRJoystickViewController () {
     BOOL _touchDown;
     CGPoint _touchOffset;
-    CGFloat _throttle, _direction, _prevThrottle, _prevDirection;
+    CGFloat _throttle, _direction;//, _prevThrottle, _prevDirection;
     NSTimer *_updateTimer;
 }
 @property (weak, nonatomic) IBOutlet UIView *joystickTouchArea;
@@ -63,19 +63,19 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 
 - (void)sendUpdate
 {
-    if (_prevThrottle != _throttle || _prevDirection != _direction) {
-        
-        if (self.bleService.useGyroDrive) {
-            [self.bleService sendThrottle:_throttle direction:_direction];
-        } else {
-            CGFloat leftMotor = (_throttle + _direction) * 255.0;
-            CGFloat rightMotor = (_throttle - _direction) * 255.0;
-            [self.bleService sendLeftMotor:leftMotor rightMotor:rightMotor];
-        }
-        
-        _prevThrottle = _throttle;
-        _prevDirection = _direction;
+//    if (_prevThrottle != _throttle || _prevDirection != _direction) {
+
+    if (self.bleService.useGyroDrive) {
+        [self.bleService sendThrottle:_throttle direction:_direction];
+    } else {
+        CGFloat leftMotor = (_throttle + _direction) * 255.0;
+        CGFloat rightMotor = (_throttle - _direction) * 255.0;
+        [self.bleService sendLeftMotor:leftMotor rightMotor:rightMotor];
     }
+    
+//    _prevThrottle = _throttle;
+//    _prevDirection = _direction;
+//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
