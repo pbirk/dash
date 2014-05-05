@@ -178,6 +178,18 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     [self sendData:data];
 }
 
+- (void)setSignalNotifyMode:(BOOL)active
+{
+    if (active) {
+        NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+        char command = DRCommandTypeRequestSignals;
+        [data appendBytes:&command length:sizeof(command)];
+        [self sendData:data];
+    } else {
+        [self reset];
+    }
+}
+
 - (void)setLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor
 {
     leftMotor = CLAMP(leftMotor, -255, 255);

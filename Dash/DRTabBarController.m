@@ -50,9 +50,9 @@
 - (void)configureWithProperties:(DRRobotProperties *)properties
 {
     if (properties) {
-        self.title = properties.name;
+//        self.title = properties.name;
     } else {
-        self.title = @"Robot";
+//        self.title = @"Robot";
         DRConfigViewController *cvc = self.viewController.lastObject;
         if (cvc) {
             [self showViewController:cvc animated:NO];

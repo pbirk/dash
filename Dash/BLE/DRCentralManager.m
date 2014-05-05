@@ -40,11 +40,6 @@ static DRCentralManager *_sharedInstance = nil;
             [LGUtils readDataFromCharactUUID:kNotifyCharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
                 if (data) {
                     DRRobotProperties *robot = [DRRobotProperties robotPropertiesWithData:data];
-//                    if (!robot) {
-//                        NSString* newStr = [NSString stringWithUTF8String:[data bytes]];
-//                        NSUInteger randomColor = arc4random_uniform(DRRobotColorCount) + 1;
-//                        robot = [[DRRobotProperties alloc] initWithName:newStr color:randomColor];
-//                    }
                     if (robot) [self.peripheralProperties setObject:robot forKey:peripheral.UUIDString];
                     [self.discoveryDelegate discoveryDidRefresh];
                 }
