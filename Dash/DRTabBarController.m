@@ -47,6 +47,12 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.navigationItem.titleView.bounds = CGRectInset(self.navigationItem.titleView.bounds, -100, 0);
+}
+
 - (void)configureWithProperties:(DRRobotProperties *)properties
 {
     if (properties) {
