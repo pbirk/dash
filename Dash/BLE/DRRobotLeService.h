@@ -131,6 +131,8 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 - (void) sendThrottle:(CGFloat)throttle direction:(CGFloat)direction;
 - (void) sendRobotProperties:(DRRobotProperties *)properties;
 
+- (void) sendDebugCommand:(NSString *)cmd value:(NSUInteger)value;
+
 @property (strong, nonatomic) UIColor *eyeColor;
 @property (strong, nonatomic) DRRobotProperties *robotProperties;
 @property BOOL useGyroDrive;

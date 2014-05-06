@@ -148,6 +148,18 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 
 #pragma mark - Commands
 
+- (void) sendDebugCommand:(NSString *)cmd value:(NSUInteger)value
+{
+    if (cmd.length) {
+        NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+        char command = [cmd characterAtIndex:0];
+        uint8_t unint8 = (uint8_t)value;
+        [data appendBytes:&command length:sizeof(command)];
+        [data appendBytes:&unint8 length:sizeof(unint8)];
+        [self sendData:data];
+    }
+}
+
 - (void)sendRobotProperties:(DRRobotProperties *)properties
 {
     _robotProperties = properties;

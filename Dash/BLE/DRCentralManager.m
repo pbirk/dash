@@ -106,7 +106,8 @@ static DRCentralManager *_sharedInstance = nil;
             if (self.connectedService.robotProperties.hasName) {
                 msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:self.connectedService.robotProperties.name];
             }
-            [[[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self.discoveryDelegate cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:msg delegate:self.discoveryDelegate cancelButtonTitle:@"Shucks" otherButtonTitles:nil];
+            [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
         }
         [self updateProperties:self.connectedService.robotProperties forPeripheral:self.connectedService.peripheral];
         self.connectedService = nil;

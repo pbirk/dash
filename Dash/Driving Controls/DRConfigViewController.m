@@ -11,7 +11,7 @@
 #import "DRCentralManager.h"
 #import "DRRobotProperties.h"
 
-@interface DRConfigViewController () <UITextFieldDelegate>
+@interface DRConfigViewController () <UITextFieldDelegate, UIAlertViewDelegate>
 @property (strong, nonatomic) DRRobotProperties *robotProperties;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *characterLimitLabel;
@@ -20,6 +20,8 @@
 - (IBAction)didToggleGyroDrive:(UISwitch *)sender;
 - (IBAction)didToggleFixedJoystick:(UISwitch *)sender;
 @property (strong, nonatomic) UIFont *nameFont, *namePlaceholderFont;
+
+- (IBAction)didTapDebugSendButton:(id)sender; // debug
 @end
 
 @implementation DRConfigViewController
@@ -196,6 +198,39 @@
 {
     [textField resignFirstResponder];
     return YES;
+}
+
+#pragma mark - Debug controls
+
+- (IBAction)didTapDebugSendButton:(id)sender {
+    UIAlertView *debugView = [[UIAlertView alloc] initWithTitle:@"Debug" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send", nil];
+    debugView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    
+    UITextField *cmdTextField = [debugView textFieldAtIndex:0];
+    cmdTextField.placeholder = @"Command (char)";
+    cmdTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    cmdTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    cmdTextField.secureTextEntry = NO;
+    cmdTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+
+    UITextField *valueTextField = [debugView textFieldAtIndex:1];
+    valueTextField.placeholder = @"Value (uint8)";
+    valueTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    valueTextField.keyboardType = UIKeyboardTypeNumberPad;
+    valueTextField.secureTextEntry = NO;
+    valueTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+    
+    [debugView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView.cancelButtonIndex != buttonIndex) {
+        UITextField *cmdTextField = [alertView textFieldAtIndex:0];
+        UITextField *valueTextField = [alertView textFieldAtIndex:1];
+        NSUInteger value = MAX(0, [valueTextField.text integerValue]);
+        [self.bleService sendDebugCommand:cmdTextField.text value:value];
+    }
 }
 
 @end
