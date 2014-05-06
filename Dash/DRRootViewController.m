@@ -228,11 +228,9 @@
             
             LGPeripheral *peripheral = self.bleManager.peripherals[index];
             DRRobotProperties *robot = [self.bleManager propertiesForPeripheral:peripheral];
-            cell.textLabel.text = robot ? robot.name : (peripheral.name ? peripheral.name : @"Robot");
+            cell.textLabel.text = robot.hasName ? robot.name : (peripheral.name ? peripheral.name : @"Robot");
             cell.detailTextLabel.text = peripheral.UUIDString;
             if (robot) {
-//            NSString *hex = [peripheral.UUIDString substringToIndex:6];
-//            cell.backgroundColor = UIColorFromRGB([hex integerValue]); // hilarious HACK to show custom colors
                 cell.imageView.backgroundColor = ROBOT_COLORS[robot.color];
                 cell.imageView.tintColor = [UIColor whiteColor];
                 cell.imageView.layer.borderColor = [UIColor clearColor].CGColor;

@@ -141,6 +141,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     if (self.notifyCharacteristic) {
         [self.notifyCharacteristic setNotifyValue:NO completion:nil];
     }
+    [self requestSignalNotifications:NO];
     [self reset];
     self.isManuallyDisconnecting = YES;
 }
@@ -305,34 +306,43 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
                 NSLog(@"Error setting up notify! %@", error);
             }
         } onUpdate:^(NSData *data, NSError *error) {
-            if (!error && data.length == PACKET_SIZE) {
-                char msgType; [data getBytes:&msgType length:sizeof(msgType)];
-                switch (msgType) {
-                    case DRMessageTypeSignals: {
-                        DRSignalPacket *signals = [DRSignalPacket signalPacketWithData:data];
-                        [weakSelf.delegate receivedNotifyWithSignals:signals];
-                        break;
-                    }
-                    case DRMessageTypeName: {
-                        DRRobotProperties *properties = [DRRobotProperties robotPropertiesWithData:data];
-                        weakSelf.robotProperties = properties;
-                        [weakSelf.delegate receivedNotifyWithProperties:properties];
-                        break;
-                    }
-                    default:
-                        NSLog(@"Unknown message of type %c", msgType);
-//                        [weakSelf.delegate receivedNotifyWithData:data];
-                        break;
-                }
+            if (error) {
+                NSLog(@"Problem with notify: %@", error);
             } else {
-                if (error) {
-                    NSLog(@"Problem with notify: %@", error);
-                } else {
-                    NSLog(@"Notify: wrong packet size: %@", data);
-                    [weakSelf.delegate receivedNotifyWithData:data];
-                }
+                [weakSelf handleNotifyUpdate:data];
             }
         }];
+    }
+}
+
+- (void)handleNotifyUpdate:(NSData *)data
+{
+    if (data.length == PACKET_SIZE) {
+        char msgType;
+        [data getBytes:&msgType length:sizeof(msgType)];
+        
+        switch (msgType) {
+            case DRMessageTypeSignals: {
+                DRSignalPacket *signals = [DRSignalPacket signalPacketWithData:data];
+                [self.delegate receivedNotifyWithSignals:signals];
+                break;
+            }
+            case DRMessageTypeName: {
+                DRRobotProperties *properties = [DRRobotProperties robotPropertiesWithData:data];
+                self.robotProperties = properties;
+                [self.delegate receivedNotifyWithProperties:properties];
+                [self requestSignalNotifications:YES];
+                break;
+            }
+            default: {
+                NSLog(@"Unknown message of type %c", msgType);
+                [self.delegate receivedNotifyWithData:data];
+                break;
+            }
+        }
+    } else {
+        NSLog(@"Notify: wrong packet size: %@", data);
+        [self.delegate receivedNotifyWithData:data];
     }
 }
 
@@ -356,7 +366,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     
     [data setLength:PACKET_SIZE];
     [self.writeWoResponseCharacteristic writeValue:data completion:nil];
-    NSLog(@"data %@", data);
+    NSLog(@"send %@", data);
 }
 
 @end
