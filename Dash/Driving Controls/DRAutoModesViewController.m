@@ -12,11 +12,13 @@
 #import "DRRobotProperties.h"
 #import "DRAutoModeCell.h"
 #import "DRSignalPacket.h"
+#import "DRSignalsView.h"
 #import "DRButton.h"
 
 @interface DRAutoModesViewController ()
 @property NSIndexPath *selectedModeIndex;
 @property (strong, nonatomic) NSArray *autoModeData;
+@property (weak, nonatomic) IBOutlet DRSignalsView *signalsView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet DRButton *stopButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewWidthConstraint;
@@ -36,7 +38,7 @@
     [self.stopButton setEnabled:NO animated:NO];
     
 //    [self addBottomBorderWithColor:DR_LITE_GRAY width:1 toView:self.debugLabel];
-    [self addBottomBorderToView:self.debugLabel];
+    [self addBottomBorderToView:self.signalsView];
     
     self.collectionView.allowsMultipleSelection = YES;
     [self.collectionView reloadData];
@@ -46,7 +48,7 @@
 {
     [super viewWillAppear:animated];
     [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
-    [self displayRobotName];
+    [self.signalsView updateWithProperties:self.bleService.robotProperties];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -58,29 +60,14 @@
 
 #pragma mark - BLE control
 
-- (void)receivedNotifyWithData:(NSData *)data
-{
-    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [data description]];
-}
-
 - (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
 {
-    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [signals description]];
+    [self.signalsView updateWithSignals:signals];
 }
 
 - (void)receivedNotifyWithProperties:(DRRobotProperties *)properties
 {
-    [self displayRobotName];
-}
-
-- (void)displayRobotName
-{
-    if (self.bleService.robotProperties.hasName) {
-        self.title = self.bleService.robotProperties.name;
-    } else {
-        self.title = @"Robot";
-    }
-    self.debugLabel.text = self.title;
+    [self.signalsView updateWithProperties:properties];
 }
 
 #pragma mark - IBActions

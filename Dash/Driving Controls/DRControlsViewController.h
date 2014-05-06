@@ -12,7 +12,6 @@
 @interface DRControlsViewController : UIViewController <DRRobotLeServiceDelegate>
 
 @property (weak, nonatomic) DRRobotLeService *bleService;
-@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 
 - (void)addBordersToView:(UIView *)view;
 - (void)addTopBorderToView:(UIView *)view;

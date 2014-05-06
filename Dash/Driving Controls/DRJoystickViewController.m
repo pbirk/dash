@@ -9,6 +9,7 @@
 #import "DRJoystickViewController.h"
 #import "DRCentralManager.h"
 #import "DRSignalPacket.h"
+#import "DRSignalsView.h"
 #import "DREyeColorButton.h"
 #import "DRRobotProperties.h"
 
@@ -21,6 +22,7 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     CGFloat _throttle, _direction;//, _prevThrottle, _prevDirection;
     NSTimer *_updateTimer;
 }
+@property (weak, nonatomic) IBOutlet DRSignalsView *signalsView;
 @property (weak, nonatomic) IBOutlet UIView *joystickTouchArea;
 @property (weak, nonatomic) IBOutlet DREyeColorButton *eyeColorButton;
 @property (weak, nonatomic) UIImageView *joystickBase;
@@ -35,8 +37,8 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     
     [DRCentralManager sharedInstance].moveableJoystick = YES;
     
-    self.debugLabel.backgroundColor = self.view.backgroundColor;
-    [self addBottomBorderToView:self.debugLabel];
+    self.signalsView.backgroundColor = self.view.backgroundColor;
+    [self addBottomBorderToView:self.signalsView];
     
     UIImageView *joystickThumb = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, JOYSTICK_THUMB_SIZE, JOYSTICK_THUMB_SIZE)];
     joystickThumb.image = [UIImage imageNamed:@"joystick-thumb"];
@@ -63,30 +65,24 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 
 - (void)sendUpdate
 {
-//    if (_prevThrottle != _throttle || _prevDirection != _direction) {
-
     if (self.bleService.useGyroDrive) {
-        [self.bleService sendThrottle:_throttle direction:_direction];
+        [self.bleService sendThrottle:-_throttle direction:_direction];
     } else {
         CGFloat leftMotor = (_throttle + _direction) * 255.0;
         CGFloat rightMotor = (_throttle - _direction) * 255.0;
         [self.bleService sendLeftMotor:leftMotor rightMotor:rightMotor];
     }
-    
-//    _prevThrottle = _throttle;
-//    _prevDirection = _direction;
-//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.signalsView updateWithProperties:self.bleService.robotProperties];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self displayRobotName];
     
     if (!_updateTimer || !_updateTimer.isValid) {
         _updateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(sendUpdate) userInfo:nil repeats:YES];
@@ -117,21 +113,10 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     [self.eyeColorButton didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 - (void)updateThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
     _throttle = throttle;
     _direction = direction;
-//    _leftMotor = (throttle + direction) * 255.0;
-//    _rightMotor = (throttle - direction) * 255.0;
-    
-//    if (self.bleService) {
-//        [self.bleService setLeftMotor:leftMotor rightMotor:rightMotor];
-//    }
 }
 
 - (void)resetJoystick
@@ -147,29 +132,14 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     }];
 }
 
-- (void)receivedNotifyWithData:(NSData *)data
-{
-    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [data description]];
-}
-
 - (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
 {
-    self.debugLabel.text = [NSString stringWithFormat:@"%@\n%@", self.title, [signals description]];
+    [self.signalsView updateWithSignals:signals];
 }
 
 - (void)receivedNotifyWithProperties:(DRRobotProperties *)properties
 {
-    [self displayRobotName];
-}
-
-- (void)displayRobotName
-{
-    if (self.bleService.robotProperties.hasName) {
-        self.title = self.bleService.robotProperties.name;
-    } else {
-        self.title = @"Robot";
-    }
-    self.debugLabel.text = self.title;
+    [self.signalsView updateWithProperties:properties];
 }
 
 #pragma mark - Touch Events

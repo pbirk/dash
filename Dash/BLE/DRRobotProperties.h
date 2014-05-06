@@ -33,7 +33,8 @@ typedef NS_ENUM(NSUInteger, DRRobotColorNames) {
 @interface DRRobotProperties : NSObject
 
 @property (strong, nonatomic) NSString *name;
-@property NSUInteger color, robotType, codeVersion;
+@property NSUInteger robotType, codeVersion;
+@property DRRobotColorNames color;
 
 - (BOOL)hasName;
 

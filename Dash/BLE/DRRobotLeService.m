@@ -112,6 +112,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
         if ([characteristic.UUIDString isEqualToString:kWriteWithoutResponseCharacteristicUUIDString]) {
             NSLog(@"Discovered write without response");
             self.writeWoResponseCharacteristic = characteristic;
+            [self requestSignalNotifications:NO];
         } else if ([characteristic.UUIDString isEqualToString:kNotifyCharacteristicUUIDString]) {
             NSLog(@"Discovered notify");
             self.notifyCharacteristic = characteristic;

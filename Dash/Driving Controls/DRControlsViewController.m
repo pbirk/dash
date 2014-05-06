@@ -57,7 +57,7 @@
     CGFloat borderWidth = IS_RETINA ? 0.5 : 1.0;
     CALayer *topBorder = [CALayer layer];
     topBorder.backgroundColor = DR_LITE_GRAY.CGColor;//[DR_DARK_GRAY colorWithAlphaComponent:0.666].CGColor;
-    topBorder.frame = CGRectMake(0, 0, 1024, borderWidth);
+    topBorder.frame = CGRectMake(-1000, 0, 2000, borderWidth);
     [view.layer addSublayer:topBorder];
 }
 
@@ -71,7 +71,7 @@
 {
     CALayer *bottomBorder = [CALayer layer];
     bottomBorder.backgroundColor = color.CGColor;
-    bottomBorder.frame = CGRectMake(0, CGRectGetHeight(view.bounds)-width, 1024, width);
+    bottomBorder.frame = CGRectMake(-1000, CGRectGetHeight(view.bounds)-width, 2000, width);
     [view.layer addSublayer:bottomBorder];
 }
 

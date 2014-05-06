@@ -455,25 +455,22 @@
                                     <constraint firstItem="gRg-YK-8k7" firstAttribute="top" secondItem="laG-Cu-5hR" secondAttribute="top" id="tpC-Ca-kb3"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="768" translatesAutoresizingMaskIntoConstraints="NO" id="6vc-KS-NAc">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="135"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="53q-q7-LzI" customClass="DRSignalsView">
+                                <rect key="frame" x="224" y="0.0" width="320" height="135"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="135" id="WEq-5B-r5P"/>
+                                    <constraint firstAttribute="height" constant="135" id="4ID-sz-BiN"/>
+                                    <constraint firstAttribute="width" constant="320" id="V68-sv-sZf"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="6vc-KS-NAc" firstAttribute="leading" secondItem="YtM-RY-TUM" secondAttribute="leading" id="1r0-ZQ-3nR"/>
-                            <constraint firstAttribute="trailing" secondItem="6vc-KS-NAc" secondAttribute="trailing" id="JWH-PO-mbM"/>
-                            <constraint firstItem="6vc-KS-NAc" firstAttribute="top" secondItem="5V5-ZT-tsH" secondAttribute="bottom" id="Tcs-fq-ZQY"/>
+                            <constraint firstAttribute="centerX" secondItem="53q-q7-LzI" secondAttribute="centerX" id="3VZ-1H-zgR"/>
+                            <constraint firstItem="53q-q7-LzI" firstAttribute="top" secondItem="5V5-ZT-tsH" secondAttribute="bottom" id="BRa-KY-dkm"/>
+                            <constraint firstItem="gRg-YK-8k7" firstAttribute="top" secondItem="53q-q7-LzI" secondAttribute="bottom" id="OOr-fg-43Q"/>
                             <constraint firstItem="KYe-V1-PC2" firstAttribute="top" secondItem="laG-Cu-5hR" secondAttribute="bottom" id="myY-dZ-7ej"/>
-                            <constraint firstItem="laG-Cu-5hR" firstAttribute="top" secondItem="6vc-KS-NAc" secondAttribute="bottom" id="p8q-bm-STU"/>
                             <constraint firstAttribute="centerX" secondItem="laG-Cu-5hR" secondAttribute="centerX" id="tyk-ZZ-7aF"/>
                         </constraints>
                     </view>
@@ -481,7 +478,7 @@
                     <connections>
                         <outlet property="collectionView" destination="gRg-YK-8k7" id="MrI-46-0Xn"/>
                         <outlet property="collectionViewWidthConstraint" destination="Wwk-cf-Wbh" id="aA8-fb-ugc"/>
-                        <outlet property="debugLabel" destination="6vc-KS-NAc" id="Qcf-l9-2UG"/>
+                        <outlet property="signalsView" destination="53q-q7-LzI" id="HvI-2g-TTa"/>
                         <outlet property="stopButton" destination="46f-1q-kdF" id="dxR-lf-ZoN"/>
                     </connections>
                 </viewController>
