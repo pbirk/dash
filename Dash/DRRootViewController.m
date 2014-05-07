@@ -228,7 +228,7 @@
             
             LGPeripheral *peripheral = self.bleManager.peripherals[index];
             DRRobotProperties *robot = [self.bleManager propertiesForPeripheral:peripheral];
-            cell.textLabel.text = robot.hasName ? robot.name : (peripheral.name ? peripheral.name : @"Robot");
+            cell.textLabel.text = robot.hasName ? robot.name : (peripheral.name.length ? peripheral.name : @"Robot");
             cell.detailTextLabel.text = peripheral.UUIDString;
             if (robot) {
                 cell.imageView.backgroundColor = ROBOT_COLORS[robot.color];

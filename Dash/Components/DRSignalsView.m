@@ -11,7 +11,6 @@
 #import "DRRobotProperties.h"
 
 @interface DRSignalsView ()
-
 @end
 
 @implementation DRSignalsView
@@ -29,7 +28,7 @@
 {
     [super awakeFromNib];
     
-    self.nameLabel.text = @" ";
+    self.nameLabel.text = @"Robot";
     self.robotImageView.image = [self.robotImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     
     self.yawRateLabel.text = @"0";
@@ -45,19 +44,19 @@
     if (properties.hasName) {
         self.nameLabel.text = properties.name;
     } else {
-        self.nameLabel.text = @" ";
+        self.nameLabel.text = @"Robot";
     }
     self.robotImageView.tintColor = ROBOT_COLORS[properties.color];
 }
 
 - (void)updateWithSignals:(DRSignalPacket *)signals
 {
-//    self.yawRateLabel.text = [NSString stringWithFormat:@"%.0f", signals.yaw - 512.0 + 51.0];
-//    self.motorLeftLabel.text = [NSString stringWithFormat:@"%.0f", round(signals.leftMotor / 255.0 * 100.0)];
-//    self.motorRightLabel.text = [NSString stringWithFormat:@"%.0f", round(signals.rightMotor / 255.0 * 100.0)];
     self.yawRateLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)signals.yaw];
-    self.motorLeftLabel.text = [NSString stringWithFormat:@"%ld", (long)signals.leftMotor];
-    self.motorRightLabel.text = [NSString stringWithFormat:@"%ld", (long)signals.rightMotor];
+//    self.yawRateLabel.text = [NSString stringWithFormat:@"%.0f", signals.yaw - 512.0 + 51.0];
+    self.motorLeftLabel.text = [NSString stringWithFormat:@"%.0f", round(signals.leftMotor / 255.0 * 100.0)];
+    self.motorRightLabel.text = [NSString stringWithFormat:@"%.0f", round(signals.rightMotor / 255.0 * 100.0)];
+//    self.motorLeftLabel.text = [NSString stringWithFormat:@"%ld", (long)signals.leftMotor];
+//    self.motorRightLabel.text = [NSString stringWithFormat:@"%ld", (long)signals.rightMotor];
     self.ambientLightLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)signals.ambientLight];
     self.proximityLeftLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)signals.proximityLeft];
     self.proximityRightLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)signals.proximityRight];
