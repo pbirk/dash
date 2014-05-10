@@ -147,32 +147,37 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     CGPoint touch = [[touches anyObject] locationInView:self.view];
-    if (CGRectContainsPoint(self.joystickTouchArea.frame, touch) || ![DRCentralManager sharedInstance].moveableJoystick) {
-        CGFloat dx = touch.x - self.joystickThumb.center.x;
-        CGFloat dy = touch.y - self.joystickThumb.center.y;
-        CGFloat distance = sqrt(dx * dx + dy * dy);
-        if (distance < JOYSTICK_THUMB_SIZE*2) {//CGRectContainsPoint(self.joystickThumb.frame, touch)) {
-            _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
-            _touchDown = YES;
-        } else {
-            if ([DRCentralManager sharedInstance].moveableJoystick) {
+    if ([DRCentralManager sharedInstance].moveableJoystick) {
+        if (CGRectContainsPoint(self.joystickTouchArea.frame, touch)) {
+            if (CGRectContainsPoint(self.joystickThumb.frame, touch)) {
+                _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
+                _touchDown = YES;
+            } else {
                 self.joystickThumb.center = self.joystickBase.center = touch;
                 _touchOffset = CGPointZero;
                 _touchDown = YES;
             }
+        } else {
+            if (CGRectContainsPoint(CGRectInset(self.joystickTouchArea.frame, -JOYSTICK_THUMB_SIZE/2, -JOYSTICK_THUMB_SIZE/2), touch)) {
+                CGPoint newCenter;
+                newCenter.x = MAX(touch.x, CGRectGetMinX(self.joystickTouchArea.frame));
+                newCenter.x = MIN(newCenter.x, CGRectGetMaxX(self.joystickTouchArea.frame));
+                newCenter.y = MAX(touch.y, CGRectGetMinY(self.joystickTouchArea.frame));
+                newCenter.y = MIN(newCenter.y, CGRectGetMaxY(self.joystickTouchArea.frame));
+                self.joystickThumb.center = self.joystickBase.center = newCenter;
+                if (CGRectContainsPoint(self.joystickThumb.frame, touch)) {
+                    _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
+                    _touchDown = YES;
+                }
+            }
         }
     } else {
-        if ([DRCentralManager sharedInstance].moveableJoystick && CGRectContainsPoint(CGRectInset(self.joystickTouchArea.frame, -JOYSTICK_THUMB_SIZE/2, -JOYSTICK_THUMB_SIZE/2), touch)) {
-            CGPoint newCenter;
-            newCenter.x = MAX(touch.x, CGRectGetMinX(self.joystickTouchArea.frame));
-            newCenter.x = MIN(newCenter.x, CGRectGetMaxX(self.joystickTouchArea.frame));
-            newCenter.y = MAX(touch.y, CGRectGetMinY(self.joystickTouchArea.frame));
-            newCenter.y = MIN(newCenter.y, CGRectGetMaxY(self.joystickTouchArea.frame));
-            self.joystickThumb.center = self.joystickBase.center = newCenter;
-            if (CGRectContainsPoint(self.joystickThumb.frame, touch)) {
-                _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
-                _touchDown = YES;
-            }
+        CGFloat dx = touch.x - self.joystickThumb.center.x;
+        CGFloat dy = touch.y - self.joystickThumb.center.y;
+        CGFloat distance = sqrt(dx * dx + dy * dy);
+        if (distance < JOYSTICK_THUMB_SIZE*2) {
+            _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
+            _touchDown = YES;
         }
     }
 }
