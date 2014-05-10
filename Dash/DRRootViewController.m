@@ -161,7 +161,7 @@
 }
 
 - (IBAction)didTapBuildButton:(id)sender {
-    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com/pages/dash-at-home"]];
+    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[[NSBundle mainBundle] URLForResource:@"instructions" withExtension:@"pdf"]];
     dvc.title = [sender currentTitle];
     [self.navigationController pushViewController:dvc animated:YES];
 }

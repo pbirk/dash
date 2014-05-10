@@ -35,7 +35,7 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 {
     [super viewDidLoad];
     
-    [DRCentralManager sharedInstance].moveableJoystick = YES;
+    [DRCentralManager sharedInstance].moveableJoystick = NO;
     
     self.signalsView.backgroundColor = self.view.backgroundColor;
     [self addBottomBorderToView:self.signalsView];
@@ -147,16 +147,19 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     CGPoint touch = [[touches anyObject] locationInView:self.view];
-    if (CGRectContainsPoint(self.joystickTouchArea.frame, touch)) {
-        if (!CGRectContainsPoint(self.joystickThumb.frame, touch)) {
+    if (CGRectContainsPoint(self.joystickTouchArea.frame, touch) || ![DRCentralManager sharedInstance].moveableJoystick) {
+        CGFloat dx = touch.x - self.joystickThumb.center.x;
+        CGFloat dy = touch.y - self.joystickThumb.center.y;
+        CGFloat distance = sqrt(dx * dx + dy * dy);
+        if (distance < JOYSTICK_THUMB_SIZE*2) {//CGRectContainsPoint(self.joystickThumb.frame, touch)) {
+            _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
+            _touchDown = YES;
+        } else {
             if ([DRCentralManager sharedInstance].moveableJoystick) {
                 self.joystickThumb.center = self.joystickBase.center = touch;
                 _touchOffset = CGPointZero;
                 _touchDown = YES;
             }
-        } else {
-            _touchOffset = CGPointMake(touch.x - self.joystickThumb.center.x, touch.y - self.joystickThumb.center.y);
-            _touchDown = YES;
         }
     } else {
         if ([DRCentralManager sharedInstance].moveableJoystick && CGRectContainsPoint(CGRectInset(self.joystickTouchArea.frame, -JOYSTICK_THUMB_SIZE/2, -JOYSTICK_THUMB_SIZE/2), touch)) {
@@ -188,6 +191,10 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
         
         CGFloat distance = sqrt(dx * dx + dy * dy);
         CGFloat angle = atan2(dy, dx); // in radians
+        
+//        if (angle < 0 && distance > MAX_JOYSTICK_TRAVEL * 2 && ABS(angle + M_PI_2) < 0.15) {
+//            angle = -M_PI_2;
+//        }
         
         // NOTE: Velocity goes from -1.0 to 1.0.
         // BE CAREFUL: don't just cap each direction at 1.0 since that
