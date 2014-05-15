@@ -18,8 +18,8 @@
 {
     self = [super init];
     if (self) {
-        self.name = name;
-        self.color = color;
+        [self setName:name];
+        _colorIndex = color;
     }
     return self;
 }
@@ -45,7 +45,7 @@
             name = [data subdataWithRange:NSMakeRange(index, data.length-index)];
             properties.name = [NSString stringWithUTF8String:name.bytes];
             
-            properties.color = robotColor;
+            properties.colorIndex = robotColor;
             properties.codeVersion = codeVersion;
             properties.robotType = robotType;
             
@@ -72,7 +72,15 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"DRRobotProperties : '%@' %lu", self.name, (unsigned long)self.color];
+    return [NSString stringWithFormat:@"DRRobotProperties : '%@' %lu", self.name, (unsigned long)self.colorIndex];
+}
+
+- (UIColor *)color {
+    if (self.colorIndex < ROBOT_COLORS.count) {
+        return ROBOT_COLORS[self.colorIndex];
+    } else {
+        return ROBOT_COLORS[DRColorUndefined];
+    }
 }
 
 @end

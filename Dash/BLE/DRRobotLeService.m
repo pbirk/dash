@@ -171,7 +171,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     
     char command = DRCommandTypeSetName;
     uint8_t robotType = 0,
-            robotColor = properties.color,
+            robotColor = properties.colorIndex,
             codeVersion = 0;
     NSData *name = [properties.name dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     char null = '\0';

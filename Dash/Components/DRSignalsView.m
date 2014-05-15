@@ -46,7 +46,7 @@
     } else {
         self.nameLabel.text = @"Robot";
     }
-    self.robotImageView.tintColor = ROBOT_COLORS[properties.color];
+    self.robotImageView.tintColor = properties.color;
 }
 
 - (void)updateWithSignals:(DRSignalPacket *)signals

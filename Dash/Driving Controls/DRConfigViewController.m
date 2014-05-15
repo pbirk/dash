@@ -56,7 +56,7 @@
         button.backgroundColor = ROBOT_COLORS[i];
         button.tintColor = [UIColor whiteColor];
         button.tag = i;
-        button.selected = (self.robotProperties.color == i);
+        button.selected = (self.robotProperties.colorIndex == i);
         [button addTarget:self action:@selector(didTapColorButton:) forControlEvents:UIControlEventTouchUpInside];
         [button setImage:[[UIImage imageNamed:@"check"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
         [self.colorPickerView addSubview:button];
@@ -74,9 +74,9 @@
         self.nameTextField.text = self.robotProperties.name;
         self.nameTextField.font = self.nameFont;
         
-        for (NSUInteger i = 0; i < self.buttons.count; i++) { // start from 1 to skip DRColorUndefined
+        for (NSUInteger i = 0; i < self.buttons.count; i++) {
             UIButton *button = self.buttons[i];
-            button.selected = (self.robotProperties.color == i+1);
+            button.selected = (self.robotProperties.colorIndex == i+1); // add 1 to skip DRColorUndefined
         }
     }
 }
@@ -143,7 +143,7 @@
     [self.nameTextField resignFirstResponder];
     for (UIButton *button in self.buttons) {
         if (button == sender) {
-            self.robotProperties.color = button.tag;
+            self.robotProperties.colorIndex = button.tag;
             [self sendRobotProperties];
             button.selected = YES;
         } else {

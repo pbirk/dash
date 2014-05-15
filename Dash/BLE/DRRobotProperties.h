@@ -27,19 +27,20 @@ typedef NS_ENUM(NSUInteger, DRRobotColorNames) {
     DRYellowRobot,
     DRBlackRobot,
     DROrangeRobot,
-    DRRobotColorCount = 6
 };
 
 @interface DRRobotProperties : NSObject
 
 @property (strong, nonatomic) NSString *name;
 @property NSUInteger robotType, codeVersion;
-@property DRRobotColorNames color;
+@property DRRobotColorNames colorIndex;
 
 - (BOOL)hasName;
 
 - (id)initWithName:(NSString *)name color:(NSUInteger)color;
 
 + (instancetype)robotPropertiesWithData:(NSData *)data;
+
+- (UIColor *)color;
 
 @end
