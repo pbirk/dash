@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *characterLimitLabel;
 @property (weak, nonatomic) IBOutlet UIView *colorPickerView;
 @property (strong, nonatomic) NSArray *buttons;
+@property (weak, nonatomic) IBOutlet UIView *debugView;
 - (IBAction)didToggleGyroDrive:(UISwitch *)sender;
 - (IBAction)didToggleFixedJoystick:(UISwitch *)sender;
 @property (strong, nonatomic) UIFont *nameFont, *namePlaceholderFont;
@@ -30,9 +31,11 @@
 {
     [super viewDidLoad];
     
+    self.debugView.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:@"dev_mode"];
+    
     // HACK for iOS bug: saving separate fonts for text and placeholder, will swap as-needed
     self.namePlaceholderFont = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
-    self.nameFont = [UIFont fontWithName:@"AvenirNext-Regular" size:17];
+    self.nameFont = [UIFont fontWithName:@"AvenirNext-Medium" size:17];
     
     [self fetchRobotProperties];
     

@@ -164,34 +164,6 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eKO-VT-W4D">
-                                <rect key="frame" x="198" y="285" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="didToggleGyroDrive:" destination="b7h-os-zHT" eventType="valueChanged" id="uId-qj-JsV"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GYRO-ASSISTED DRIVING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bw8-s3-W0e">
-                                <rect key="frame" x="79" y="292" width="114" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YHm-Tt-Mcc">
-                                <rect key="frame" x="198" y="324" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="didToggleFixedJoystick:" destination="b7h-os-zHT" eventType="valueChanged" id="awP-6c-Aac"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FIXED POSITION JOYSTICK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fy1-C2-sIB">
-                                <rect key="frame" x="74" y="331" width="119" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name your robot" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Esh-Xr-1CP">
                                 <rect key="frame" x="15" y="59" width="290" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -233,55 +205,83 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMr-i9-2ya" customClass="DRButton">
-                                <rect key="frame" x="100" y="364" width="120" height="32"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1uT-Ml-ZoF">
+                                <rect key="frame" x="54" y="265" width="213" height="151"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eKO-VT-W4D">
+                                        <rect key="frame" x="144" y="20" width="51" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="didToggleGyroDrive:" destination="b7h-os-zHT" eventType="valueChanged" id="uId-qj-JsV"/>
+                                        </connections>
+                                    </switch>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YHm-Tt-Mcc">
+                                        <rect key="frame" x="144" y="59" width="51" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="didToggleFixedJoystick:" destination="b7h-os-zHT" eventType="valueChanged" id="awP-6c-Aac"/>
+                                        </connections>
+                                    </switch>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMr-i9-2ya" customClass="DRButton">
+                                        <rect key="frame" x="46" y="99" width="120" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="13"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="SEND DEBUG CMD">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapBuildButton:" destination="XYC-tf-E7P" eventType="touchUpInside" id="4RE-mq-u8H"/>
+                                            <action selector="didTapDebugSendButton:" destination="b7h-os-zHT" eventType="touchUpInside" id="rHh-eW-Zbh"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GYRO-ASSISTED DRIVING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bw8-s3-W0e">
+                                        <rect key="frame" x="25" y="27" width="114" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="FIXED POSITION JOYSTICK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fy1-C2-sIB">
+                                        <rect key="frame" x="20" y="66" width="119" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="ILz-Kj-PQA"/>
-                                    <constraint firstAttribute="height" constant="32" id="m5K-El-77C"/>
+                                    <constraint firstAttribute="width" constant="213" id="1Fi-di-Kvq"/>
+                                    <constraint firstAttribute="height" constant="151" id="fnS-aJ-Lbz"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="13"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="contentEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="SEND DEBUG CMD">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didTapBuildButton:" destination="XYC-tf-E7P" eventType="touchUpInside" id="4RE-mq-u8H"/>
-                                    <action selector="didTapDebugSendButton:" destination="b7h-os-zHT" eventType="touchUpInside" id="rHh-eW-Zbh"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="o67-sM-yuJ" firstAttribute="top" secondItem="Esh-Xr-1CP" secondAttribute="bottom" constant="60" id="11b-J6-3ST"/>
-                            <constraint firstItem="x9j-88-uPi" firstAttribute="top" secondItem="eKO-VT-W4D" secondAttribute="bottom" constant="100" id="3tJ-IY-GhL"/>
-                            <constraint firstItem="MMr-i9-2ya" firstAttribute="top" secondItem="YHm-Tt-Mcc" secondAttribute="bottom" constant="9" id="58p-mS-bQW"/>
+                            <constraint firstItem="x9j-88-uPi" firstAttribute="top" secondItem="1uT-Ml-ZoF" secondAttribute="bottom" id="AUV-Xh-vky"/>
                             <constraint firstItem="wAh-2d-nQi" firstAttribute="leading" secondItem="o67-sM-yuJ" secondAttribute="leading" id="Bn4-Ad-4kH"/>
-                            <constraint firstItem="YHm-Tt-Mcc" firstAttribute="centerY" secondItem="Fy1-C2-sIB" secondAttribute="centerY" id="CUC-ra-Ckc"/>
-                            <constraint firstAttribute="centerX" secondItem="eKO-VT-W4D" secondAttribute="centerX" constant="-62.5" id="Do8-Sh-ygp"/>
-                            <constraint firstItem="eKO-VT-W4D" firstAttribute="centerY" secondItem="bw8-s3-W0e" secondAttribute="centerY" id="EIj-N8-WAA"/>
-                            <constraint firstItem="YHm-Tt-Mcc" firstAttribute="leading" secondItem="Fy1-C2-sIB" secondAttribute="trailing" constant="5" id="Kus-F7-a9P"/>
                             <constraint firstAttribute="centerX" secondItem="Esh-Xr-1CP" secondAttribute="centerX" id="M9b-NR-uB4"/>
-                            <constraint firstItem="YHm-Tt-Mcc" firstAttribute="trailing" secondItem="eKO-VT-W4D" secondAttribute="trailing" id="O37-lW-zY0"/>
                             <constraint firstItem="6Fb-An-7WX" firstAttribute="trailing" secondItem="Esh-Xr-1CP" secondAttribute="trailing" constant="-30" id="SBw-V5-TLj"/>
                             <constraint firstItem="tpP-K9-9fY" firstAttribute="leading" secondItem="Esh-Xr-1CP" secondAttribute="leading" id="Tg2-NX-Icd"/>
                             <constraint firstItem="o67-sM-yuJ" firstAttribute="top" secondItem="wAh-2d-nQi" secondAttribute="bottom" constant="1" id="W8N-og-uHa"/>
                             <constraint firstAttribute="centerY" secondItem="Esh-Xr-1CP" secondAttribute="centerY" constant="125" id="Xs6-RH-NJQ"/>
                             <constraint firstItem="Esh-Xr-1CP" firstAttribute="top" secondItem="tpP-K9-9fY" secondAttribute="bottom" constant="1" id="eCL-HE-XSy"/>
-                            <constraint firstItem="eKO-VT-W4D" firstAttribute="leading" secondItem="bw8-s3-W0e" secondAttribute="trailing" constant="5" id="eIf-X9-S4W"/>
-                            <constraint firstItem="YHm-Tt-Mcc" firstAttribute="top" secondItem="eKO-VT-W4D" secondAttribute="bottom" constant="8" id="evb-in-kUk"/>
                             <constraint firstItem="Esh-Xr-1CP" firstAttribute="centerX" secondItem="o67-sM-yuJ" secondAttribute="centerX" id="gg2-qa-lJW"/>
                             <constraint firstItem="6Fb-An-7WX" firstAttribute="baseline" secondItem="Esh-Xr-1CP" secondAttribute="baseline" id="ue1-OW-jdo"/>
-                            <constraint firstAttribute="centerX" secondItem="MMr-i9-2ya" secondAttribute="centerX" id="wFQ-Dv-N9E"/>
+                            <constraint firstAttribute="centerX" secondItem="1uT-Ml-ZoF" secondAttribute="centerX" id="vGf-Nr-5mm"/>
                         </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="characterLimitLabel" destination="6Fb-An-7WX" id="fTC-Qk-ByP"/>
                         <outlet property="colorPickerView" destination="o67-sM-yuJ" id="deU-7g-ekr"/>
+                        <outlet property="debugView" destination="1uT-Ml-ZoF" id="SVW-g0-ZpC"/>
                         <outlet property="nameTextField" destination="Esh-Xr-1CP" id="twD-WW-fIx"/>
                     </connections>
                 </viewController>
