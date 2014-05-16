@@ -53,16 +53,6 @@
     if (!IS_IPAD) self.navigationItem.titleView.bounds = CGRectInset(self.navigationItem.titleView.bounds, -100, 0);
 }
 
-- (void)configureWithProperties:(DRRobotProperties *)properties
-{
-//    if (!properties) {
-//        DRConfigViewController *cvc = self.viewController.lastObject;
-//        if (cvc) {
-//            [self showViewController:cvc animated:NO];
-//        }
-//    }
-}
-
 - (IBAction)didTapDisconnect:(id)sender
 {
     [[DRCentralManager sharedInstance] disconnectPeripheral];

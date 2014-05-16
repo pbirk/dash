@@ -277,7 +277,7 @@
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger index = self.bleManager.manager.scanning ? indexPath.row - 1 : indexPath.row;
-    return IS_SIMULATOR || (_shouldShowResults && index >=0 && index < self.bleManager.peripherals.count);
+    return (_shouldShowResults && index >=0 && index < self.bleManager.peripherals.count);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -289,20 +289,11 @@
             if (!error && self.bleManager.connectedService) {
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 DRTabBarController *vc = (DRTabBarController *)[storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
-                DRRobotProperties *robot = [self.bleManager propertiesForPeripheral:peripheral];
-                [vc configureWithProperties:robot];
                 [self.navigationController pushViewController:vc animated:YES];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to connect to device." delegate:self cancelButtonTitle:@"Shucks" otherButtonTitles:nil] show];
             }
         }];
-    } else {
-        if (IS_SIMULATOR) {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            DRTabBarController *vc = (DRTabBarController *)[storyboard instantiateViewControllerWithIdentifier:@"DriveController"];
-            [vc configureWithProperties:nil];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
     }
 }
 

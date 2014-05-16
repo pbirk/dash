@@ -13,6 +13,4 @@
 
 @interface DRTabBarController : RMMultipleViewsController
 
-- (void)configureWithProperties:(DRRobotProperties *)properties;
-
 @end

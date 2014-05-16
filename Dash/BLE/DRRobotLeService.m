@@ -371,7 +371,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
             [self discover];
             return;
         } else {
-            NSLog(@"No valid characteristic!");
+            NSLog(@"Write characteristic undefined!");
 //        [self discover];
             return;
         }

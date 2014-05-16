@@ -26,6 +26,8 @@ static NSTimeInterval const RESCAN_INTERVAL = SCAN_INTERVAL * 3;
 
 + (DRCentralManager *)sharedInstance;
 
++ (BOOL)isDemoMode;
+
 - (LGCentralManager *)manager;
 - (NSArray *)peripherals;
 

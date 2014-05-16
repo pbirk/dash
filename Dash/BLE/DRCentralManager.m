@@ -9,6 +9,22 @@
 #import "DRCentralManager.h"
 #import "DRRobotLeService.h"
 #import "DRRobotProperties.h"
+#import "NSArray+AnyObject.h"
+
+@interface LGPeripheral (DemoMode)
+extern NSString *const DEMO_ROBOT_UUID;
+@end
+
+@implementation LGPeripheral (DemoMode)
+NSString *const DEMO_ROBOT_UUID = @"ROBOT FOR DEMONSTRATION PURPOSES ONLY";
+- (NSString *)UUIDString {
+    if ([DRCentralManager isDemoMode]) {
+        return DEMO_ROBOT_UUID;
+    } else {
+        return [self.cbPeripheral.identifier UUIDString];
+    }
+}
+@end
 
 @implementation DRCentralManager
 
@@ -32,28 +48,48 @@ static DRCentralManager *_sharedInstance = nil;
 - (LGCentralManager *)manager {
     return [LGCentralManager sharedInstance];
 }
+
 - (NSArray *)peripherals {
-    return self.manager.peripherals;
+    if ([DRCentralManager isDemoMode]) {
+        LGPeripheral *fakeRobot = [[LGPeripheral alloc] init];
+        return @[fakeRobot];
+    } else {
+        return self.manager.peripherals;
+    }
+}
+
++ (BOOL)isDemoMode {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"demo_mode"];
 }
 
 #pragma mark - Scanning
 
 - (void)updatedScannedPeripherals {
-    for (LGPeripheral *peripheral in self.peripherals) {
-        if (![self.peripheralProperties objectForKey:peripheral.UUIDString]) {
-            [LGUtils readDataFromCharactUUID:kNotifyCharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
-                if (data) {
-                    DRRobotProperties *robot = [DRRobotProperties robotPropertiesWithData:data];
-                    if (robot) [self.peripheralProperties setObject:robot forKey:peripheral.UUIDString];
-                    [self.discoveryDelegate discoveryDidRefresh];
-                }
-                if (!data || error) {
-                    NSLog(@"Error getting name/color: %@", error);
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error getting name" message:[NSString stringWithFormat:@"Unable to fetch name. %@", error] delegate:nil cancelButtonTitle:@"Bummer" otherButtonTitles:nil];
-//                    [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-                }
-                [peripheral disconnectWithCompletion:nil];
-            }];
+    if ([DRCentralManager isDemoMode]) {
+        if (!self.peripheralProperties[DEMO_ROBOT_UUID]) {
+            double delayInSeconds = 0.7;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                DRRobotProperties *fakeRobot = [[DRRobotProperties alloc] initWithName:@"DemoBot" color:arc4random_uniform((u_int32_t)ROBOT_COLORS.count)];
+                [self.peripheralProperties setObject:fakeRobot forKey:DEMO_ROBOT_UUID];
+                [self.discoveryDelegate discoveryDidRefresh];
+            });
+        }
+    } else {
+        for (LGPeripheral *peripheral in self.peripherals) {
+            if (![self.peripheralProperties objectForKey:peripheral.UUIDString]) {
+                [LGUtils readDataFromCharactUUID:kNotifyCharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
+                    if (data) {
+                        DRRobotProperties *robot = [DRRobotProperties robotPropertiesWithData:data];
+                        if (robot) [self.peripheralProperties setObject:robot forKey:peripheral.UUIDString];
+                        [self.discoveryDelegate discoveryDidRefresh];
+                    }
+                    if (!data || error) {
+                        NSLog(@"Error getting name/color: %@", error);
+                    }
+                    [peripheral disconnectWithCompletion:nil];
+                }];
+            }
         }
     }
     [self.discoveryDelegate discoveryDidRefresh];
@@ -77,24 +113,37 @@ static DRCentralManager *_sharedInstance = nil;
 #pragma mark - Connecting
 
 - (void)connectPeripheral:(LGPeripheral *)peripheral completion:(LGPeripheralConnectionCallback)aCallback{
-    [peripheral connectWithCompletion:^(NSError *error) {
-        if (!error) {
-            DRRobotProperties *properties = [self propertiesForPeripheral:peripheral];
-            self.connectedService = [[DRRobotLeService alloc] initWithPeripheral:peripheral robotProperties:properties];
-        }
+    if ([DRCentralManager isDemoMode]) {
+        DRRobotProperties *properties = [self propertiesForPeripheral:peripheral];
+        self.connectedService = [[DRRobotLeService alloc] initWithPeripheral:peripheral robotProperties:properties];
         if (aCallback) {
-            aCallback(error);
+            aCallback(nil);
         }
-    }];
+    } else {
+        [peripheral connectWithCompletion:^(NSError *error) {
+            if (!error) {
+                DRRobotProperties *properties = [self propertiesForPeripheral:peripheral];
+                self.connectedService = [[DRRobotLeService alloc] initWithPeripheral:peripheral robotProperties:properties];
+            }
+            if (aCallback) {
+                aCallback(error);
+            }
+        }];
+    }
 }
 
 - (void)disconnectPeripheral {
     if (self.connectedService) {
-        [self.connectedService disconnect];
-        [self.connectedService.peripheral performSelector:@selector(disconnectWithCompletion:) withObject:^(NSError *error) {
+        if ([DRCentralManager isDemoMode]) {
             self.connectedService = nil;
             [self.discoveryDelegate discoveryDidRefresh];
-        } afterDelay:0.1];
+        } else {
+            [self.connectedService disconnect];
+            [self.connectedService.peripheral performSelector:@selector(disconnectWithCompletion:) withObject:^(NSError *error) {
+                self.connectedService = nil;
+                [self.discoveryDelegate discoveryDidRefresh];
+            } afterDelay:0.1];
+        }
     }
 }
 

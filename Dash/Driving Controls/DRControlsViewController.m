@@ -82,10 +82,6 @@
     view.layer.borderWidth = borderWidth;
 }
 
-- (void)configureWithProperties:(DRRobotProperties *)properties
-{
-}
-
 #pragma mark - DRRobotLeServiceDelegate
 
 - (void)receivedNotifyWithData:(NSData *)data

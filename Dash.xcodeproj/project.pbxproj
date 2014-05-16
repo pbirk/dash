@@ -26,6 +26,7 @@
 		6638F5471904406000F7396B /* iphone-tall-blur@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6638F5451904406000F7396B /* iphone-tall-blur@2x.png */; };
 		6638F54C190459E100F7396B /* iphone-tall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6638F54B190459E100F7396B /* iphone-tall@2x.png */; };
 		6638F54F1904920800F7396B /* DREyeColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6638F54E1904920800F7396B /* DREyeColorButton.m */; };
+		666CDC7F1925AED8002C7F45 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 666CDC7E1925AED8002C7F45 /* Settings.bundle */; };
 		667EA4CF18C3060C00E1C249 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667EA4CE18C3060C00E1C249 /* CoreMotion.framework */; };
 		66878CD1190DB6B50094B5CA /* DRRobotProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 66878CD0190DB6B50094B5CA /* DRRobotProperties.m */; };
 		66878CD6190DBFF20094B5CA /* DRAutoModesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66878CD5190DBFF20094B5CA /* DRAutoModesViewController.m */; };
@@ -94,6 +95,7 @@
 		6638F54B190459E100F7396B /* iphone-tall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone-tall@2x.png"; sourceTree = "<group>"; };
 		6638F54D1904920800F7396B /* DREyeColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DREyeColorButton.h; sourceTree = "<group>"; };
 		6638F54E1904920800F7396B /* DREyeColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DREyeColorButton.m; sourceTree = "<group>"; };
+		666CDC7E1925AED8002C7F45 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		667EA4CE18C3060C00E1C249 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		66878CCF190DB6B40094B5CA /* DRRobotProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRobotProperties.h; sourceTree = "<group>"; };
 		66878CD0190DB6B50094B5CA /* DRRobotProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRobotProperties.m; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				66D6FD3518C2DD3B00783AC8 /* Dash-Info.plist */,
 				66878CE0190DEF860094B5CA /* DashAutoModes.plist */,
 				66D6FD3618C2DD3B00783AC8 /* InfoPlist.strings */,
+				666CDC7E1925AED8002C7F45 /* Settings.bundle */,
 				66D6FD3918C2DD3B00783AC8 /* main.m */,
 				66D6FD3B18C2DD3B00783AC8 /* Dash-Prefix.pch */,
 			);
@@ -462,6 +465,7 @@
 				6638F53B19033B0600F7396B /* Default@2x.png in Resources */,
 				66B2284818FA6896008C6445 /* DRWebViewController.xib in Resources */,
 				662B3094191DA49500FAFB08 /* instructions.pdf in Resources */,
+				666CDC7F1925AED8002C7F45 /* Settings.bundle in Resources */,
 				6638F5471904406000F7396B /* iphone-tall-blur@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
