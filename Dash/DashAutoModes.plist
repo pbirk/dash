@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
-    <dict>
-        <key>ModeName</key>
-        <string>Circle</string>
-        <key>ImageName</key>
-        <string>auto-circle</string>
-        <key>DRCommandType</key>
-        <string>7</string>
-    </dict>
+	<dict>
+		<key>ModeName</key>
+		<string>Circle</string>
+		<key>ImageName</key>
+		<string>auto-circle</string>
+		<key>DRCommandType</key>
+		<string>7</string>
+	</dict>
 	<dict>
 		<key>ModeName</key>
 		<string>Figure 8</string>
@@ -22,7 +22,7 @@
 		<key>ModeName</key>
 		<string>Dance</string>
 		<key>ImageName</key>
-		<string>auto-circle</string>
+		<string>auto-dance</string>
 		<key>DRCommandType</key>
 		<string>6</string>
 	</dict>
