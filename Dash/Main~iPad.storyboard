@@ -347,7 +347,7 @@
                         <viewControllerLayoutGuide type="top" id="5V5-ZT-tsH"/>
                         <viewControllerLayoutGuide type="bottom" id="KYe-V1-PC2"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="YtM-RY-TUM">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="YtM-RY-TUM">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -363,7 +363,7 @@
                                             <constraint firstAttribute="height" constant="160" id="EJo-SN-auw"/>
                                             <constraint firstAttribute="width" constant="160" id="vuR-mD-ukD"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="18"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="36"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="contentEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="STOP"/>
@@ -390,27 +390,29 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="FIGURE 8" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rwh-hR-d9G">
-                                                            <rect key="frame" x="49" y="125" width="61" height="25"/>
+                                                            <rect key="frame" x="49" y="113" width="61" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="18"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JDr-Z0-0dy">
-                                                            <rect key="frame" x="0.0" y="5" width="160" height="115"/>
+                                                            <rect key="frame" x="5" y="25" width="150" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="80" id="bSH-Fw-8li"/>
+                                                                <constraint firstAttribute="width" constant="150" id="gHk-p8-8gd"/>
+                                                            </constraints>
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <color key="backgroundColor" red="0.89204251769999998" green="0.89204251769999998" blue="0.89204251769999998" alpha="1" colorSpace="deviceRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="Rwh-hR-d9G" secondAttribute="bottom" constant="10" id="6xp-9F-koX"/>
-                                                    <constraint firstItem="Rwh-hR-d9G" firstAttribute="top" secondItem="JDr-Z0-0dy" secondAttribute="bottom" constant="5" id="7EB-bk-fKD"/>
-                                                    <constraint firstItem="JDr-Z0-0dy" firstAttribute="top" secondItem="KeA-Nk-IrX" secondAttribute="top" constant="5" id="Bk9-Gb-mBm"/>
-                                                    <constraint firstAttribute="trailing" secondItem="JDr-Z0-0dy" secondAttribute="trailing" id="LeU-Of-L8H"/>
+                                                    <constraint firstItem="Rwh-hR-d9G" firstAttribute="top" secondItem="JDr-Z0-0dy" secondAttribute="bottom" constant="8" id="7JL-Ka-BmL"/>
+                                                    <constraint firstAttribute="centerX" secondItem="JDr-Z0-0dy" secondAttribute="centerX" id="8Cw-AF-GAI"/>
+                                                    <constraint firstAttribute="centerY" secondItem="JDr-Z0-0dy" secondAttribute="centerY" constant="15" id="aPN-ud-vQ6"/>
                                                     <constraint firstAttribute="centerX" secondItem="Rwh-hR-d9G" secondAttribute="centerX" id="j2Q-yh-cTq"/>
-                                                    <constraint firstItem="JDr-Z0-0dy" firstAttribute="leading" secondItem="KeA-Nk-IrX" secondAttribute="leading" id="jbU-T2-ORh"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="imageView" destination="JDr-Z0-0dy" id="j3A-Tr-iBy"/>

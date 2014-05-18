@@ -36,6 +36,9 @@
     
     self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
     [self.stopButton setEnabled:NO animated:NO];
+    if (IS_IPAD) {
+        self.stopButton.layer.cornerRadius = CGRectGetHeight(self.stopButton.bounds)/2.0;
+    }
     
 //    [self addBottomBorderWithColor:DR_LITE_GRAY width:1 toView:self.debugLabel];
     [self addBottomBorderToView:self.signalsView];
@@ -119,6 +122,11 @@
         NSString *image = self.autoModeData[indexPath.row][@"ImageName"];
         [cell setTitle:name image:[UIImage imageNamed:image]];
         
+        if (IS_IPAD) {
+            CGSize size = [self collectionView:collectionView layout:collectionView.collectionViewLayout sizeForItemAtIndexPath:indexPath];
+            cell.layer.cornerRadius = size.height/2.0;
+        }
+        
         return cell;
     } else {
         return [collectionView dequeueReusableCellWithReuseIdentifier:@"blank" forIndexPath:indexPath];
@@ -145,11 +153,6 @@
     }
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return indexPath.row < self.autoModeData.count;
-}
-
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
@@ -160,6 +163,11 @@
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
     return !IS_IPAD && IS_RETINA ? 0.5 : flowLayout.minimumInteritemSpacing;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return indexPath.row < self.autoModeData.count;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
