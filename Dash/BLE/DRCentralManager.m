@@ -11,18 +11,25 @@
 #import "DRRobotProperties.h"
 #import "NSArray+AnyObject.h"
 
-@interface LGPeripheral (DemoMode)
-extern NSString *const DEMO_ROBOT_UUID;
+NSString *const DEMO_ROBOT_UUID = @"FAKE ROBOT FOR DEMO PURPOSES ONLY";
+
+@interface LGPeripheral (IsFake)
+- (BOOL)isFake;
+@end
+@implementation LGPeripheral (IsFake)
+- (BOOL)isFake {
+    return NO;
+}
 @end
 
-@implementation LGPeripheral (DemoMode)
-NSString *const DEMO_ROBOT_UUID = @"ROBOT FOR DEMONSTRATION PURPOSES ONLY";
+@interface FakePeripheral : LGPeripheral
+@end
+@implementation FakePeripheral
 - (NSString *)UUIDString {
-    if ([DRCentralManager isDemoMode]) {
-        return DEMO_ROBOT_UUID;
-    } else {
-        return [self.cbPeripheral.identifier UUIDString];
-    }
+    return DEMO_ROBOT_UUID;
+}
+- (BOOL)isFake {
+    return YES;
 }
 @end
 
@@ -51,8 +58,8 @@ static DRCentralManager *_sharedInstance = nil;
 
 - (NSArray *)peripherals {
     if ([DRCentralManager isDemoMode]) {
-        LGPeripheral *fakeRobot = [[LGPeripheral alloc] init];
-        return @[fakeRobot];
+        FakePeripheral *fakeRobot = [[FakePeripheral alloc] init];
+        return [self.manager.peripherals arrayByAddingObject:fakeRobot];
     } else {
         return self.manager.peripherals;
     }
@@ -65,19 +72,17 @@ static DRCentralManager *_sharedInstance = nil;
 #pragma mark - Scanning
 
 - (void)updatedScannedPeripherals {
-    if ([DRCentralManager isDemoMode]) {
-        if (!self.peripheralProperties[DEMO_ROBOT_UUID]) {
-            double delayInSeconds = 0.7;
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                DRRobotProperties *fakeRobot = [[DRRobotProperties alloc] initWithName:@"DemoBot" color:arc4random_uniform((u_int32_t)ROBOT_COLORS.count)];
-                [self.peripheralProperties setObject:fakeRobot forKey:DEMO_ROBOT_UUID];
-                [self.discoveryDelegate discoveryDidRefresh];
-            });
-        }
-    } else {
-        for (LGPeripheral *peripheral in self.peripherals) {
-            if (![self.peripheralProperties objectForKey:peripheral.UUIDString]) {
+    for (LGPeripheral *peripheral in self.peripherals) {
+        if (![self.peripheralProperties objectForKey:peripheral.UUIDString]) {
+            if (peripheral.isFake) {
+                double delayInSeconds = 0.7;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    DRRobotProperties *fakeRobot = [[DRRobotProperties alloc] initWithName:@"DemoBot" color:arc4random_uniform((u_int32_t)ROBOT_COLORS.count)];
+                    [self.peripheralProperties setObject:fakeRobot forKey:DEMO_ROBOT_UUID];
+                    [self.discoveryDelegate discoveryDidRefresh];
+                });
+            } else {
                 [LGUtils readDataFromCharactUUID:kNotifyCharacteristicUUIDString serviceUUID:kBiscuitServiceUUIDString peripheral:peripheral completion:^(NSData *data, NSError *error) {
                     if (data) {
                         DRRobotProperties *robot = [DRRobotProperties robotPropertiesWithData:data];
@@ -113,7 +118,7 @@ static DRCentralManager *_sharedInstance = nil;
 #pragma mark - Connecting
 
 - (void)connectPeripheral:(LGPeripheral *)peripheral completion:(LGPeripheralConnectionCallback)aCallback{
-    if ([DRCentralManager isDemoMode]) {
+    if (peripheral.isFake) {
         DRRobotProperties *properties = [self propertiesForPeripheral:peripheral];
         self.connectedService = [[DRRobotLeService alloc] initWithPeripheral:peripheral robotProperties:properties];
         if (aCallback) {
@@ -134,7 +139,7 @@ static DRCentralManager *_sharedInstance = nil;
 
 - (void)disconnectPeripheral {
     if (self.connectedService) {
-        if ([DRCentralManager isDemoMode]) {
+        if (self.connectedService.peripheral.isFake) {
             self.connectedService = nil;
             [self.discoveryDelegate discoveryDidRefresh];
         } else {
