@@ -36,15 +36,11 @@
 - (void)configureStyling
 {
     [[UINavigationBar appearance] setTitleTextAttributes:@{
-//                                                           NSForegroundColorAttributeName: [UIColor blackColor],
                                                            NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:19],
                                                            }];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{
                                                            NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17],
                                                            } forState:UIControlStateNormal];
-    [[UITabBarItem appearance] setTitleTextAttributes:@{
-                                                        NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10],
-                                                        } forState:UIControlStateNormal];
     
     NSDictionary *segmentedControlTextAttributes = @{ NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:14],
                                                      NSForegroundColorAttributeName: [UIColor blackColor] };
@@ -74,9 +70,9 @@
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     if ([self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
-        if (![nav.visibleViewController isKindOfClass:[DRWebViewController class]]) {
-            [nav popToRootViewControllerAnimated:NO];
+        UINavigationController *rootNavigationController = (UINavigationController *)self.window.rootViewController;
+        if (![rootNavigationController.visibleViewController isKindOfClass:[DRWebViewController class]]) {
+            [rootNavigationController popToRootViewControllerAnimated:NO];
         }
     }
 }
