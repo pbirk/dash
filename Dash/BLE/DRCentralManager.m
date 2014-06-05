@@ -146,6 +146,7 @@ static DRCentralManager *_sharedInstance = nil;
             [self.connectedService disconnect];
             [self.connectedService.peripheral performSelector:@selector(disconnectWithCompletion:) withObject:^(NSError *error) {
                 [self.discoveryDelegate discoveryDidRefresh];
+                NSLog(@"Intentional disconnect complete.");
             } afterDelay:0.05];
             self.connectedService = nil;
         }
@@ -155,7 +156,7 @@ static DRCentralManager *_sharedInstance = nil;
 - (void)peripheralDidDisconnect:(NSNotification *)notification
 {
     if (self.connectedService && [self.connectedService.peripheral isEqual:notification.object]) {
-        if (!self.connectedService.isManuallyDisconnecting) {
+        if (!self.connectedService.isManuallyDisconnecting || notification.userInfo[@"error"]) {
             NSString *msg = @"Lost connection with device.";
             if (self.connectedService.robotProperties.hasName) {
                 msg = [msg stringByReplacingOccurrencesOfString:@"device" withString:self.connectedService.robotProperties.name];
@@ -165,6 +166,7 @@ static DRCentralManager *_sharedInstance = nil;
         }
         [self updateProperties:self.connectedService.robotProperties forPeripheral:self.connectedService.peripheral];
         self.connectedService = nil;
+        NSLog(@"Unexpected disconnect of dash service.");
     }
 }
 
