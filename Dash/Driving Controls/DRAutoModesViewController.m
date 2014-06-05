@@ -15,6 +15,8 @@
 #import "DRSignalsView.h"
 #import "DRButton.h"
 
+static NSUInteger const kPhoneMinCellCount = 6;
+
 @interface DRAutoModesViewController ()
 @property NSIndexPath *selectedModeIndex;
 @property (strong, nonatomic) NSArray *autoModeData;
@@ -40,8 +42,9 @@
         self.stopButton.layer.cornerRadius = CGRectGetHeight(self.stopButton.bounds)/2.0;
     }
     
-//    [self addBottomBorderWithColor:DR_LITE_GRAY width:1 toView:self.debugLabel];
     [self addBottomBorderToView:self.signalsView];
+    
+    self.collectionView.scrollEnabled = self.autoModeData.count > kPhoneMinCellCount-2;
     
     self.collectionView.allowsMultipleSelection = YES;
     [self.collectionView reloadData];
@@ -106,9 +109,9 @@
 {
     
     if (IS_IPAD || self.autoModeData.count % 2 == 0) {
-        return self.autoModeData.count;
+        return MAX(self.autoModeData.count, kPhoneMinCellCount);
     } else {
-        return self.autoModeData.count + 1;
+        return MAX(self.autoModeData.count + 1, kPhoneMinCellCount);
     }
 }
 

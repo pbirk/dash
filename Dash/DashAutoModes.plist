@@ -34,13 +34,5 @@
 		<key>DRCommandType</key>
 		<string>4</string>
 	</dict>
-	<dict>
-		<key>ModeName</key>
-		<string>Wall Follow</string>
-		<key>ImageName</key>
-		<string>auto-wallfollow</string>
-		<key>DRCommandType</key>
-		<string>5</string>
-	</dict>
 </array>
 </plist>

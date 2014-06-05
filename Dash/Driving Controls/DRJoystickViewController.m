@@ -13,7 +13,7 @@
 #import "DREyeColorButton.h"
 #import "DRRobotProperties.h"
 
-static CGFloat MAX_JOYSTICK_TRAVEL = 100;
+static CGFloat MAX_JOYSTICK_TRAVEL = 80;
 static CGFloat JOYSTICK_THUMB_SIZE = 100;
 static CGFloat JOYSTICK_BASE_WOBBLE = 4;
 
@@ -39,8 +39,7 @@ static CGFloat JOYSTICK_BASE_WOBBLE = 4;
     [DRCentralManager sharedInstance].moveableJoystick = NO;
     
     self.signalsView.backgroundColor = self.view.backgroundColor;
-    [self addBottomBorderToView:self.signalsView];
-    
+        
     UIImageView *joystickThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"joystick-thumb"]];
     [self.view insertSubview:joystickThumb aboveSubview:self.joystickTouchArea];
     self.joystickThumb = joystickThumb;
@@ -58,6 +57,11 @@ static CGFloat JOYSTICK_BASE_WOBBLE = 4;
             if (constraint.firstItem == eyeButton && (constraint.firstAttribute == NSLayoutAttributeWidth || constraint.firstAttribute == NSLayoutAttributeHeight )) {
                 constraint.constant = 72;
             }
+        }
+        [self addBottomBorderToView:self.signalsView];
+    } else {
+        if (IS_WIDESCREEN) {
+            [self addBottomBorderToView:self.signalsView];
         }
     }
 }
