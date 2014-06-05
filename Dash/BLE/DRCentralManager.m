@@ -145,9 +145,9 @@ static DRCentralManager *_sharedInstance = nil;
         } else {
             [self.connectedService disconnect];
             [self.connectedService.peripheral performSelector:@selector(disconnectWithCompletion:) withObject:^(NSError *error) {
-                self.connectedService = nil;
                 [self.discoveryDelegate discoveryDidRefresh];
-            } afterDelay:0.1];
+            } afterDelay:0.05];
+            self.connectedService = nil;
         }
     }
 }
