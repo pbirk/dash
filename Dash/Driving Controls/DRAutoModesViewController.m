@@ -24,7 +24,7 @@ static NSUInteger const kPhoneMinCellCount = 6;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet DRButton *stopButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewWidthConstraint;
-- (IBAction)didTapStopbutton:(id)sender;
+- (IBAction)didTapStopButton:(id)sender;
 @end
 
 @implementation DRAutoModesViewController
@@ -61,7 +61,7 @@ static NSUInteger const kPhoneMinCellCount = 6;
 {
     [super viewWillDisappear:animated];
     
-    [self didTapStopbutton:nil];
+    [self didTapStopButton:nil];
 }
 
 #pragma mark - BLE control
@@ -78,12 +78,11 @@ static NSUInteger const kPhoneMinCellCount = 6;
 
 #pragma mark - IBActions
 
-- (IBAction)didTapStopbutton:(id)sender {
+- (IBAction)didTapStopButton:(id)sender {
     self.stopButton.enabled = NO;
     [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:NO];
     self.selectedModeIndex = nil;
     [self.bleService reset];
-    NSLog(@"Sent STOP command");
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -189,7 +188,7 @@ static NSUInteger const kPhoneMinCellCount = 6;
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self didTapStopbutton:nil];
+    [self didTapStopButton:nil];
 }
 
 @end

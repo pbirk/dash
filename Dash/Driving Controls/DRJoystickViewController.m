@@ -88,6 +88,7 @@ static CGFloat JOYSTICK_BASE_WOBBLE = 4;
     [super viewDidAppear:animated];
     
     if (!_updateTimer || !_updateTimer.isValid) {
+        [self.bleService reset];
         _updateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(sendUpdate) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_updateTimer forMode:NSRunLoopCommonModes];
     }
@@ -97,6 +98,7 @@ static CGFloat JOYSTICK_BASE_WOBBLE = 4;
 {
     [super viewWillDisappear:animated];
     [_updateTimer invalidate];
+    [self.bleService reset];
 }
 
 - (void)viewDidLayoutSubviews {

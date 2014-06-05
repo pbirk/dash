@@ -135,6 +135,8 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
     char command = DRCommandTypeAllStop;
     [data appendBytes:&command length:sizeof(command)];
     [self sendData:data];
+    
+    NSLog(@"Sent STOP command");
 }
 
 - (void)disconnect

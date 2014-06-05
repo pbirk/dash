@@ -469,7 +469,7 @@
                     </state>
                     <connections>
                         <action selector="didTapAboutButton:" destination="XYC-tf-E7P" eventType="touchUpInside" id="U4a-DM-xmb"/>
-                        <action selector="didTapStopbutton:" destination="UXR-Ss-eR5" eventType="touchUpInside" id="er2-5Y-f2L"/>
+                        <action selector="didTapStopButton:" destination="UXR-Ss-eR5" eventType="touchUpInside" id="i6L-WI-qpJ"/>
                     </connections>
                 </button>
             </objects>
