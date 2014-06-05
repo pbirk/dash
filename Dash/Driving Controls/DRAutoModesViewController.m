@@ -79,8 +79,8 @@
     self.stopButton.enabled = NO;
     [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:NO];
     self.selectedModeIndex = nil;
-    NSLog(@"Sent STOP command");
     [self.bleService reset];
+    NSLog(@"Sent STOP command");
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -178,6 +178,7 @@
     NSString *cmdString = self.autoModeData[indexPath.row][@"DRCommandType"];
     if (cmdString.length) {
         char command = [cmdString characterAtIndex:0];
+        [self.bleService sendAutoModeCommand:command];
         NSLog(@"Selected auto mode %c", command);
     }
     self.stopButton.enabled = YES;

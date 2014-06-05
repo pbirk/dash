@@ -250,7 +250,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
         [self reset];
     } else {
     
-        // [type "3" -1]  [power, -100->100, 2] [rotationRate, -400->400, 2]
+        // [type "3" - 1]  [power, -100->100, 2] [rotationRate, -400->400, 2]
 
         NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
         char command = DRCommandTypeGyroDrive;
@@ -266,6 +266,19 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
         [data appendBytes:&command length:sizeof(command)];
         [data appendBytes:&power length:sizeof(power)];
         [data appendBytes:&rotationRate length:sizeof(rotationRate)];
+        
+        [self sendData:data];
+    }
+}
+
+- (void) sendAutoModeCommand:(char)mode
+{
+    if (mode) {
+        NSMutableData *data = [NSMutableData dataWithCapacity:PACKET_SIZE];
+        
+        char command = DRCommandTypeAutoMode;
+        [data appendBytes:&command length:sizeof(command)];
+        [data appendBytes:&mode length:sizeof(mode)];
         
         [self sendData:data];
     }

@@ -13,8 +13,9 @@
 #import "DREyeColorButton.h"
 #import "DRRobotProperties.h"
 
-static CGFloat MAX_JOYSTICK_TRAVEL = 40;
+static CGFloat MAX_JOYSTICK_TRAVEL = 100;
 static CGFloat JOYSTICK_THUMB_SIZE = 100;
+static CGFloat JOYSTICK_BASE_WOBBLE = 4;
 
 @interface DRJoystickViewController () {
     BOOL _touchDown;
@@ -40,13 +41,11 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
     self.signalsView.backgroundColor = self.view.backgroundColor;
     [self addBottomBorderToView:self.signalsView];
     
-    UIImageView *joystickThumb = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, JOYSTICK_THUMB_SIZE, JOYSTICK_THUMB_SIZE)];
-    joystickThumb.image = [UIImage imageNamed:@"joystick-thumb"];
+    UIImageView *joystickThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"joystick-thumb"]];
     [self.view insertSubview:joystickThumb aboveSubview:self.joystickTouchArea];
     self.joystickThumb = joystickThumb;
     
-    UIImageView *joystickBase = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, JOYSTICK_THUMB_SIZE+MAX_JOYSTICK_TRAVEL, JOYSTICK_THUMB_SIZE+MAX_JOYSTICK_TRAVEL)];
-    joystickBase.image = [UIImage imageNamed:@"joystick-well"];
+    UIImageView *joystickBase = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"joystick-well"]];
     [self.view insertSubview:joystickBase belowSubview:self.joystickThumb];
     self.joystickBase = joystickBase;
     
@@ -223,8 +222,8 @@ static CGFloat JOYSTICK_THUMB_SIZE = 100;
         // Update the thumb's position
         self.joystickThumb.center = point;
         
-        self.joystickBase.transform = CGAffineTransformMakeTranslation(cos(angle) * 2 * distance/MAX_JOYSTICK_TRAVEL,
-                                                                       sin(angle) * 2 * distance/MAX_JOYSTICK_TRAVEL);
+        self.joystickBase.transform = CGAffineTransformMakeTranslation(cos(angle) * JOYSTICK_BASE_WOBBLE * distance/MAX_JOYSTICK_TRAVEL,
+                                                                       sin(angle) * JOYSTICK_BASE_WOBBLE * distance/MAX_JOYSTICK_TRAVEL);
     }
 }
     

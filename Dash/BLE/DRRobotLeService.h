@@ -88,6 +88,7 @@ typedef NS_ENUM(char, DRCommandTypes) {
     DRCommandTypeGyroDrive = '3',
     DRCommandTypeSetEyes = '4',
     DRCommandTypeRequestSignals = '6',
+    DRCommandTypeAutoMode = '7',
 };
 
 /****************************************************************************/
@@ -130,6 +131,7 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 - (void) sendLeftMotor:(CGFloat)leftMotor rightMotor:(CGFloat)rightMotor;
 - (void) sendThrottle:(CGFloat)throttle direction:(CGFloat)direction;
 - (void) sendRobotProperties:(DRRobotProperties *)properties;
+- (void) sendAutoModeCommand:(char)mode;
 
 - (void) sendDebugCommand:(NSString *)cmd value:(NSUInteger)value;
 
