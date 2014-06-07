@@ -44,8 +44,8 @@
 {
     self.yawRateLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)signals.yaw];
 //    self.yawRateLabel.text = [NSString stringWithFormat:@"%.0f", signals.yaw - 512.0 + 51.0];
-    self.motorLeftLabel.text = [NSString stringWithFormat:@"%.0f", round(signals.leftMotor / 255.0 * 100.0)];
-    self.motorRightLabel.text = [NSString stringWithFormat:@"%.0f", round(signals.rightMotor / 255.0 * 100.0)];
+    self.motorLeftLabel.text = [NSString stringWithFormat:@"%.0f", round(-signals.leftMotor / 255.0 * 100.0)];
+    self.motorRightLabel.text = [NSString stringWithFormat:@"%.0f", round(-signals.rightMotor / 255.0 * 100.0)];
 //    self.motorLeftLabel.text = [NSString stringWithFormat:@"%ld", (long)signals.leftMotor];
 //    self.motorRightLabel.text = [NSString stringWithFormat:@"%ld", (long)signals.rightMotor];
     self.ambientLightLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)signals.ambientLight];
