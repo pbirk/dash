@@ -147,7 +147,7 @@ static DRCentralManager *_sharedInstance = nil;
             [self.connectedService.peripheral performSelector:@selector(disconnectWithCompletion:) withObject:^(NSError *error) {
                 [self.discoveryDelegate discoveryDidRefresh];
                 NSLog(@"Intentional disconnect complete.");
-            } afterDelay:0.05];
+            } afterDelay:0.1];
             self.connectedService = nil;
         }
     }

@@ -63,13 +63,6 @@
     [layer configureForView:self.myNavigationBar];
     [self.myNavigationBar.layer addSublayer:layer];
     self.scanProgressLayer = layer;
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peripheralDidDisconnect:) name:kLGPeripheralDidDisconnect object:nil];
-}
-
-- (void)dealloc
-{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLGPeripheralDidDisconnect object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,7 +72,6 @@
         [self.navigationController setNavigationBarHidden:YES animated:animated];
         [self willAnimateRotationToInterfaceOrientation:self.interfaceOrientation duration:0];
     }
-//    [self.bleManager disconnectPeripheral];
     [self.collectionView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
@@ -155,7 +147,8 @@
 }
 
 - (IBAction)didTapAboutButton:(id)sender {
-    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL URLWithString:@"http://dashrobotics.com"]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
+    DRWebViewController *dvc = [DRWebViewController webViewWithUrl:[NSURL fileURLWithPath:path]];
     dvc.title = [sender currentTitle];
     [self.navigationController pushViewController:dvc animated:YES];
 }

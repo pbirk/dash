@@ -13,7 +13,7 @@
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
     [super setBackgroundColor:backgroundColor];
-    self.alpha = 1;
+    self.alpha = 1.0;
 }
 
 - (void)setHighlighted:(BOOL)highlighted
@@ -24,7 +24,7 @@
         self.alpha = 0.25;
     } else {
         [UIView animateWithDuration:0.14 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.alpha = self.enabled ? 1 : 0.25;
+            self.alpha = self.enabled ? 1.0 : 0.25;
         } completion:nil];
     }
 }
@@ -40,10 +40,10 @@
     
     if (animated) {
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.alpha = enabled ? 1 : 0.25;
+            self.alpha = enabled ? 1.0 : 0.25;
         } completion:nil];
     } else {
-        self.alpha = enabled ? 1 : 0.25;
+        self.alpha = enabled ? 1.0 : 0.25;
     }
 }
 

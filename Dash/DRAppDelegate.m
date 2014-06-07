@@ -89,4 +89,21 @@
     [[DRCentralManager sharedInstance] stopScanning];
 }
 
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    if (IS_IPAD) {
+        return UIInterfaceOrientationMaskAll;
+    } else {
+        NSString *className = nil;
+        if (window.rootViewController.presentedViewController) {
+            className = NSStringFromClass(window.rootViewController.presentedViewController.class);
+        }
+        if ([className isEqualToString:@"MPFullscreenWindow"] || [className isEqualToString:@"MPInlineVideoFullscreenViewController"]) {
+            return UIInterfaceOrientationMaskAll;
+        } else {
+            return UIInterfaceOrientationMaskPortrait;
+        }
+    }
+}
+
 @end

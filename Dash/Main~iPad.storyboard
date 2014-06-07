@@ -52,7 +52,7 @@
                                         </items>
                                     </navigationBar>
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LAR-oH-LBr">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="896"/>
+                                        <rect key="frame" x="0.0" y="44" width="320" height="837"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="15" id="7by-Nz-jAC">
@@ -205,21 +205,20 @@
                                         </connections>
                                     </collectionView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RHI-Ka-EBN" userLabel="button bar">
-                                        <rect key="frame" x="0.0" y="940" width="320" height="64"/>
+                                        <rect key="frame" x="0.0" y="881" width="320" height="123"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qe3-Xy-lR3">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="123"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <items/>
                                             </toolbar>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2aU-HU-qc8" customClass="DRButton">
-                                                <rect key="frame" x="167" y="13" width="138" height="38"/>
+                                                <rect key="frame" x="15" y="69" width="290" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <inset key="contentEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="How to Build">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -230,11 +229,14 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wje-lx-qwm" customClass="DRButton">
-                                                <rect key="frame" x="15" y="13" width="137" height="38"/>
+                                                <rect key="frame" x="15" y="14" width="290" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="290" id="hXV-Hv-wzo"/>
+                                                    <constraint firstAttribute="height" constant="40" id="ym7-eS-Jya"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <inset key="contentEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="What is Dash?">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -247,19 +249,18 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="wje-lx-qwm" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" constant="13" id="8Gd-2x-ny2"/>
-                                            <constraint firstItem="wje-lx-qwm" firstAttribute="width" secondItem="2aU-HU-qc8" secondAttribute="width" id="9B3-as-j9m"/>
-                                            <constraint firstItem="2aU-HU-qc8" firstAttribute="leading" secondItem="wje-lx-qwm" secondAttribute="trailing" constant="15" id="IAf-Qw-hyG"/>
-                                            <constraint firstAttribute="bottom" secondItem="2aU-HU-qc8" secondAttribute="bottom" constant="13" id="PPI-bg-Mrg"/>
+                                            <constraint firstItem="2aU-HU-qc8" firstAttribute="height" secondItem="wje-lx-qwm" secondAttribute="height" id="3nX-BE-bJE"/>
+                                            <constraint firstAttribute="bottom" secondItem="2aU-HU-qc8" secondAttribute="bottom" constant="14" id="4kJ-X1-haM"/>
+                                            <constraint firstItem="2aU-HU-qc8" firstAttribute="trailing" secondItem="wje-lx-qwm" secondAttribute="trailing" id="Ltw-FW-246"/>
+                                            <constraint firstItem="wje-lx-qwm" firstAttribute="leading" secondItem="RHI-Ka-EBN" secondAttribute="leading" constant="15" id="Rrr-B7-edW"/>
+                                            <constraint firstAttribute="trailing" secondItem="wje-lx-qwm" secondAttribute="trailing" constant="15" id="Vsb-qO-vDs"/>
                                             <constraint firstItem="qe3-Xy-lR3" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" id="Vv0-pv-k1W"/>
                                             <constraint firstItem="qe3-Xy-lR3" firstAttribute="leading" secondItem="RHI-Ka-EBN" secondAttribute="leading" id="caP-3S-UrQ"/>
-                                            <constraint firstAttribute="height" constant="64" id="g8Y-Qs-SRQ"/>
-                                            <constraint firstItem="wje-lx-qwm" firstAttribute="leading" secondItem="RHI-Ka-EBN" secondAttribute="leading" constant="15" id="gcT-H2-wq2"/>
-                                            <constraint firstItem="2aU-HU-qc8" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" constant="13" id="pXV-1h-IYW"/>
+                                            <constraint firstAttribute="height" constant="123" id="g8Y-Qs-SRQ"/>
+                                            <constraint firstItem="wje-lx-qwm" firstAttribute="top" secondItem="RHI-Ka-EBN" secondAttribute="top" constant="14" id="gDT-TQ-4va"/>
+                                            <constraint firstItem="2aU-HU-qc8" firstAttribute="leading" secondItem="wje-lx-qwm" secondAttribute="leading" id="h41-cc-zsU"/>
                                             <constraint firstAttribute="trailing" secondItem="qe3-Xy-lR3" secondAttribute="trailing" id="pr0-4T-nFv"/>
                                             <constraint firstAttribute="bottom" secondItem="qe3-Xy-lR3" secondAttribute="bottom" id="vFJ-fK-6p6"/>
-                                            <constraint firstAttribute="trailing" secondItem="2aU-HU-qc8" secondAttribute="trailing" constant="15" id="va3-HR-nFK"/>
-                                            <constraint firstAttribute="bottom" secondItem="wje-lx-qwm" secondAttribute="bottom" constant="13" id="zGE-Iw-cHr"/>
                                         </constraints>
                                     </view>
                                 </subviews>

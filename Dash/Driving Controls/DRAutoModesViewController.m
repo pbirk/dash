@@ -44,7 +44,7 @@ static NSUInteger const kPhoneMinCellCount = 6;
     
     [self addBottomBorderToView:self.signalsView];
     
-    self.collectionView.scrollEnabled = self.autoModeData.count > kPhoneMinCellCount-2;
+    self.collectionView.scrollEnabled = self.autoModeData.count > 4; // HACK
     
     self.collectionView.allowsMultipleSelection = YES;
     [self.collectionView reloadData];
@@ -106,11 +106,14 @@ static NSUInteger const kPhoneMinCellCount = 6;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    
-    if (IS_IPAD || self.autoModeData.count % 2 == 0) {
-        return MAX(self.autoModeData.count, kPhoneMinCellCount);
+    if (IS_IPAD) {
+        return self.autoModeData.count;
     } else {
-        return MAX(self.autoModeData.count + 1, kPhoneMinCellCount);
+        if (self.autoModeData.count % 2 == 0) {
+            return MAX(self.autoModeData.count, kPhoneMinCellCount);
+        } else {
+            return MAX(self.autoModeData.count + 1, kPhoneMinCellCount);
+        }
     }
 }
 
