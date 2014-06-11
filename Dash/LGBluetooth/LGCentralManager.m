@@ -72,12 +72,13 @@
 
 - (NSArray *)peripherals
 {
-    // Sorting LGPeripherals by RSSI values
-    NSArray *sortedArray;
-    sortedArray = [_scannedPeripherals sortedArrayUsingComparator:^NSComparisonResult(LGPeripheral *a, LGPeripheral *b) {
-        return a.RSSI < b.RSSI;
-    }];
-    return sortedArray;
+//    // Sorting LGPeripherals by RSSI values
+//    NSArray *sortedArray;
+//    sortedArray = [_scannedPeripherals sortedArrayUsingComparator:^NSComparisonResult(LGPeripheral *a, LGPeripheral *b) {
+//        return a.RSSI < b.RSSI;
+//    }];
+//    return sortedArray;
+    return _scannedPeripherals;
 }
 
 /*----------------------------------------------------*/
