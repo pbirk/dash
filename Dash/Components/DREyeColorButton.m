@@ -45,6 +45,11 @@
     }
 }
 
+- (void)reset {
+    BOOL eyeOpen = self.bleService.eyeColor && ![self.bleService.eyeColor isEqual:kDREyeColorOff];
+    [self configureOpenEye:eyeOpen color:self.bleService.eyeColor];
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     if (self.selected && IS_IPAD && self.buttons.count) {
@@ -55,8 +60,7 @@
                 button.alpha = 0;
             }
         } completion:^(BOOL finished) {
-            BOOL eyeOpen = self.bleService.eyeColor && ![self.bleService.eyeColor isEqual:[UIColor blackColor]];
-            [self configureOpenEye:eyeOpen color:self.bleService.eyeColor];
+            [self reset];
         }];
     }
 }
@@ -76,7 +80,7 @@
 
     [self addTarget:self action:@selector(didTapEyeColorButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = kDREyeColorOff;
     self.tintColor = [UIColor whiteColor];
     [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [self setImage:[[UIImage imageNamed:kEyeClosedIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
@@ -122,7 +126,7 @@
         self.selected = NO;
         if (self.bleService) {
             if (sender == self) {
-                [self.bleService setEyeColor:[UIColor blackColor]];
+                [self.bleService setEyeColor:kDREyeColorOff];
             } else {
                 [self.bleService setEyeColor:[sender backgroundColor]];
             }
@@ -156,7 +160,7 @@
 
 - (void)configureOpenEye:(BOOL)open color:(UIColor *)color {
     if (open) {
-        if (!color || [color isEqual:[UIColor blackColor]]) {
+        if (!color || [color isEqual:kDREyeColorOff]) {
             self.tintColor = [UIColor whiteColor];
         } else if ([color isEqual:[UIColor blueColor]]) {
             self.tintColor = [UIColor colorWithRed:0.122 green:0.512 blue:0.998 alpha:1.000];

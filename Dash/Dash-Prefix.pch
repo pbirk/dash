@@ -14,6 +14,8 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 
+    #define IS_DEV_MODE [[NSUserDefaults standardUserDefaults] boolForKey:@"dev_mode"]
+
     #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
     #define read(data, bytes, index) { [data getBytes:&bytes range:NSMakeRange(index, sizeof(bytes))]; index += sizeof(bytes); }

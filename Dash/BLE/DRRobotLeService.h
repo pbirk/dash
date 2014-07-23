@@ -78,7 +78,8 @@ static NSUInteger const MAX_NAME_LENGTH = 9;
 
 typedef NS_ENUM(char, DRMessageTypes) {
     DRMessageTypeName = '1',
-    DRMessageTypeSignals = '2'
+    DRMessageTypeSignals = '2',
+    DRMessageTypeAutoRunComplete = '3'
 };
 
 typedef NS_ENUM(char, DRCommandTypes) {
@@ -94,10 +95,10 @@ typedef NS_ENUM(char, DRCommandTypes) {
 /****************************************************************************/
 /*						Service Characteristics								*/
 /****************************************************************************/
-extern NSString *kBiscuitServiceUUIDString;                     // Service UUID
-extern NSString *kRead1CharacteristicUUIDString;                // First read characteristic
-extern NSString *kNotifyCharacteristicUUIDString;                // Notify characteristic
-extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Response Characteristic
+extern NSString *const kBiscuitServiceUUIDString;                     // Service UUID
+extern NSString *const kRead1CharacteristicUUIDString;                // First read characteristic
+extern NSString *const kNotifyCharacteristicUUIDString;                // Notify characteristic
+extern NSString *const kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Response Characteristic
 
 //extern NSString *kAlarmServiceEnteredBackgroundNotification;
 //extern NSString *kAlarmServiceEnteredForegroundNotification;
@@ -119,6 +120,8 @@ extern NSString *kWriteWithoutResponseCharacteristicUUIDString; // Write w/o Res
 /****************************************************************************/
 /*                              Robot service.                              */
 /****************************************************************************/
+#define kDREyeColorOff [UIColor blackColor]
+
 @interface DRRobotLeService : NSObject
 
 @property BOOL isManuallyDisconnecting;

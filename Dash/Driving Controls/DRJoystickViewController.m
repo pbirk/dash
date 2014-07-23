@@ -81,6 +81,7 @@ static CGFloat JOYSTICK_BASE_WOBBLE = 4;
 {
     [super viewWillAppear:animated];
     [self.signalsView updateWithProperties:self.bleService.robotProperties];
+    [self.eyeColorButton reset];
 }
 
 - (void)viewDidAppear:(BOOL)animated

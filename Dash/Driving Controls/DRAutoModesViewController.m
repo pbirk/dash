@@ -17,6 +17,11 @@
 
 static NSUInteger const kPhoneMinCellCount = 6;
 
+NSString *const kDRCommandTypeKey = @"DRCommandType";
+NSString *const kModeNameKey = @"ModeName";
+NSString *const kImageNameKey = @"ImageName";
+NSString *const kTestAutoMode = @"0";
+
 @interface DRAutoModesViewController ()
 @property NSIndexPath *selectedModeIndex;
 @property (strong, nonatomic) NSArray *autoModeData;
@@ -35,6 +40,11 @@ static NSUInteger const kPhoneMinCellCount = 6;
     
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"DashAutoModes" ofType:@"plist"];
     self.autoModeData = [NSArray arrayWithContentsOfFile:dataPath];
+    
+    if (IS_DEV_MODE) {
+        NSDictionary *devAutoMode = @{kDRCommandTypeKey: kTestAutoMode, kModeNameKey: @"Test", kImageNameKey: @"auto-test"};
+        self.autoModeData = [self.autoModeData arrayByAddingObject:devAutoMode];
+    }
     
     self.stopButton.backgroundColor = ROBOT_COLORS[DRRedRobot];
     [self.stopButton setEnabled:NO animated:NO];
@@ -60,11 +70,19 @@ static NSUInteger const kPhoneMinCellCount = 6;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     [self didTapStopButton:nil];
 }
 
 #pragma mark - BLE control
+
+- (void)receivedNotifyWithData:(NSData *)data
+{
+    char msgType;
+    [data getBytes:&msgType length:sizeof(msgType)];
+    if (msgType == DRMessageTypeAutoRunComplete) {
+        [self didTapStopButton:nil];
+    }
+}
 
 - (void)receivedNotifyWithSignals:(DRSignalPacket *)signals
 {
@@ -83,6 +101,7 @@ static NSUInteger const kPhoneMinCellCount = 6;
     [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:NO];
     self.selectedModeIndex = nil;
     [self.bleService reset];
+    [self.bleService setEyeColor:kDREyeColorOff];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -123,8 +142,8 @@ static NSUInteger const kPhoneMinCellCount = 6;
         DRAutoModeCell *cell = (DRAutoModeCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"DRAutoModeCell" forIndexPath:indexPath];
         cell.selectedColor = IS_IPAD ? [UIColor blackColor] : ROBOT_COLORS[DRRedRobot];
         
-        NSString *name = self.autoModeData[indexPath.row][@"ModeName"];
-        NSString *image = self.autoModeData[indexPath.row][@"ImageName"];
+        NSString *name = self.autoModeData[indexPath.row][kModeNameKey];
+        NSString *image = self.autoModeData[indexPath.row][kImageNameKey];
         [cell setTitle:name image:[UIImage imageNamed:image]];
         
         if (IS_IPAD) {
@@ -180,7 +199,7 @@ static NSUInteger const kPhoneMinCellCount = 6;
     [self.collectionView deselectItemAtIndexPath:self.selectedModeIndex animated:YES];
     self.selectedModeIndex = indexPath;
     
-    NSString *cmdString = self.autoModeData[indexPath.row][@"DRCommandType"];
+    NSString *cmdString = self.autoModeData[indexPath.row][kDRCommandTypeKey];
     if (cmdString.length) {
         char command = [cmdString characterAtIndex:0];
         [self.bleService sendAutoModeCommand:command];

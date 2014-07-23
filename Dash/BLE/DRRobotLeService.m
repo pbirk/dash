@@ -57,10 +57,10 @@
 #import "DRSignalPacket.h"
 #import "DRRobotProperties.h"
 
-NSString *kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
-NSString *kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941E";
-NSString *kNotifyCharacteristicUUIDString = @"713D0002-503E-4C75-BA94-3148F18D941E";
-NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
+NSString *const kBiscuitServiceUUIDString = @"713D0000-503E-4C75-BA94-3148F18D941E";
+NSString *const kRead1CharacteristicUUIDString = @"713D0001-503E-4C75-BA94-3148F18D941E";
+NSString *const kNotifyCharacteristicUUIDString = @"713D0002-503E-4C75-BA94-3148F18D941E";
+NSString *const kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-BA94-3148F18D941E";
 
 @interface DRRobotLeService() {
     UIColor *_eyeColor;
@@ -289,7 +289,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 - (void)setEyeColor:(UIColor *)eyeColor
 {
     if (!eyeColor) {
-        eyeColor = [UIColor blackColor];
+        eyeColor = kDREyeColorOff;
     }
     
 //    [type "4" -1]  [red - 0-255 - 1] [green - 0-255 - 1] [blue - 0-255 - 1]
@@ -316,7 +316,7 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
 
 - (UIColor *)eyeColor {
     if (!_eyeColor) {
-        _eyeColor = [UIColor blackColor];
+        _eyeColor = kDREyeColorOff;
     }
     return _eyeColor;
 }
@@ -360,6 +360,10 @@ NSString *kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-4C75-B
                 self.robotProperties = properties;
                 [self.delegate receivedNotifyWithProperties:properties];
                 [self requestSignalNotifications:YES];
+                break;
+            }
+            case DRMessageTypeAutoRunComplete: {
+                [self.delegate receivedNotifyWithData:data];
                 break;
             }
             default: {

@@ -31,7 +31,7 @@
 {
     [super viewDidLoad];
     
-    self.debugView.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:@"dev_mode"];
+    self.debugView.hidden = !IS_DEV_MODE;
     
     // HACK for iOS bug: saving separate fonts for text and placeholder, will swap as-needed
     self.namePlaceholderFont = [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:17];
