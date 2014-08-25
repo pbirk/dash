@@ -16,6 +16,8 @@
 static CGFloat MAX_JOYSTICK_TRAVEL = 80;
 static CGFloat JOYSTICK_THUMB_SIZE = 100;
 static CGFloat JOYSTICK_BASE_WOBBLE = 4;
+static CGFloat BASE_PWM = 0.15;
+static CGFloat MAX_PWM = 0.7;
 
 @interface DRJoystickViewController () {
     BOOL _touchDown;
@@ -68,11 +70,25 @@ static CGFloat JOYSTICK_BASE_WOBBLE = 4;
 
 - (void)sendUpdate
 {
-    if (self.bleService.useGyroDrive) {
-        [self.bleService sendThrottle:-_throttle direction:_direction];
+        if (self.bleService.useGyroDrive) {
+            CGFloat steering_angle = copysignf(1,atan2(_direction,_throttle));
+            steering_angle = steering_angle*((M_PI/2 - fabsf(fabsf(atan2(_direction,_throttle))-M_PI/2))*2/M_PI);
+            CGFloat power = copysignf(sqrt(_direction * _direction + _throttle * _throttle),-atan2f(_throttle,_direction));
+            if (power != 0) {
+                power = copysignf(BASE_PWM,power) + (MAX_PWM - BASE_PWM) * copysignf(powf(power,3),power);
+            }
+            steering_angle = copysignf(powf(copysignf(steering_angle,1),1.5),steering_angle); // Nonlinear steering rate
+            if (fabsf(steering_angle) > 0.85) {
+                steering_angle = copysignf(0.85 + 3 * (fabsf(steering_angle)-0.85), steering_angle);
+            }
+//            steering_angle = 1.5 * steering_angle * fabsf(power);
+            NSLog(@"power %f", power);
+            NSLog(@"steering_angle %f", steering_angle);
+    //        [self.bleService sendThrottle:-_throttle direction:_direction];
+            [self.bleService sendThrottle:power direction:steering_angle];
     } else {
-        CGFloat leftMotor = (_throttle + _direction) * 255.0;
-        CGFloat rightMotor = (_throttle - _direction) * 255.0;
+        CGFloat leftMotor = (_throttle + _direction) * 255.0 * MAX_PWM;
+        CGFloat rightMotor = (_throttle - _direction) * 255.0 * MAX_PWM;
         [self.bleService sendLeftMotor:leftMotor rightMotor:rightMotor];
     }
 }
