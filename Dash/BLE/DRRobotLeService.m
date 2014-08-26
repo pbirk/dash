@@ -248,7 +248,7 @@ NSString *const kWriteWithoutResponseCharacteristicUUIDString = @"713D0003-503E-
 - (void)sendThrottle:(CGFloat)throttle direction:(CGFloat)direction
 {
     // send all-stop instead of 0,0 because robot prefers it
-    if (throttle == 0.0 && direction == 0.0) {
+    if (throttle == 0.0) {
         [self reset];
     } else {
     
